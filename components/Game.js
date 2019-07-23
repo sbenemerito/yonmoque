@@ -1,7 +1,12 @@
 import { Game as BGGame } from "boardgame.io/core";
 import {
-  cells as initialCells, center, columns, rows, initialPieces,
-  whiteValue, blueValue, neutralValue,
+  blueValue,
+  center,
+  columns,
+  initialCells,
+  initialPieces,
+  neutralValue,
+  rows,
 } from "./constants/board";
 
 export function getInitialState(ctx) {
@@ -14,27 +19,28 @@ export function getInitialState(ctx) {
   G.players = Array(ctx.numPlayers).fill(null).map((_, index) => { pieces: initialPieces });
 
   // Fill the game board
-  G.cells = initialCells;
-
-  // Set the color markings on the board
-  G.cells = G.cells.map((cellRow, rowNumber) => {
-    let tempCellRow = cellRow;
+  G.cells = initialCells.map((cellRow, rowNumber) => {
+    let tempRow = [ ...cellRow ];
 
     // Neutral tile for 4 corners of the board
     if (rowNumber === 0 || rowNumber === (rows - 1)) {
-      tempCellRow[0] = tempCellRow[columns-1] = neutralValue;
+      tempRow[0] = tempRow[columns - 1] = neutralValue;
     }
 
     // Neutral tile for center tile
     if (rowNumber === center) {
-      tempCellRow[center] = neutralValue;
+      tempRow[center] = neutralValue;
     }
 
     // Blue tile, in a diamond shape
-    const gapFromCenter = rowNumber > 2 ? rowNumber - 2 : rowNumber;
-    tempCellRow[center - gapFromCenter] = tempCellRow[center + gapFromCenter] = blueValue;
+    const gapFromCenter = rowNumber > 2
+                            ? 4 - rowNumber
+                            : rowNumber === 2
+                                ? 2
+                                : rowNumber;
+    tempRow[center - gapFromCenter] = tempRow[center + gapFromCenter] = blueValue;
 
-    return tempCellRow;
+    return tempRow;
   });
 
   console.log("Initial Game State", G, "Initial ctx", ctx);
