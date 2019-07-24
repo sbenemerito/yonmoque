@@ -2,6 +2,7 @@ import React from 'react';
 import { StatusBar, StyleSheet, View } from 'react-native';
 import { Client } from "boardgame.io/react-native";
 
+import MainMenu from './components/MainMenu';
 import Game from "./components/Game";
 import colors from "./components/constants/colors";
 
@@ -47,10 +48,16 @@ class App extends React.Component {
     return (
       <View style={styles.container}>
         <StatusBar hidden />
-        <YonmoqueClient
-          backToMainMenu={this.backToMainMenu}
-          playerConfig={playerConfig}
-        />
+        {
+          isMainMenuVisible
+            ? <MainMenu
+                startGame={this.startGame}
+              />
+            : <YonmoqueClient
+                backToMainMenu={this.backToMainMenu}
+                playerConfig={playerConfig}
+              />
+        }
       </View>
     );
   }
