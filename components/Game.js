@@ -54,7 +54,7 @@ export function getInitialState(ctx) {
 
 function CheckTile(rowNumber, columnNumber) {
   try {
-    if(G.cells[rowNumber, columnNumber][1] === null) {
+    if(G.cells[rowNumber, columnNumber].piece === null) {
       return true;
     } else {
       return false;
@@ -65,7 +65,7 @@ function CheckTile(rowNumber, columnNumber) {
 }
 
 function CanDiagonal(rowNumber, columnNumber, currentPlayer) {
-  if((G.cells[rowNumber, columnNumber][0] === blueValue && currentPlayer === 0) || (G.cells[rowNumber, columnNumber][0] === whiteValue && currentPlayer === 1)) {
+  if((G.cells[rowNumber, columnNumber].color === blueValue && currentPlayer === 0) || (G.cells[rowNumber, columnNumber].color === whiteValue && currentPlayer === 1)) {
     return true;
   } else {
     return false;
@@ -135,20 +135,20 @@ const Game = BGGame({
     // G and ctx are provided automatically when calling from App– `this.props.moves.movePiece(id)`
     addPiece: (G, ctx, rowNumber, columnNumber) => {
       if(G.player[ctx.currentPlayer].pieces != 0) {
-        if(G.cells[rowNumber, columnNumber][1] === null) {
-          G.cells[rowNumber, columnNumber][1] = ctx.currentPlayer;
+        if(G.cells[rowNumber, columnNumber].piece === null) {
+          G.cells[rowNumber, columnNumber].piece = ctx.currentPlayer;
           G.player[ctx.currentPlayer].pieces -= 1;
         }
       }
     },
     selectPiece: (G, ctx, rowNumber, columnNumber) => {
-      if(G.cells[rowNumber, columnNumber][1] === ctx.currentPlayer) {
+      if(G.cells[rowNumber, columnNumber].piece === ctx.currentPlayer) {
         CheckMoves(rowNumber, columnNumber, ctx.currentPlayer);
       }
     },
     movePiece: (G, ctx, rowNumber, columnNumber) => {
       if(M.moveAbleCells.includes({rowNumber, columnNumber})) {
-        G.cells[rowNumber, columnNumber][1] = ctx.currentPlayer;
+        G.cells[rowNumber, columnNumber].piece = ctx.currentPlayer;
         M.moveAbleCells = [];
         //flip function
       }
