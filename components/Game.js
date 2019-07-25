@@ -79,16 +79,20 @@ export function CheckMoves(rowNumber, columnNumber, currentPlayer) {
   
   // Check vertical and horizontal sides
   if(CheckTile(rowNumber - 1, columnNumber)) {
-    M.moveAbleCells.push({rowNumber - 1, columnNumber});
+    let currentRow = rowNumber - 1;
+    M.moveAbleCells.push({currentRow, columnNumber});
   }
   if(CheckTile(rowNumber + 1, columnNumber)) {
-    M.moveAbleCells.push({rowNumber + 1, columnNumber});
+    let currentRow = rowNumber + 1;
+    M.moveAbleCells.push({currentRow, columnNumber});
   }
   if(CheckTile(rowNumber, columnNumber - 1)) {
-    M.moveAbleCells.push({rowNumber, columnNumber - 1});
+    let currentColumn = columnNumber - 1;
+    M.moveAbleCells.push({rowNumber, currentColumn});
   }
   if(CheckTile(rowNumber, columnNumber + 1)) {
-    M.moveAbleCells.push({rowNumber, columnNumber + 1});
+    let currentColumn = columnNumber + 1;
+    M.moveAbleCells.push({rowNumber, currentColumn});
   }
 
   // Check diagonal sides
@@ -141,9 +145,10 @@ const Game = BGGame({
       }
     },
     movePiece: (G, ctx, rowNumber, columnNumber) => {
-      if(M.moveAbleCells.includes({rowNumber. columnNumber})) {
+      if(M.moveAbleCells.includes({rowNumber, columnNumber})) {
         G.cells[rowNumber, columnNumber][1] = ctx.currentPlayer;
         M.moveAbleCells = [];
+        //flip function
       }
     },
   },
