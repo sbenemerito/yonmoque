@@ -1,6 +1,7 @@
 import { Game as BGGame } from "boardgame.io/core";
 import {
   blueValue,
+  whiteValue,
   center,
   columns,
   initialCells,
@@ -51,12 +52,20 @@ export function getInitialState(ctx) {
 
 function CheckTile(rowNumber, columnNumber) {
   try {
-    if(G.cells[rowNumber, columnNumber] === 'A' || G.cells[rowNumber, columnNumber] === 'B' || G.cells[rowNumber, columnNumber] === 'X') {
+    if(G.cells[rowNumber, columnNumber][1] === null) {
       return true;
     } else {
       return false;
     }
   } catch(err) {
+    return false;
+  }
+}
+
+function CanDiagonal(rowNumber, columnNumber, currentPlayer) {
+  if((G.cells[rowNumber, columnNumber][0] === blueValue && currentPlayer === 0) || (G.cells[rowNumber, columnNumber][0] === whiteValue && currentPlayer === 1)) {
+    return true;
+  } else {
     return false;
   }
 }
@@ -83,8 +92,29 @@ export function CheckMoves(rowNumber, columnNumber, currentPlayer) {
   }
 
   // Check diagonal sides
-  if(G.cells[rowNumber, columnNumber] === currentPlayer) {
-    
+  for(currentRow = rowNumber, currentColumn = columnNumber; CheckTile(currentRow, currentRow); currentRow -= 1, currentColumn -= 1) {
+    M.moveAbleCells.push({currentRow, currentColumn});
+    if(!CanDiagonal(rowNumber, columnNumber, currentPlayer)) {
+      break;
+    }
+  }
+  for(currentRow = rowNumber, currentColumn = columnNumber; CheckTile(currentRow, currentRow); currentRow -= 1, currentColumn += 1) {
+    M.moveAbleCells.push({currentRow, currentColumn});
+    if(!CanDiagonal(rowNumber, columnNumber, currentPlayer)) {
+      break;
+    }
+  }
+  for(currentRow = rowNumber, currentColumn = columnNumber; CheckTile(currentRow, currentRow); currentRow += 1, currentColumn -= 1) {
+    M.moveAbleCells.push({currentRow, currentColumn});
+    if(!CanDiagonal(rowNumber, columnNumber, currentPlayer)) {
+      break;
+    }
+  }
+  for(currentRow = rowNumber, currentColumn = columnNumber; CheckTile(currentRow, currentRow); currentRow += 1, currentColumn += 1) {
+    M.moveAbleCells.push({currentRow, currentColumn});
+    if(!CanDiagonal(rowNumber, columnNumber, currentPlayer)) {
+      break;
+    }
   }
 
   // Return the moveable coordinates
@@ -99,19 +129,22 @@ const Game = BGGame({
     // G and ctx are provided automatically when calling from App– `this.props.moves.movePiece(id)`
     addPiece: (G, ctx, rowNumber, columnNumber) => {
       if(G.player[ctx.currentPlayer].pieces != 0) {
-        if(G.cells[rowNumber, columnNumber] === 'A' || G.cells[rowNumber, columnNumber] === 'B' || G.cells[rowNumber, columnNumber] === 'X') {
-          G.cells[rowNumber, columnNumber] = ctx.currentPlayer;
+        if(G.cells[rowNumber, columnNumber][1] === null) {
+          G.cells[rowNumber, columnNumber][1] = ctx.currentPlayer;
           G.player[ctx.currentPlayer].pieces -= 1;
         }
       }
     },
     selectPiece: (G, ctx, rowNumber, columnNumber) => {
-      if(G.cells[rowNumber, columnNumber] === ctx.currentPlayer) {
+      if(G.cells[rowNumber, columnNumber][1] === ctx.currentPlayer) {
         CheckMoves(rowNumber, columnNumber, ctx.currentPlayer);
       }
     },
     movePiece: (G, ctx, rowNumber, columnNumber) => {
-      M.moveAbleCells = [];
+      if(M.moveAbleCells.includes({rowNumber. columnNumber})) {
+        G.cells[rowNumber, columnNumber][1] = ctx.currentPlayer;
+        M.moveAbleCells = [];
+      }
     },
   },
 
