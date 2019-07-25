@@ -24,12 +24,12 @@ export function getInitialState(ctx) {
 
     // Neutral tile for 4 corners of the board
     if (rowNumber === 0 || rowNumber === (rows - 1)) {
-      tempRow[0] = tempRow[columns - 1] = neutralValue;
+      tempRow[0] = tempRow[columns - 1] = [neutralValue, null];
     }
 
     // Neutral tile for center tile
     if (rowNumber === center) {
-      tempRow[center] = neutralValue;
+      tempRow[center] = [neutralValue, null];
     }
 
     // Blue tile, in a diamond shape
@@ -38,7 +38,7 @@ export function getInitialState(ctx) {
                             : rowNumber === 2
                                 ? 2
                                 : rowNumber;
-    tempRow[center - gapFromCenter] = tempRow[center + gapFromCenter] = blueValue;
+    tempRow[center - gapFromCenter] = tempRow[center + gapFromCenter] = [blueValue, null];
 
     return tempRow;
   });
