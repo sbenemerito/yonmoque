@@ -49,20 +49,69 @@ export function getInitialState(ctx) {
   return G;
 }
 
+function CheckTile(rowNumber, columnNumber) {
+  try {
+    if(G.cells[rowNumber, columnNumber] === 'A' || G.cells[rowNumber, columnNumber] === 'B' || G.cells[rowNumber, columnNumber] === 'X') {
+      return true;
+    } else {
+      return false;
+    }
+  } catch(err) {
+    return false;
+  }
+}
+
+export function CheckMoves(rowNumber, columnNumber, currentPlayer) {
+  const M = {
+    moveAbleCells: [],
+  };
+
+  M.moveAbleCells.push({rowNumber, columnNumber});
+  
+  // Check vertical and horizontal sides
+  if(CheckTile(rowNumber - 1, columnNumber)) {
+    M.moveAbleCells.push({rowNumber - 1, columnNumber});
+  }
+  if(CheckTile(rowNumber + 1, columnNumber)) {
+    M.moveAbleCells.push({rowNumber + 1, columnNumber});
+  }
+  if(CheckTile(rowNumber, columnNumber - 1)) {
+    M.moveAbleCells.push({rowNumber, columnNumber - 1});
+  }
+  if(CheckTile(rowNumber, columnNumber + 1)) {
+    M.moveAbleCells.push({rowNumber, columnNumber + 1});
+  }
+
+  // Check diagonal sides
+  if(G.cells[rowNumber, columnNumber] === currentPlayer) {
+    
+  }
+
+  // Return the moveable coordinates
+  return M;
+}
+
 const Game = BGGame({
   // The setup method is passed ctx
   setup: getInitialState,
-
-  moves: {
+  
+  moves: { 
     // G and ctx are provided automatically when calling from App– `this.props.moves.movePiece(id)`
-
-    addPiece: (G, ctx, id) => {
-      // Check if there are pieces left, or tile is empty here, and update game state (board)
-      console.log('addPiece right here');
+    addPiece: (G, ctx, rowNumber, columnNumber) => {
+      if(G.player[ctx.currentPlayer].pieces != 0) {
+        if(G.cells[rowNumber, columnNumber] === 'A' || G.cells[rowNumber, columnNumber] === 'B' || G.cells[rowNumber, columnNumber] === 'X') {
+          G.cells[rowNumber, columnNumber] = ctx.currentPlayer;
+          G.player[ctx.currentPlayer].pieces -= 1;
+        }
+      }
     },
-    movePiece: (G, ctx, id) => {
-      // Check legal moves here, and update game state (board)
-      console.log('movePiece right here');
+    selectPiece: (G, ctx, rowNumber, columnNumber) => {
+      if(G.cells[rowNumber, columnNumber] === ctx.currentPlayer) {
+        CheckMoves(rowNumber, columnNumber, ctx.currentPlayer);
+      }
+    },
+    movePiece: (G, ctx, rowNumber, columnNumber) => {
+      M.moveAbleCells = [];
     },
   },
 
