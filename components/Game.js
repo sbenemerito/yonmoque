@@ -72,6 +72,158 @@ function CanDiagonal(rowNumber, columnNumber, currentPlayer) {
   }
 }
 
+function flipAscending(rowNumber, columnNumber, currentPlayer){
+  let x = rowNumber;
+  let y = columnNumber;
+  let tile = G.cells[x, y].color;
+  let tempCell = [];
+  const F = {
+    flipableCells: [],
+  };
+
+  for(a = columnNumber, a == 4, a++){
+    if(tile != G.cells[x, a].color){
+      tempCell.push({x, a});
+    }
+    else{
+      if (tempCell[0] != null){
+        F.flipableCells.push(tempCell);
+        break;
+      }
+    }
+  }
+
+  tempCell = [];
+  for(a = rowNumber, a == 4, a++){
+    if(tile != G.cells[a, y].color){
+      tempCell.push({a, y});
+    }
+    else{
+      if (F.flipableCells[0] != null){
+        F.flipableCells.push(tempCell);
+        break;
+      }
+    }
+  }
+
+  return F;
+}
+
+function flipDescending(rowNumber, columnNumber, tile){
+  let x = rowNumber;
+  let y = columnNumber;
+  let tile = G.cells[x, y].color;
+  let tempCell = [];
+  const F = {
+    flipableCells: [],
+  };
+
+  for(a = columnNumber, a == 0, a--){
+    if(tile != G.cells[x, a].color){
+      tempCell.push({x, a});
+    }
+    else{
+      if (tempCell[0] != null){
+        F.flipableCells.push(tempCell);
+        break;
+      }
+    }
+  }
+
+  tempCell = [];
+  for(a = rowNumber, a == 0, a--){
+    if(tile != G.cells[a, y].color){
+      tempCell.push({a, y});
+    }
+    else{
+      if (F.flipableCells[0] != null){
+        F.flipableCells.push(tempCell);
+        break;
+      }
+    }
+  }
+
+  return F;
+}
+
+function flipDiagUp(rowNumber, columnNumber, tile){
+  let x = rowNumber - 1;
+  let y = columnNumber - 1;
+  let tile = G.cells[x, y].color;
+  let tempCell = [];
+  const F = {
+    flipableCells: [],
+  };
+
+  for(a = rowNumber, a == 0, a--){
+    if(tile != G.cells[a, y].color){
+      tempCell.push({a, y});
+    }
+    else{
+      if (tempCell[0] != null){
+        F.flipableCells.push(tempCell);
+        break;
+      }
+    }
+    y -= 1;
+  }
+
+  tempCell = [];
+  for(a = rowNumber, a == 0, a--){
+    if(tile != G.cells[a, y].color){
+      tempCell.push({a, y});
+    }
+    else{
+      if (F.flipableCells[0] != null){
+        F.flipableCells.push(tempCell);
+        break;
+      }
+    }
+    y += 1;
+  }
+
+  return F;
+}
+
+function flipDiagDown(rowNumber, columnNumber, tile){
+  let x = rowNumber;
+  let y = columnNumber;
+  let tile = G.cells[x, y].color;
+  let tempCell = [];
+  const F = {
+    flipableCells: [],
+  };
+
+  for(a = rowNumber, a == 4, a++){
+    if(tile != G.cells[a, y].color){
+      tempCell.push({a, y});
+    }
+    else{
+      if (tempCell[0] != null){
+        F.flipableCells.push(tempCell);
+        break;
+      }
+    }
+    y -= 1;
+  }
+
+  tempCell = [];
+  for(a = rowNumber, a == 4, a++){
+    if(tile != G.cells[a, y].color){
+      tempCell.push({a, y});
+    }
+    else{
+      if (F.flipableCells[0] != null){
+        F.flipableCells.push(tempCell);
+        break;
+      }
+    }
+    y += 1;
+  }
+
+  return F;
+}
+
 export function CheckMoves(rowNumber, columnNumber, currentPlayer) {
   const M = {
     moveAbleCells: [],
