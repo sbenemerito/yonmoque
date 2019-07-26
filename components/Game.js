@@ -1,6 +1,7 @@
 import { Game as BGGame } from "boardgame.io/core";
 import {
   blueValue,
+  whiteValue,
   center,
   columns,
   initialCells,
@@ -20,16 +21,18 @@ export function getInitialState(ctx) {
 
   // Fill the game board
   G.cells = initialCells.map((cellRow, rowNumber) => {
+    const neutralCell = {color: neutralValue, piece: null};
+    const blueCell = {color: blueValue, piece: null};
     let tempRow = [ ...cellRow ];
 
     // Neutral tile for 4 corners of the board
     if (rowNumber === 0 || rowNumber === (rows - 1)) {
-      tempRow[0] = tempRow[columns - 1] = neutralValue;
+      tempRow[0] = tempRow[columns - 1] = neutralCell;
     }
 
     // Neutral tile for center tile
     if (rowNumber === center) {
-      tempRow[center] = neutralValue;
+      tempRow[center] = neutralCell;
     }
 
     // Blue tile, in a diamond shape
@@ -38,7 +41,7 @@ export function getInitialState(ctx) {
                             : rowNumber === 2
                                 ? 2
                                 : rowNumber;
-    tempRow[center - gapFromCenter] = tempRow[center + gapFromCenter] = blueValue;
+    tempRow[center - gapFromCenter] = tempRow[center + gapFromCenter] = blueCell;
 
     return tempRow;
   });
@@ -49,20 +52,106 @@ export function getInitialState(ctx) {
   return G;
 }
 
+function CheckTile(rowNumber, columnNumber) {
+  try {
+    if(G.cells[rowNumber, columnNumber].piece === null) {
+      return true;
+    } else {
+      return false;
+    }
+  } catch(err) {
+    return false;
+  }
+}
+
+function CanDiagonal(rowNumber, columnNumber, currentPlayer) {
+  if((G.cells[rowNumber, columnNumber].color === blueValue && currentPlayer === 0) || (G.cells[rowNumber, columnNumber].color === whiteValue && currentPlayer === 1)) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+export function CheckMoves(rowNumber, columnNumber, currentPlayer) {
+  const M = {
+    moveAbleCells: [],
+  };
+
+  M.moveAbleCells.push({rowNumber, columnNumber});
+  
+  // Check vertical and horizontal sides
+  if(CheckTile(rowNumber - 1, columnNumber)) {
+    let currentRow = rowNumber - 1;
+    M.moveAbleCells.push({currentRow, columnNumber});
+  }
+  if(CheckTile(rowNumber + 1, columnNumber)) {
+    let currentRow = rowNumber + 1;
+    M.moveAbleCells.push({currentRow, columnNumber});
+  }
+  if(CheckTile(rowNumber, columnNumber - 1)) {
+    let currentColumn = columnNumber - 1;
+    M.moveAbleCells.push({rowNumber, currentColumn});
+  }
+  if(CheckTile(rowNumber, columnNumber + 1)) {
+    let currentColumn = columnNumber + 1;
+    M.moveAbleCells.push({rowNumber, currentColumn});
+  }
+
+  // Check diagonal sides
+  for(currentRow = rowNumber, currentColumn = columnNumber; CheckTile(currentRow, currentRow); currentRow -= 1, currentColumn -= 1) {
+    M.moveAbleCells.push({currentRow, currentColumn});
+    if(!CanDiagonal(rowNumber, columnNumber, currentPlayer)) {
+      break;
+    }
+  }
+  for(currentRow = rowNumber, currentColumn = columnNumber; CheckTile(currentRow, currentRow); currentRow -= 1, currentColumn += 1) {
+    M.moveAbleCells.push({currentRow, currentColumn});
+    if(!CanDiagonal(rowNumber, columnNumber, currentPlayer)) {
+      break;
+    }
+  }
+  for(currentRow = rowNumber, currentColumn = columnNumber; CheckTile(currentRow, currentRow); currentRow += 1, currentColumn -= 1) {
+    M.moveAbleCells.push({currentRow, currentColumn});
+    if(!CanDiagonal(rowNumber, columnNumber, currentPlayer)) {
+      break;
+    }
+  }
+  for(currentRow = rowNumber, currentColumn = columnNumber; CheckTile(currentRow, currentRow); currentRow += 1, currentColumn += 1) {
+    M.moveAbleCells.push({currentRow, currentColumn});
+    if(!CanDiagonal(rowNumber, columnNumber, currentPlayer)) {
+      break;
+    }
+  }
+
+  // Return the moveable coordinates
+  return M;
+}
+
 const Game = BGGame({
   // The setup method is passed ctx
   setup: getInitialState,
-
-  moves: {
+  
+  moves: { 
     // G and ctx are provided automatically when calling from App– `this.props.moves.movePiece(id)`
-
-    addPiece: (G, ctx, id) => {
-      // Check if there are pieces left, or tile is empty here, and update game state (board)
-      console.log('addPiece right here');
+    addPiece: (G, ctx, rowNumber, columnNumber) => {
+      if(G.player[ctx.currentPlayer].pieces != 0) {
+        if(G.cells[rowNumber, columnNumber].piece === null) {
+          G.cells[rowNumber, columnNumber].piece = ctx.currentPlayer;
+          G.player[ctx.currentPlayer].pieces -= 1;
+        }
+      }
     },
-    movePiece: (G, ctx, id) => {
-      // Check legal moves here, and update game state (board)
-      console.log('movePiece right here');
+    selectPiece: (G, ctx, rowNumber, columnNumber) => {
+      if(G.cells[rowNumber, columnNumber].piece === ctx.currentPlayer) {
+        CheckMoves(rowNumber, columnNumber, ctx.currentPlayer);
+      }
+    },
+    movePiece: (G, ctx, rowNumber, columnNumber) => {
+      if(M.moveAbleCells.includes({rowNumber, columnNumber})) {
+        G.cells[rowNumber, columnNumber].piece = ctx.currentPlayer;
+        M.moveAbleCells = [];
+        //flip function
+      }
     },
   },
 
