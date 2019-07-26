@@ -12,17 +12,13 @@ import {
 import Tile from "../Tile";
 
 const Board = ({ G }) => {
-  let cells = [];
-  for (let i = 0; i < rows; i++) {
-    for (let j = 0; j < columns; j++) {
-      const value = G.cells[i][j];
-      cells.push(
-        <View style={styles.cell}>
-          <Tile tileColor={value} />
-        </View>
-      );
-    }
-  }
+  let cells = G.cells.map((cell) => {
+    return (
+      <View key={cell.id} id={`cell${cell.id}`} style={styles.cell}>
+        <Tile tileColor={cell.color} />
+      </View>
+    );
+  });
 
   return <View style={styles.root}>{cells}</View>;
 };
