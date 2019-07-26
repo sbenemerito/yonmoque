@@ -2,9 +2,10 @@ import React from 'react';
 import { StatusBar, StyleSheet, View } from 'react-native';
 import { Client } from "boardgame.io/react-native";
 
-import MainMenu from './components/MainMenu';
-import Game from "./components/Game";
 import colors from "./components/constants/colors";
+import Board from './components/Board';
+import Game from "./components/Game";
+import MainMenu from './components/MainMenu';
 
 class App extends React.Component {
   state = {
@@ -39,7 +40,7 @@ class App extends React.Component {
   render() {
     const { isMainMenuVisible, numPlayers, playerConfig } = this.state;
     const YonmoqueClient = Client({
-      board: null, // Board class
+      board: Board,
       game: Game,
       numPlayers,
       debug: true,
