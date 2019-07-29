@@ -17,7 +17,7 @@ export function getInitialState(ctx) {
   };
 
   // Set up the game state for each player
-  G.players = Array(ctx.numPlayers).fill(null).map((_, index) => { pieces: initialPieces });
+  G.players = Array(ctx.numPlayers).fill(null).map(() => ({ pieces: initialPieces }));
 
   // Set the game board, we can insert board mutations here (custom boards)
   G.cells = [ ...initialCells ];
@@ -110,10 +110,10 @@ const Game = BGGame({
   moves: { 
     // G and ctx are provided automatically when calling from App– `this.props.moves.movePiece(id)`
     addPiece: (G, ctx, rowNumber, columnNumber) => {
-      if(G.player[ctx.currentPlayer].pieces != 0) {
-        if(G.cells[rowNumber, columnNumber].piece === null) {
+      if(G.players[ctx.currentPlayer].pieces != 0) {
+        if (G.cells[rowNumber, columnNumber].piece === null) {
           G.cells[rowNumber, columnNumber].piece = ctx.currentPlayer;
-          G.player[ctx.currentPlayer].pieces -= 1;
+          G.players[ctx.currentPlayer].pieces -= 1;
         }
       }
     },
