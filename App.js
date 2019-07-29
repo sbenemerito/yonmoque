@@ -2,8 +2,10 @@ import React from 'react';
 import { StatusBar, StyleSheet, View } from 'react-native';
 import { Client } from "boardgame.io/react-native";
 
-import Game from "./components/Game";
 import colors from "./components/constants/colors";
+import Board from './components/Board';
+import Game from "./components/Game";
+import MainMenu from './components/MainMenu';
 
 class App extends React.Component {
   state = {
@@ -21,6 +23,7 @@ class App extends React.Component {
         skin: null,
       },
     },
+    movableTiles: []
   };
 
   backToMainMenu = () => {
@@ -35,11 +38,17 @@ class App extends React.Component {
     });
   };
 
+  updateMovableTiles = movableCoordinates => {
+    this.setState({
+      movableTiles: movableCoordinates
+    });
+  };
+
   render() {
-    const { isMainMenuVisible, numPlayers, playerConfig } = this.state;
+    const { isMainMenuVisible, movableTiles, numPlayers, playerConfig } = this.state;
     const YonmoqueClient = Client({
-      board: null, // Board class
       game: Game,
+      board: Board,
       numPlayers,
       debug: true,
     });
@@ -47,10 +56,18 @@ class App extends React.Component {
     return (
       <View style={styles.container}>
         <StatusBar hidden />
-        <YonmoqueClient
-          backToMainMenu={this.backToMainMenu}
-          playerConfig={playerConfig}
-        />
+        {
+          isMainMenuVisible
+            ? <MainMenu
+                startGame={this.startGame}
+              />
+            : <YonmoqueClient
+                backToMainMenu={this.backToMainMenu}
+                updateMovableTiles={this.updateMovableTiles}
+                playerConfig={playerConfig}
+                movableTiles={movableTiles}
+              />
+        }
       </View>
     );
   }

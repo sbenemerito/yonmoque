@@ -17,34 +17,10 @@ export function getInitialState(ctx) {
   };
 
   // Set up the game state for each player
-  G.players = Array(ctx.numPlayers).fill(null).map((_, index) => { pieces: initialPieces });
+  G.players = Array(ctx.numPlayers).fill(null).map(() => ({ pieces: initialPieces }));
 
-  // Fill the game board
-  G.cells = initialCells.map((cellRow, rowNumber) => {
-    const neutralCell = {color: neutralValue, piece: null};
-    const blueCell = {color: blueValue, piece: null};
-    let tempRow = [ ...cellRow ];
-
-    // Neutral tile for 4 corners of the board
-    if (rowNumber === 0 || rowNumber === (rows - 1)) {
-      tempRow[0] = tempRow[columns - 1] = neutralCell;
-    }
-
-    // Neutral tile for center tile
-    if (rowNumber === center) {
-      tempRow[center] = neutralCell;
-    }
-
-    // Blue tile, in a diamond shape
-    const gapFromCenter = rowNumber > 2
-                            ? 4 - rowNumber
-                            : rowNumber === 2
-                                ? 2
-                                : rowNumber;
-    tempRow[center - gapFromCenter] = tempRow[center + gapFromCenter] = blueCell;
-
-    return tempRow;
-  });
+  // Set the game board, we can insert board mutations here (custom boards)
+  G.cells = [ ...initialCells ];
 
   console.log("Initial Game State", G, "Initial ctx", ctx);
 
@@ -134,10 +110,10 @@ const Game = BGGame({
   moves: { 
     // G and ctx are provided automatically when calling from App– `this.props.moves.movePiece(id)`
     addPiece: (G, ctx, rowNumber, columnNumber) => {
-      if(G.player[ctx.currentPlayer].pieces != 0) {
-        if(G.cells[rowNumber, columnNumber].piece === null) {
+      if(G.players[ctx.currentPlayer].pieces != 0) {
+        if (G.cells[rowNumber, columnNumber].piece === null) {
           G.cells[rowNumber, columnNumber].piece = ctx.currentPlayer;
-          G.player[ctx.currentPlayer].pieces -= 1;
+          G.players[ctx.currentPlayer].pieces -= 1;
         }
       }
     },
