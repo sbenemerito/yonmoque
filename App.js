@@ -40,8 +40,8 @@ class App extends React.Component {
   render() {
     const { isMainMenuVisible, numPlayers, playerConfig } = this.state;
     const YonmoqueClient = Client({
-      board: Board,
       game: Game,
+      board: Board,
       numPlayers,
       debug: true,
     });

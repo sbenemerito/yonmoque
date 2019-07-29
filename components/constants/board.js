@@ -19,8 +19,8 @@ const initialCells = Array(rows * columns).fill(0).map((_, index) => {
   };
 });
 const center = Math.floor(boardSize / 2);
-const tileWidth = 100;
-const tileHeight = 100;
+const tileWidth = 16;
+const tileHeight = 16;
 const boardWidth = tileWidth * columns;
 const boardHeight = tileHeight * rows;
 const initialPieces = 6;

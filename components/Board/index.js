@@ -1,5 +1,6 @@
 import React from "react";
 import { StyleSheet, View } from "react-native";
+import { vw } from 'react-native-expo-viewport-units';
 
 import {
   boardHeight,
@@ -11,30 +12,35 @@ import {
 } from "../constants/board";
 import Tile from "../Tile";
 
-const Board = ({ G }) => {
-  let cells = G.cells.map((cell) => {
-    return (
-      <View key={cell.id} id={`cell${cell.id}`} style={styles.cell}>
-        <Tile tileColor={cell.color} />
-      </View>
-    );
-  });
+class Board extends React.Component {
+  render() {
+    const { G } = this.props;
 
-  return <View style={styles.root}>{cells}</View>;
+    let cells = G.cells.map((cell) => {
+      return (
+        <View key={cell.id} id={`cell${cell.id}`} style={styles.cell}>
+          <Tile tileColor={cell.color} />
+        </View>
+      );
+    });
+
+    return <View style={styles.root}>{cells}</View>;
+  }
 };
 
 const styles = StyleSheet.create({
   root: {
-    width: boardWidth,
-    height: boardHeight,
+    width: vw(boardWidth),
+    height: vw(boardHeight),
+    backgroundColor: "#fff",
     flexDirection: "row",
     flexWrap: "wrap",
-  },
-  cell: {
-    width: tileWidth,
-    height: tileHeight,
     justifyContent: "center",
     alignItems: "center",
+  },
+  cell: {
+    width: vw(tileWidth),
+    height: vw(tileHeight),
   },
 });
 

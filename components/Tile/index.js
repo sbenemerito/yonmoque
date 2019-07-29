@@ -1,5 +1,6 @@
 import React from "react";
 import { StyleSheet, View } from "react-native";
+import { vw } from 'react-native-expo-viewport-units';
 
 import {
   whiteValue,
@@ -16,37 +17,32 @@ import {
 } from "../constants/colors";
 
 const Tile = ({ tileColor, isMovable }) => {
-  return (
-    <View
-      style={() => {
-        let styleList = [styles.baseTile];
-        switch(tileColor) {
-          case whiteValue:
-            styleList.push(styles.whiteTile);
-            break;
-          case blueValue:
-            styleList.push(styles.blueTile);
-            break;
-          case neutralValue:
-            styleList.push(styles.neutralTile);
-            break;
-        }
+  let styleList = [styles.baseTile];
+  switch(tileColor) {
+    case whiteValue:
+      styleList.push(styles.whiteTile);
+      break;
+    case blueValue:
+      styleList.push(styles.blueTile);
+      break;
+    case neutralValue:
+      styleList.push(styles.neutralTile);
+      break;
+  }
 
-        if (isMovable) {
-          styleList.push(styles.movableTile);
-        }
-      }}
-    >
-    </View>
+  if (isMovable) {
+    styleList.push(styles.movableTile);
+  }
+
+  return (
+    <View style={styleList} />
   );
 };
 
 const styles = StyleSheet.create({
   baseTile: {
-    width: tileWidth,
-    height: tileHeight,
-    justifyContent: "center",
-    alignItems: "center",
+    width: vw(tileWidth),
+    height: vw(tileHeight),
   },
   whiteTile: {
     backgroundColor: white
