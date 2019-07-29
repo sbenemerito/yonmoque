@@ -37,6 +37,10 @@ const styles = StyleSheet.create({
     flexWrap: "wrap",
     justifyContent: "center",
     alignItems: "center",
+    marginTop: 'auto',
+    marginRight: 'auto',
+    marginBottom: 'auto',
+    marginLeft: 'auto',
   },
   cell: {
     width: vw(tileWidth),
