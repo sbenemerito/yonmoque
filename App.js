@@ -23,6 +23,7 @@ class App extends React.Component {
         skin: null,
       },
     },
+    movableTiles: []
   };
 
   backToMainMenu = () => {
@@ -37,8 +38,14 @@ class App extends React.Component {
     });
   };
 
+  updateMovableTiles = movableCoordinates => {
+    this.setState({
+      movableTiles: movableCoordinates
+    });
+  };
+
   render() {
-    const { isMainMenuVisible, numPlayers, playerConfig } = this.state;
+    const { isMainMenuVisible, movableTiles, numPlayers, playerConfig } = this.state;
     const YonmoqueClient = Client({
       game: Game,
       board: Board,
@@ -56,7 +63,9 @@ class App extends React.Component {
               />
             : <YonmoqueClient
                 backToMainMenu={this.backToMainMenu}
+                updateMovableTiles={this.updateMovableTiles}
                 playerConfig={playerConfig}
+                movableTiles={movableTiles}
               />
         }
       </View>
