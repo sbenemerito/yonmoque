@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, TouchableNativeFeedback } from "react-native";
 import { vw } from 'react-native-expo-viewport-units';
 
 import {
@@ -7,8 +7,6 @@ import {
   boardWidth,
   tileHeight,
   tileWidth,
-  columns,
-  rows,
 } from "../constants/board";
 import Tile from "../Tile";
 
@@ -18,9 +16,22 @@ class Board extends React.Component {
 
     let cells = G.cells.map((cell) => {
       return (
-        <View key={cell.id} id={`cell${cell.id}`} style={styles.cell}>
-          <Tile tileColor={cell.color} />
-        </View>
+        <TouchableNativeFeedback
+          key={cell.id}
+          id={`cell${cell.id}`}
+          onPress={() => {
+            this.props.moves.addPiece(cell.id);
+          }}
+          underlayColor="white">
+          <View style={styles.cell}>
+              <Tile
+                index={cell.id}
+                tileColor={cell.color}
+                isMovable={this.props.movableTiles.includes(cell.id)}
+                addPiece={this.props.moves.addPiece}
+              />
+          </View>
+        </TouchableNativeFeedback>
       );
     });
 

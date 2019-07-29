@@ -16,7 +16,7 @@ import {
   yellowLight,
 } from "../constants/colors";
 
-const Tile = ({ tileColor, isMovable }) => {
+const Tile = ({ index, tileColor, isMovable, addPiece }) => {
   let styleList = [styles.baseTile];
   switch(tileColor) {
     case whiteValue:
@@ -54,7 +54,8 @@ const styles = StyleSheet.create({
     backgroundColor: blueDark
   },
   movableTile: {
-    backgroundColor: yellowLight
+    borderWidth: 2,
+    borderColor: yellowLight,
   },
 });
 
