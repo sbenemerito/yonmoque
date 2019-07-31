@@ -109,6 +109,7 @@ const Game = BGGame({
   moves: { 
     // G and ctx are provided automatically when calling from App– `this.props.moves.movePiece(id)`
     addPiece: (G, ctx, id) => {
+      G.moveAbleCells = [];
       if(G.players[ctx.currentPlayer].pieces != 0) {
         if(G.cells[id].piece === null) {
           G.cells[id].piece = ctx.currentPlayer;

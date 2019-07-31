@@ -38,7 +38,6 @@ class Board extends React.Component {
   }
 
   render() {
-    
     const { G } = this.props;
     let cells = G.cells.map((cell) => {
       return (
@@ -53,7 +52,7 @@ class Board extends React.Component {
               <Tile
                 index={cell.id}
                 tileColor={cell.color}
-                isMovable={this.props.movableTiles.includes(cell.id)}
+                isMovable={G.moveAbleCells.includes(cell.id)}
                 piece={cell.piece}
               />
           </View>
