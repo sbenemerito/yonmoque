@@ -104,124 +104,143 @@ function CheckMoves(id, currentPlayer, G) {
   }
 }
 
-function flipLeft(id, currentPlayer, G) {
+function flipableCells(id, currentPlayer, G) {
+  let tempCells = [];
+
+  // flip left direction
   for (i = id - 1; i % 5 == 0; i--) {
     if (G.cells[i].piece === null) {
-      G.canFlipCells = [];
+      tempCells = [];
       break;
     }
     else if (currentPlayer != G.cells[i].piece) {
-      G.canFlipCells.push(i);
+      tempCells.push(i);
     }
     else {
       break;
     }
   }
-}
 
-function flipRight(id, currentPlayer, G) {
+  G.canFlipCells.push(tempCells);
+  tempCells = [];
+
+  // flip right direction
   for (i = id + 1; (i + 1) % 5 == 0; i++) {
     if (G.cells[i].piece === null) {
-      G.canFlipCells = [];
+      tempCells = [];
       break;
     }
     else if (currentPlayer != G.cells[i].piece) {
-      G.canFlipCells.push(i);
+      tempCells.push(i);
     }
     else {
       break;
     }
   }
-}
 
-function flipUp(id, currentPlayer, G) {
+  G.canFlipCells.push(tempCells);
+  tempCells = [];
+
+  // flip up direction
   for (i = id - 5; i >= 0; i-=5) {
     if (G.cells[i].piece === null) {
-      G.canFlipCells = [];
+      tempCells = [];
       break;
     }
     else if (currentPlayer != G.cells[i].piece) {
-      G.canFlipCells.push(i);
+      tempCells.push(i);
     }
     else {
       break;
     }
   }
-}
 
-function flipDown(id, currentPlayer, G) {
+  G.canFlipCells.push(tempCells);
+  tempCells = [];
+
+  // flip down direction
   for (i = id + 5; i <= 24; i += 5) {
     if (G.cells[i].piece === null) {
-      G.canFlipCells = [];
+      tempCells = [];
       break;
     }
     else if (currentPlayer != G.cells[i].piece) {
-      G.canFlipCells.push(i);
+      tempCells.push(i);
     }
     else {
       break;
     }
   }
-}
 
-function flipUpLeft(id, currentPlayer, G) {
+  G.canFlipCells.push(tempCells);
+  tempCells = [];
+
+  // flip diagonal left up
   for (i = id - 6; i % 5 == 0; i -= 6) {
     if (G.cells[i].piece === null) {
-      G.canFlipCells = [];
+      tempCells = [];
       break;
     }
     else if (currentPlayer != G.cells[i].piece) {
-      G.canFlipCells.push(i);
+      tempCells.push(i);
     }
     else {
       break;
     }
   }
-}
 
-function flipUpRight(id, currentPlayer, G) {
+  G.canFlipCells.push(tempCells);
+  tempCells = [];
+
+  // flip diagonal right up
   for (i = id - 4; (i + 1) % 5 == 0; i -= 4) {
     if (G.cells[i].piece === null) {
-      G.canFlipCells = [];
+      tempCells = [];
       break;
     }
     else if (currentPlayer != G.cells[i].piece) {
-      G.canFlipCells.push(i);
+      tempCells.push(i);
     }
     else {
       break;
     }
   }
-}
 
-function flipDownLeft(id, currentPlayer, G) {
+  G.canFlipCells.push(tempCells);
+  tempCells = [];
+
+  // flip diagonal left down
   for (i = id + 4; i % 5 == 0; i += 4) {
     if (G.cells[i].piece === null) {
-      G.canFlipCells = [];
+      tempCells = [];
       break;
     }
     else if (currentPlayer != G.cells[i].piece) {
-      G.canFlipCells.push(i);
+      tempCells.push(i);
     }
     else {
       break;
     }
   }
-}
 
-function flipDownRight(id, currentPlayer, G) {
+  G.canFlipCells.push(tempCells);
+  tempCells = [];
+
+  // flip diagonal right down
   for (i = id + 6; (i + 1) % 5 == 0; i += 6) {
     if (G.cells[i].piece === null) {
-      G.canFlipCells = [];
+      tempCells = [];
       break;
     }
     else if (currentPlayer != G.cells[i].piece) {
-      G.canFlipCells.push(i);
+      tempCells.push(i);
     }
     else {
       break;
     }
   }
+
+  G.canFlipCells.push(tempCells);
 }
 
 const Game = BGGame({
