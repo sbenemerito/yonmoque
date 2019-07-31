@@ -39,7 +39,7 @@ function CheckTile(id, G) {
 }
 
 function CanDiagonal(id, currentPlayer, G) {
-  if((G.cells[id].color === blueValue && currentPlayer === 0) || (G.cells[id].color === whiteValue && currentPlayer === 1)) {
+  if((G.cells[id].color === blueValue && currentPlayer === '0') || (G.cells[id].color === whiteValue && currentPlayer === '1')) {
     return true;
   } else {
     return false;
@@ -121,7 +121,6 @@ const Game = BGGame({
       G.moveAbleCells = [];
       if(G.cells[id].piece === ctx.currentPlayer) {
         CheckMoves(id, ctx.currentPlayer, G);
-        console.log(G.moveAbleCells)
       }
     },
     movePiece: (G, ctx, id) => {
@@ -129,7 +128,6 @@ const Game = BGGame({
         G.cells[id].piece = ctx.currentPlayer;
         G.moveAbleCells = [];
         //flip function
-        //check winner
       }
     },
   },
