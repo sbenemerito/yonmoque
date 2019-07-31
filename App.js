@@ -22,8 +22,7 @@ class App extends React.Component {
         color: colors.white,
         skin: null,
       },
-    },
-    movableTiles: []
+    }
   };
 
   backToMainMenu = () => {
@@ -35,12 +34,6 @@ class App extends React.Component {
   startGame = () => {
     this.setState({
       isMainMenuVisible: false,
-    });
-  };
-
-  updateMovableTiles = movableCoordinates => {
-    this.setState({
-      movableTiles: movableCoordinates
     });
   };
 
@@ -63,9 +56,7 @@ class App extends React.Component {
               />
             : <YonmoqueClient
                 backToMainMenu={this.backToMainMenu}
-                updateMovableTiles={this.updateMovableTiles}
                 playerConfig={playerConfig}
-                movableTiles={movableTiles}
               />
         }
       </View>
