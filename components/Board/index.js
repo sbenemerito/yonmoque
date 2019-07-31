@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, View, TouchableNativeFeedback } from "react-native";
+import { StyleSheet, View, TouchableNativeFeedback, Text } from "react-native";
 import { vw } from 'react-native-expo-viewport-units';
 
 import {
@@ -11,6 +11,11 @@ import {
 import Tile from "../Tile";
 
 class Board extends React.Component {
+  onClick(id) {
+    this.props.moves.addPiece(id);
+    this.props.events.endTurn();
+  }
+
   render() {
     const { G } = this.props;
 
@@ -20,7 +25,7 @@ class Board extends React.Component {
           key={cell.id}
           id={`cell${cell.id}`}
           onPress={() => {
-            this.props.moves.addPiece(cell.id);
+            this.onClick(cell.id);
           }}
           underlayColor="white">
           <View style={styles.cell}>
@@ -28,7 +33,7 @@ class Board extends React.Component {
                 index={cell.id}
                 tileColor={cell.color}
                 isMovable={this.props.movableTiles.includes(cell.id)}
-                addPiece={this.props.moves.addPiece}
+                piece={cell.piece}
               />
           </View>
         </TouchableNativeFeedback>
@@ -41,10 +46,9 @@ class Board extends React.Component {
 
 const styles = StyleSheet.create({
   root: {
-    width: vw(boardWidth),
-    height: vw(boardHeight),
-    backgroundColor: "#fff",
-    flexDirection: "row",
+    width: vw(boardHeight),
+    height: vw(boardWidth),
+    backgroundColor: "#000",
     flexWrap: "wrap",
     justifyContent: "center",
     alignItems: "center",

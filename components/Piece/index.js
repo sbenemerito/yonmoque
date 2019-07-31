@@ -15,31 +15,21 @@ import {
   white,
   yellowLight,
 } from "../constants/colors";
-import Piece from "../Piece";
 
-const Tile = ({ index, tileColor, isMovable, piece }) => {
+const Piece = ({ pieceID }) => {
   let styleList = [styles.baseTile];
-  switch(tileColor) {
-    case whiteValue:
+  switch(pieceID) {
+    case 0:
       styleList.push(styles.whiteTile);
       break;
-    case blueValue:
+    case 1:
       styleList.push(styles.blueTile);
-      break;
-    case neutralValue:
-      styleList.push(styles.neutralTile);
       break;
   }
 
-  if (isMovable) {
-    styleList.push(styles.movableTile);
-  }
-  
   return (
-    <View style={styleList}>
-      <Piece
-        pieceID={piece}
-      />
+    <View>
+      <Text>{pieceID}</Text>
     </View>
   );
 };
@@ -64,4 +54,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Tile;
+export default Piece;

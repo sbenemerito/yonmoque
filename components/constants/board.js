@@ -21,8 +21,8 @@ const initialCells = Array(rows * columns).fill(0).map((_, index) => {
 const center = Math.floor(boardSize / 2);
 const tileWidth = 16;
 const tileHeight = 16;
-const boardWidth = tileWidth * columns;
-const boardHeight = tileHeight * rows;
+const boardWidth = (tileWidth * columns) + 5;
+const boardHeight = (tileHeight * rows) + 5;
 const initialPieces = 6;
 
 module.exports = {
