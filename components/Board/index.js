@@ -43,11 +43,10 @@ const styles = StyleSheet.create({
   root: {
     width: vw(boardWidth),
     height: vw(boardHeight),
-    backgroundColor: "#fff",
-    flexDirection: "row",
+    backgroundColor: "#444",
     flexWrap: "wrap",
     justifyContent: "center",
-    alignItems: "center",
+    alignContent: "center",
     marginTop: 'auto',
     marginRight: 'auto',
     marginBottom: 'auto',
