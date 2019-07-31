@@ -140,7 +140,7 @@ function flipableCells(id, currentPlayer, G) {
   tempCells = [];
 
   // flip up direction
-  for (i = id - 5; i < 0; i-=5) {
+  for (i = id - 5; i >= 0; i-=5) {
     if (G.cells[i].piece === null) {
       tempCells = [];
       break;
@@ -157,7 +157,7 @@ function flipableCells(id, currentPlayer, G) {
   tempCells = [];
 
   // flip down direction
-  for (i = id + 5; i > 24; i += 5) {
+  for (i = id + 5; i <= 24; i += 5) {
     if (G.cells[i].piece === null) {
       tempCells = [];
       break;
