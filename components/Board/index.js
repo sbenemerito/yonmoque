@@ -11,11 +11,15 @@ import {
 import Tile from "../Tile";
 
 class Board extends React.Component {
-  onClick(cell) {
+  onClick(cell, moveAbles) {
     if(cell.piece === null) {
-      this.addPiece(cell.id);
+      if(moveAbles.length === 0 ) {
+        this.addPiece(cell.id);
+      } else {
+        this.movePiece(cell.id);
+      }
     } else {
-      this.movePiece(cell.id);
+      this.selectPiece(cell.id);
     }
   }
 
@@ -24,8 +28,13 @@ class Board extends React.Component {
     this.props.events.endTurn();
   }
 
-  movePiece(id) {
+  selectPiece(id) {
     this.props.moves.selectPiece(id);
+  }
+
+  movePiece(id) {
+    this.props.moves.movePiece(id);
+    this.props.events.endTurn();
   }
 
   render() {
@@ -37,7 +46,7 @@ class Board extends React.Component {
           key={cell.id}
           id={`cell${cell.id}`}
           onPress={() => {
-            this.onClick(cell);
+            this.onClick(cell, G.moveAbleCells);
           }}
           underlayColor="white">
           <View style={styles.cell}>
