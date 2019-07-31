@@ -11,21 +11,33 @@ import {
 import Tile from "../Tile";
 
 class Board extends React.Component {
-  onClick(id) {
+  onClick(cell) {
+    if(cell.piece === null) {
+      this.addPiece(cell.id);
+    } else {
+      this.movePiece(cell.id);
+    }
+  }
+
+  addPiece(id) {
     this.props.moves.addPiece(id);
     this.props.events.endTurn();
   }
 
-  render() {
-    const { G } = this.props;
+  movePiece(id) {
+    this.props.moves.selectPiece(id);
+  }
 
+  render() {
+    
+    const { G } = this.props;
     let cells = G.cells.map((cell) => {
       return (
         <TouchableNativeFeedback
           key={cell.id}
           id={`cell${cell.id}`}
           onPress={() => {
-            this.onClick(cell.id);
+            this.onClick(cell);
           }}
           underlayColor="white">
           <View style={styles.cell}>
@@ -46,12 +58,13 @@ class Board extends React.Component {
 
 const styles = StyleSheet.create({
   root: {
-    width: vw(boardHeight),
-    height: vw(boardWidth),
-    backgroundColor: "#000",
+    width: vw(boardWidth),
+    height: vw(boardHeight),
+    backgroundColor: "#444",
     flexWrap: "wrap",
+    flexDirection: 'row',
     justifyContent: "center",
-    alignItems: "center",
+    alignContent: "center",
     marginTop: 'auto',
     marginRight: 'auto',
     marginBottom: 'auto',

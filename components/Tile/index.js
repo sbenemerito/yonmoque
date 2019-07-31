@@ -37,9 +37,11 @@ const Tile = ({ index, tileColor, isMovable, piece }) => {
   
   return (
     <View style={styleList}>
-      <Piece
-        pieceID={piece}
-      />
+      {
+      piece !== null 
+        ? <Piece pieceID={piece}/>
+        : null
+      }
     </View>
   );
 };

@@ -11,6 +11,7 @@ export function getInitialState(ctx) {
   const G = {
     cells: [],
     players: {},
+    moveAbleCells: [],
   };
 
   // Set up the game state for each player
@@ -25,7 +26,7 @@ export function getInitialState(ctx) {
   return G;
 }
 
-function CheckTile(id) {
+function CheckTile(id, G) {
   try {
     if(G.cells[id].piece === null) {
       return true;
@@ -37,7 +38,7 @@ function CheckTile(id) {
   }
 }
 
-function CanDiagonal(id, currentPlayer) {
+function CanDiagonal(id, currentPlayer, G) {
   if((G.cells[id].color === blueValue && currentPlayer === 0) || (G.cells[id].color === whiteValue && currentPlayer === 1)) {
     return true;
   } else {
@@ -45,44 +46,40 @@ function CanDiagonal(id, currentPlayer) {
   }
 }
 
-export function CheckMoves(id, currentPlayer) {
-  const M = {
-    moveAbleCells: [],
-  };
-  
-  // Check vertical and horizontal sides
-  if(CheckTile(id - 5)) {
+function CheckMoves(id, currentPlayer, G) {
+    // Check vertical and horizontal sides
+  if(CheckTile(id - 5, G)) {
     let currentID = id - 5;
-    M.moveAbleCells.push(currentID);
+    G.moveAbleCells.push(currentID);
   }
-  if(CheckTile(id + 5)) {
+  if(CheckTile(id + 5, G)) {
     let currentID = id + 5;
-    M.moveAbleCells.push(currentID);
+    G.moveAbleCells.push(currentID);
   }
   if(id % 5 !== 0) {
-    if(CheckTile(id - 1)) {
+    if(CheckTile(id - 1, G)) {
       let currentID = id - 1;
-      M.moveAbleCells.push(currentID);
+      G.moveAbleCells.push(currentID);
     }
   }
   if((id + 1) % 5 !== 0) {
-    if(CheckTile(id + 1)) {
+    if(CheckTile(id + 1, G)) {
       let currentID = id + 1;
-      M.moveAbleCells.push(currentID);
+      G.moveAbleCells.push(currentID);
     }
   }
 
   // Check left side diagonal
   if(id % 5 !== 0) {
-    for(currentID = id - 6; CheckTile(currentID); currentID -= 6) {
-      M.moveAbleCells.push(currentID);
-      if(!CanDiagonal(id, currentPlayer) || currentID % 5 === 0) {
+    for(currentID = id - 6; CheckTile(currentID, G); currentID -= 6) {
+      G.moveAbleCells.push(currentID);
+      if(!CanDiagonal(id, currentPlayer, G) || currentID % 5 === 0) {
         break;
       }
     }
-    for(currentID = id + 4; CheckTile(currentID); currentID += 4) {
-      M.moveAbleCells.push(currentID);
-      if(!CanDiagonal(id, currentPlayer) || currentID % 5 === 0) {
+    for(currentID = id + 4; CheckTile(currentID, G); currentID += 4) {
+      G.moveAbleCells.push(currentID);
+      if(!CanDiagonal(id, currentPlayer, G) || currentID % 5 === 0) {
         break;
       }
     }
@@ -90,22 +87,19 @@ export function CheckMoves(id, currentPlayer) {
 
   // Check right side diagonal
   if((id + 1) % 5 !== 0) {
-    for(currentID = id - 4; CheckTile(currentID); currentID -= 4) {
-      M.moveAbleCells.push(currentID);
-      if(!CanDiagonal(id, currentPlayer) || (currentID + 1) % 5 === 0) {
+    for(currentID = id - 4; CheckTile(currentID, G); currentID -= 4) {
+      G.moveAbleCells.push(currentID);
+      if(!CanDiagonal(id, currentPlayer, G) || (currentID + 1) % 5 === 0) {
         break;
       }
     }
-    for(currentID = id + 6; CheckTile(currentID); currentID += 6) {
-      M.moveAbleCells.push(currentID);
-      if(!CanDiagonal(id, currentPlayer) || (currentID + 1) % 5 === 0) {
+    for(currentID = id + 6; CheckTile(currentID, G); currentID += 6) {
+      G.moveAbleCells.push(currentID);
+      if(!CanDiagonal(id, currentPlayer, G) || (currentID + 1) % 5 === 0) {
         break;
       }
     }
   }
-
-  // Return the moveable coordinates
-  return M;
 }
 
 const Game = BGGame({
@@ -115,7 +109,6 @@ const Game = BGGame({
   moves: { 
     // G and ctx are provided automatically when calling from App– `this.props.moves.movePiece(id)`
     addPiece: (G, ctx, id) => {
-      console.log(ctx.currentPlayer)
       if(G.players[ctx.currentPlayer].pieces != 0) {
         if(G.cells[id].piece === null) {
           G.cells[id].piece = ctx.currentPlayer;
@@ -124,18 +117,16 @@ const Game = BGGame({
       }
     },
     selectPiece: (G, ctx, id) => {
-      console.log(ctx.currentPlayer)
+      G.moveAbleCells = [];
       if(G.cells[id].piece === ctx.currentPlayer) {
-        M.moveAbleCells = [];
-        CheckMoves(id, ctx.currentPlayer);
+        CheckMoves(id, ctx.currentPlayer, G);
+        console.log(G.moveAbleCells)
       }
-
     },
     movePiece: (G, ctx, id) => {
-      console.log(ctx.currentPlayer)
       if(M.moveAbleCells.includes(id)) {
         G.cells[id].piece = ctx.currentPlayer;
-        M.moveAbleCells = [];
+        G.moveAbleCells = [];
         //flip function
         //check winner
       }
