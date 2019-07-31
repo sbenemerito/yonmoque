@@ -12,6 +12,7 @@ export function getInitialState(ctx) {
     cells: [],
     players: {},
     moveAbleCells: [],
+    canFlipCells: [],
     selectedCell: []
   };
 
@@ -99,6 +100,126 @@ function CheckMoves(id, currentPlayer, G) {
       if(!CanDiagonal(id, currentPlayer, G) || (currentID + 1) % 5 === 0) {
         break;
       }
+    }
+  }
+}
+
+function flipLeft(id, currentPlayer, G) {
+  for (i = id - 1; i % 5 == 0; i--) {
+    if (G.cells[i].piece === null) {
+      G.canFlipCells = [];
+      break;
+    }
+    else if (currentPlayer != G.cells[i].piece) {
+      G.canFlipCells.push(i);
+    }
+    else {
+      break;
+    }
+  }
+}
+
+function flipRight(id, currentPlayer, G) {
+  for (i = id + 1; (i + 1) % 5 == 0; i++) {
+    if (G.cells[i].piece === null) {
+      G.canFlipCells = [];
+      break;
+    }
+    else if (currentPlayer != G.cells[i].piece) {
+      G.canFlipCells.push(i);
+    }
+    else {
+      break;
+    }
+  }
+}
+
+function flipUp(id, currentPlayer, G) {
+  for (i = id - 5; i >= 0; i-=5) {
+    if (G.cells[i].piece === null) {
+      G.canFlipCells = [];
+      break;
+    }
+    else if (currentPlayer != G.cells[i].piece) {
+      G.canFlipCells.push(i);
+    }
+    else {
+      break;
+    }
+  }
+}
+
+function flipDown(id, currentPlayer, G) {
+  for (i = id + 5; i <= 24; i += 5) {
+    if (G.cells[i].piece === null) {
+      G.canFlipCells = [];
+      break;
+    }
+    else if (currentPlayer != G.cells[i].piece) {
+      G.canFlipCells.push(i);
+    }
+    else {
+      break;
+    }
+  }
+}
+
+function flipUpLeft(id, currentPlayer, G) {
+  for (i = id - 6; i % 5 == 0; i -= 6) {
+    if (G.cells[i].piece === null) {
+      G.canFlipCells = [];
+      break;
+    }
+    else if (currentPlayer != G.cells[i].piece) {
+      G.canFlipCells.push(i);
+    }
+    else {
+      break;
+    }
+  }
+}
+
+function flipUpRight(id, currentPlayer, G) {
+  for (i = id - 4; (i + 1) % 5 == 0; i -= 4) {
+    if (G.cells[i].piece === null) {
+      G.canFlipCells = [];
+      break;
+    }
+    else if (currentPlayer != G.cells[i].piece) {
+      G.canFlipCells.push(i);
+    }
+    else {
+      break;
+    }
+  }
+}
+
+function flipDownLeft(id, currentPlayer, G) {
+  for (i = id + 4; i % 5 == 0; i += 4) {
+    if (G.cells[i].piece === null) {
+      G.canFlipCells = [];
+      break;
+    }
+    else if (currentPlayer != G.cells[i].piece) {
+      G.canFlipCells.push(i);
+    }
+    else {
+      break;
+    }
+  }
+}
+
+function flipDownRight(id, currentPlayer, G) {
+  for (i = id + 6; (i + 1) % 5 == 0; i += 6) {
+    if (G.cells[i].piece === null) {
+      G.canFlipCells = [];
+      break;
+    }
+    else if (currentPlayer != G.cells[i].piece) {
+      G.canFlipCells.push(i);
+    }
+    else {
+      break;
     }
   }
 }
