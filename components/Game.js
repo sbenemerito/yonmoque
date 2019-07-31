@@ -2,49 +2,23 @@ import { Game as BGGame } from "boardgame.io/core";
 import {
   blueValue,
   whiteValue,
-  center,
-  columns,
   initialCells,
   initialPieces,
   neutralValue,
-  rows,
 } from "./constants/board";
 
 export function getInitialState(ctx) {
   const G = {
     cells: [],
     players: {},
+    moveAbleCells: [],
   };
 
   // Set up the game state for each player
-  G.players = Array(ctx.numPlayers).fill(null).map((_, index) => { pieces: initialPieces });
+  G.players = Array(ctx.numPlayers).fill(null).map(() => ({ pieces: initialPieces }));
 
-  // Fill the game board
-  G.cells = initialCells.map((cellRow, rowNumber) => {
-    const neutralCell = {color: neutralValue, piece: null};
-    const blueCell = {color: blueValue, piece: null};
-    let tempRow = [ ...cellRow ];
-
-    // Neutral tile for 4 corners of the board
-    if (rowNumber === 0 || rowNumber === (rows - 1)) {
-      tempRow[0] = tempRow[columns - 1] = neutralCell;
-    }
-
-    // Neutral tile for center tile
-    if (rowNumber === center) {
-      tempRow[center] = neutralCell;
-    }
-
-    // Blue tile, in a diamond shape
-    const gapFromCenter = rowNumber > 2
-                            ? 4 - rowNumber
-                            : rowNumber === 2
-                                ? 2
-                                : rowNumber;
-    tempRow[center - gapFromCenter] = tempRow[center + gapFromCenter] = blueCell;
-
-    return tempRow;
-  });
+  // Set the game board, we can insert board mutations here (custom boards)
+  G.cells = [ ...initialCells ];
 
   console.log("Initial Game State", G, "Initial ctx", ctx);
 
@@ -52,9 +26,9 @@ export function getInitialState(ctx) {
   return G;
 }
 
-function CheckTile(rowNumber, columnNumber) {
+function CheckTile(id, G) {
   try {
-    if(G.cells[rowNumber, columnNumber][1] === null) {
+    if(G.cells[id].piece === null) {
       return true;
     } else {
       return false;
@@ -64,230 +38,68 @@ function CheckTile(rowNumber, columnNumber) {
   }
 }
 
-function CanDiagonal(rowNumber, columnNumber, currentPlayer) {
-  if((G.cells[rowNumber, columnNumber][0] === blueValue && currentPlayer === 0) || (G.cells[rowNumber, columnNumber][0] === whiteValue && currentPlayer === 1)) {
+function CanDiagonal(id, currentPlayer, G) {
+  if((G.cells[id].color === blueValue && currentPlayer === 0) || (G.cells[id].color === whiteValue && currentPlayer === 1)) {
     return true;
   } else {
     return false;
   }
 }
 
-function flipRight(rowNumber, columnNumber, currentPlayer){
-  let tile = G.cells[rowNumber, columnNumber].color;
-  const F = {
-    flipableCells: [],
-  };
-
-  for(a = columnNumber + 1, a == 4, a++){
-    if(tile != G.cells[rowNumber, a].color){
-      F.flipableCells.push({rowNumber, a});
+function CheckMoves(id, currentPlayer, G) {
+    // Check vertical and horizontal sides
+  if(CheckTile(id - 5, G)) {
+    let currentID = id - 5;
+    G.moveAbleCells.push(currentID);
+  }
+  if(CheckTile(id + 5, G)) {
+    let currentID = id + 5;
+    G.moveAbleCells.push(currentID);
+  }
+  if(id % 5 !== 0) {
+    if(CheckTile(id - 1, G)) {
+      let currentID = id - 1;
+      G.moveAbleCells.push(currentID);
     }
-    else{
-      if (F.flipableCells[0] != null){
-        return F;
+  }
+  if((id + 1) % 5 !== 0) {
+    if(CheckTile(id + 1, G)) {
+      let currentID = id + 1;
+      G.moveAbleCells.push(currentID);
+    }
+  }
+
+  // Check left side diagonal
+  if(id % 5 !== 0) {
+    for(currentID = id - 6; CheckTile(currentID, G); currentID -= 6) {
+      G.moveAbleCells.push(currentID);
+      if(!CanDiagonal(id, currentPlayer, G) || currentID % 5 === 0) {
+        break;
+      }
+    }
+    for(currentID = id + 4; CheckTile(currentID, G); currentID += 4) {
+      G.moveAbleCells.push(currentID);
+      if(!CanDiagonal(id, currentPlayer, G) || currentID % 5 === 0) {
+        break;
       }
     }
   }
 
-  return F;
-}
-
-
-function flipLeft(rowNumber, columnNumber, tile){
-  let tile = G.cells[rowNumber, columnNumber].color;
-  const F = {
-    flipableCells: [],
-  };
-
-  for(a = columnNumber - 1, a == 0, a--){
-    if(tile != G.cells[rowNumber, a].color){
-      F.flipableCells.push({rowNumber, a});
+  // Check right side diagonal
+  if((id + 1) % 5 !== 0) {
+    for(currentID = id - 4; CheckTile(currentID, G); currentID -= 4) {
+      G.moveAbleCells.push(currentID);
+      if(!CanDiagonal(id, currentPlayer, G) || (currentID + 1) % 5 === 0) {
+        break;
+      }
     }
-    else{
-      if (F.flipableCells[0] != null){
-        return F;
+    for(currentID = id + 6; CheckTile(currentID, G); currentID += 6) {
+      G.moveAbleCells.push(currentID);
+      if(!CanDiagonal(id, currentPlayer, G) || (currentID + 1) % 5 === 0) {
+        break;
       }
     }
   }
-
-  return F;
-}
-
-function flipDown(rowNumber, columnNumber, currentPlayer){
-  llet tile = G.cells[rowNumber, columnNumber].color;
-  const F = {
-    flipableCells: [],
-  };
-
-  for(a = rowNumber + 1, a == 4, a++){
-    if(tile != G.cells[a, columnNumber].color){
-      F.flipableCells.push({a, columnNumber});
-    }
-    else{
-      if (F.flipableCells[0] != null){
-        return F;
-      }
-    }
-  }
-
-  return F;
-}
-
-function flipUp(rowNumber, columnNumber, tile){
-  let tile = G.cells[rowNumber, columnNumber].color;
-  const F = {
-    flipableCells: [],
-  };
-
-  for(a = rowNumber - 1, a == 0, a--){
-    if(tile != G.cells[a, columnNumber].color){
-      F.flipableCells.push({a, columnNumber});
-    }
-    else{
-      if (F.flipableCells[0] != null){
-        return F;
-      }
-    }
-  }
-
-  return F;
-}
-
-function flipDiagUpLeft(rowNumber, columnNumber, tile){
-  let tile = G.cells[rowNumber, columnNumber].color;
-  const F = {
-    flipableCells: [],
-  };
-
-  for(x = rowNumber - 1, x == 0, x--){
-    let y = columnNumber - 1;
-    if(tile != G.cells[x, y].color){
-      F.flipableCells.push({x, y});
-    }
-    else{
-      if (F.flipableCells[0] != null){
-        return F;
-      }
-    }
-    y -= 1;
-  }
-
-  return F;
-}
-
-function flipDiagUpRight(rowNumber, columnNumber, tile){
-  let tile = G.cells[rowNumber, columnNumber].color;
-  const F = {
-    flipableCells: [],
-  };
-
-  for(x = rowNumber - 1, x == 0, x--){
-    let y = columnNumber + 1;
-    if(tile != G.cells[x, y].color){
-      F.flipableCells.push({x, y});
-    }
-    else{
-      if (F.flipableCells[0] != null){
-        return F;
-      }
-    }
-    y += 1;
-  }
-}
-
-function flipDiagDownLeft(rowNumber, columnNumber, tile){
-  let tile = G.cells[rowNumber, columnNumber].color;
-  const F = {
-    flipableCells: [],
-  };
-
-  for(x = rowNumber + 1, x == 0, x++){
-    let y = columnNumber - 1;
-    if(tile != G.cells[x, y].color){
-      F.flipableCells.push({x, y});
-    }
-    else{
-      if (F.flipableCells[0] != null){
-        return F;
-      }
-    }
-    y -= 1;
-  }
-
-  return F;
-}
-
-function flipDiagDownRight(rowNumber, columnNumber, tile){
-  let tile = G.cells[rowNumber, columnNumber].color;
-  const F = {
-    flipableCells: [],
-  };
-
-  for(x = rowNumber + 1, x == 0, x++){
-    let y = columnNumber + 1;
-    if(tile != G.cells[x, y].color){
-      F.flipableCells.push({x, y});
-    }
-    else{
-      if (F.flipableCells[0] != null){
-        return F;
-      }
-    }
-    y += 1;
-  }
-
-  return F;
-}
-
-export function CheckMoves(rowNumber, columnNumber, currentPlayer) {
-  const M = {
-    moveAbleCells: [],
-  };
-
-  M.moveAbleCells.push({rowNumber, columnNumber});
-  
-  // Check vertical and horizontal sides
-  if(CheckTile(rowNumber - 1, columnNumber)) {
-    M.moveAbleCells.push({rowNumber - 1, columnNumber});
-  }
-  if(CheckTile(rowNumber + 1, columnNumber)) {
-    M.moveAbleCells.push({rowNumber + 1, columnNumber});
-  }
-  if(CheckTile(rowNumber, columnNumber - 1)) {
-    M.moveAbleCells.push({rowNumber, columnNumber - 1});
-  }
-  if(CheckTile(rowNumber, columnNumber + 1)) {
-    M.moveAbleCells.push({rowNumber, columnNumber + 1});
-  }
-
-  // Check diagonal sides
-  for(currentRow = rowNumber, currentColumn = columnNumber; CheckTile(currentRow, currentRow); currentRow -= 1, currentColumn -= 1) {
-    M.moveAbleCells.push({currentRow, currentColumn});
-    if(!CanDiagonal(rowNumber, columnNumber, currentPlayer)) {
-      break;
-    }
-  }
-  for(currentRow = rowNumber, currentColumn = columnNumber; CheckTile(currentRow, currentRow); currentRow -= 1, currentColumn += 1) {
-    M.moveAbleCells.push({currentRow, currentColumn});
-    if(!CanDiagonal(rowNumber, columnNumber, currentPlayer)) {
-      break;
-    }
-  }
-  for(currentRow = rowNumber, currentColumn = columnNumber; CheckTile(currentRow, currentRow); currentRow += 1, currentColumn -= 1) {
-    M.moveAbleCells.push({currentRow, currentColumn});
-    if(!CanDiagonal(rowNumber, columnNumber, currentPlayer)) {
-      break;
-    }
-  }
-  for(currentRow = rowNumber, currentColumn = columnNumber; CheckTile(currentRow, currentRow); currentRow += 1, currentColumn += 1) {
-    M.moveAbleCells.push({currentRow, currentColumn});
-    if(!CanDiagonal(rowNumber, columnNumber, currentPlayer)) {
-      break;
-    }
-  }
-
-  // Return the moveable coordinates
-  return M;
 }
 
 const Game = BGGame({
@@ -296,23 +108,27 @@ const Game = BGGame({
   
   moves: { 
     // G and ctx are provided automatically when calling from App– `this.props.moves.movePiece(id)`
-    addPiece: (G, ctx, rowNumber, columnNumber) => {
-      if(G.player[ctx.currentPlayer].pieces != 0) {
-        if(G.cells[rowNumber, columnNumber][1] === null) {
-          G.cells[rowNumber, columnNumber][1] = ctx.currentPlayer;
-          G.player[ctx.currentPlayer].pieces -= 1;
+    addPiece: (G, ctx, id) => {
+      if(G.players[ctx.currentPlayer].pieces != 0) {
+        if(G.cells[id].piece === null) {
+          G.cells[id].piece = ctx.currentPlayer;
+          G.players[ctx.currentPlayer].pieces -= 1;
         }
       }
     },
-    selectPiece: (G, ctx, rowNumber, columnNumber) => {
-      if(G.cells[rowNumber, columnNumber][1] === ctx.currentPlayer) {
-        CheckMoves(rowNumber, columnNumber, ctx.currentPlayer);
+    selectPiece: (G, ctx, id) => {
+      G.moveAbleCells = [];
+      if(G.cells[id].piece === ctx.currentPlayer) {
+        CheckMoves(id, ctx.currentPlayer, G);
+        console.log(G.moveAbleCells)
       }
     },
-    movePiece: (G, ctx, rowNumber, columnNumber) => {
-      if(M.moveAbleCells.includes({rowNumber. columnNumber})) {
-        G.cells[rowNumber, columnNumber][1] = ctx.currentPlayer;
-        M.moveAbleCells = [];
+    movePiece: (G, ctx, id) => {
+      if(M.moveAbleCells.includes(id)) {
+        G.cells[id].piece = ctx.currentPlayer;
+        G.moveAbleCells = [];
+        //flip function
+        //check winner
       }
     },
   },
@@ -320,17 +136,8 @@ const Game = BGGame({
   flow: {
     endGameIf: (G, ctx) => {
       // Put winning condition here, return player key.
-      // Temporarily win when opponent is out of pieces
-      const winner = Object.keys(G.players).reduce(
-        (previousPlayer, currentPlayer) =>
-          G.players[previousPlayer].pieces === 0
-            ? currentPlayer
-            : previousPlayer
-      );
-
-      return winner;
+      
     },
-    movesPerTurn: 1,
   },
 });
 

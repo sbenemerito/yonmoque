@@ -7,7 +7,7 @@ module.exports = {
   yellowLight: "#FFEA87",
   greenLight: "#CAE1C3",
   greenMedium: "#7A9572",
-  blue: "#1A44FF",
+  blue: "#1c6ba8",
   blueLight: "#C5E5F0",
   blueMedium: "#7698A4",
   blueDark: "#364F57",
@@ -15,4 +15,8 @@ module.exports = {
   grayLight: "#9F9FB7",
   grayMedium: "#5D5D6B",
   grayDark: "#17171b",
+  playerOneTile: "#76a6ca",
+  playerTwoTile: "#DAD1E4",
+  playerOneTileBorder: "#4988b9",
+  playerTwoTileBorder: "#aea7b6",
 };
