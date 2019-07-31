@@ -241,6 +241,15 @@ function flipableCells(id, currentPlayer, G) {
   G.canFlipCells.push(tempCells);
 }
 
+function flipCells(currentPlayer, G) {
+  for(i = 0; i < G.canFlipCells.length; i += 1) {
+    let currentArray = G.canFlipCells[i];
+    for(j = 0; j < currentArray.length; j += 1) {
+      G.cells[currentArray[j]].piece = currentPlayer;
+    }
+  }
+}
+
 const Game = BGGame({
   // The setup method is passed ctx
   setup: getInitialState,
@@ -269,6 +278,7 @@ const Game = BGGame({
         G.cells[G.selectedCell].piece = null;
         G.cells[id].piece = ctx.currentPlayer;
         flipableCells(id, ctx.currentPlayer, G);
+        flipCells(ctx.currentPlayer, G);
         G.moveAbleCells = [];
         G.selectedCell = null;
         //flip function
