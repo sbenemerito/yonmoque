@@ -12,6 +12,7 @@ export function getInitialState(ctx) {
     cells: [],
     players: {},
     moveAbleCells: [],
+    selectedCell: []
   };
 
   // Set up the game state for each player
@@ -110,6 +111,7 @@ const Game = BGGame({
     // G and ctx are provided automatically when calling from App– `this.props.moves.movePiece(id)`
     addPiece: (G, ctx, id) => {
       G.moveAbleCells = [];
+      G.selectedCell = [];
       if(G.players[ctx.currentPlayer].pieces != 0) {
         if(G.cells[id].piece === null) {
           G.cells[id].piece = ctx.currentPlayer;
@@ -119,12 +121,14 @@ const Game = BGGame({
     },
     selectPiece: (G, ctx, id) => {
       G.moveAbleCells = [];
+      G.selectedCell = id;
       if(G.cells[id].piece === ctx.currentPlayer) {
         CheckMoves(id, ctx.currentPlayer, G);
       }
     },
     movePiece: (G, ctx, id) => {
-      if(M.moveAbleCells.includes(id)) {
+      if(G.moveAbleCells.includes(id)) {
+        G.cells[G.selectedCell].piece = null;
         G.cells[id].piece = ctx.currentPlayer;
         G.moveAbleCells = [];
         //flip function
