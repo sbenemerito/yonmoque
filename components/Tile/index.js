@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, Text } from "react-native";
 import { vw } from 'react-native-expo-viewport-units';
 
 import {
@@ -15,8 +15,9 @@ import {
   white,
   yellowLight,
 } from "../constants/colors";
+import Piece from "../Piece";
 
-const Tile = ({ index, tileColor, isMovable, addPiece }) => {
+const Tile = ({ index, tileColor, isMovable, piece }) => {
   let styleList = [styles.baseTile];
   switch(tileColor) {
     case whiteValue:
@@ -33,9 +34,15 @@ const Tile = ({ index, tileColor, isMovable, addPiece }) => {
   if (isMovable) {
     styleList.push(styles.movableTile);
   }
-
+  
   return (
-    <View style={styleList} />
+    <View style={styleList}>
+      {
+      piece !== null 
+        ? <Piece pieceID={piece}/>
+        : null
+      }
+    </View>
   );
 };
 

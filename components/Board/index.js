@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, View, TouchableNativeFeedback } from "react-native";
+import { StyleSheet, View, TouchableNativeFeedback, Text } from "react-native";
 import { vw } from 'react-native-expo-viewport-units';
 
 import {
@@ -11,16 +11,33 @@ import {
 import Tile from "../Tile";
 
 class Board extends React.Component {
-  render() {
-    const { G } = this.props;
+  onClick(cell) {
+    if(cell.piece === null) {
+      this.addPiece(cell.id);
+    } else {
+      this.movePiece(cell.id);
+    }
+  }
 
+  addPiece(id) {
+    this.props.moves.addPiece(id);
+    this.props.events.endTurn();
+  }
+
+  movePiece(id) {
+    this.props.moves.selectPiece(id);
+  }
+
+  render() {
+    
+    const { G } = this.props;
     let cells = G.cells.map((cell) => {
       return (
         <TouchableNativeFeedback
           key={cell.id}
           id={`cell${cell.id}`}
           onPress={() => {
-            this.props.moves.addPiece(cell.id);
+            this.onClick(cell);
           }}
           underlayColor="white">
           <View style={styles.cell}>
@@ -28,7 +45,7 @@ class Board extends React.Component {
                 index={cell.id}
                 tileColor={cell.color}
                 isMovable={this.props.movableTiles.includes(cell.id)}
-                addPiece={this.props.moves.addPiece}
+                piece={cell.piece}
               />
           </View>
         </TouchableNativeFeedback>
@@ -45,6 +62,7 @@ const styles = StyleSheet.create({
     height: vw(boardHeight),
     backgroundColor: "#444",
     flexWrap: "wrap",
+    flexDirection: 'row',
     justifyContent: "center",
     alignContent: "center",
     marginTop: 'auto',
