@@ -108,7 +108,7 @@ function flipableCells(id, currentPlayer, G) {
   let tempCells = [];
 
   // flip left direction
-  for (i = id - 1; i % 5 == 0; i--) {
+  for (i = id - 1; i % 5 != 0; i--) {
     if (G.cells[i].piece === null) {
       tempCells = [];
       break;
@@ -125,7 +125,7 @@ function flipableCells(id, currentPlayer, G) {
   tempCells = [];
 
   // flip right direction
-  for (i = id + 1; (i + 1) % 5 == 0; i++) {
+  for (i = id + 1; (i + 1) % 5 != 0; i++) {
     if (G.cells[i].piece === null) {
       tempCells = [];
       break;
@@ -142,7 +142,7 @@ function flipableCells(id, currentPlayer, G) {
   tempCells = [];
 
   // flip up direction
-  for (i = id - 5; i >= 0; i-=5) {
+  for (i = id - 5; i < 0; i-=5) {
     if (G.cells[i].piece === null) {
       tempCells = [];
       break;
@@ -159,7 +159,7 @@ function flipableCells(id, currentPlayer, G) {
   tempCells = [];
 
   // flip down direction
-  for (i = id + 5; i <= 24; i += 5) {
+  for (i = id + 5; i > 24; i += 5) {
     if (G.cells[i].piece === null) {
       tempCells = [];
       break;
@@ -176,7 +176,7 @@ function flipableCells(id, currentPlayer, G) {
   tempCells = [];
 
   // flip diagonal left up
-  for (i = id - 6; i % 5 == 0; i -= 6) {
+  for (i = id - 6; i % 5 != 0; i -= 6) {
     if (G.cells[i].piece === null) {
       tempCells = [];
       break;
@@ -193,7 +193,7 @@ function flipableCells(id, currentPlayer, G) {
   tempCells = [];
 
   // flip diagonal right up
-  for (i = id - 4; (i + 1) % 5 == 0; i -= 4) {
+  for (i = id - 4; (i + 1) % 5 != 0; i -= 4) {
     if (G.cells[i].piece === null) {
       tempCells = [];
       break;
@@ -210,7 +210,7 @@ function flipableCells(id, currentPlayer, G) {
   tempCells = [];
 
   // flip diagonal left down
-  for (i = id + 4; i % 5 == 0; i += 4) {
+  for (i = id + 4; i % 5 != 0; i += 4) {
     if (G.cells[i].piece === null) {
       tempCells = [];
       break;
@@ -227,7 +227,7 @@ function flipableCells(id, currentPlayer, G) {
   tempCells = [];
 
   // flip diagonal right down
-  for (i = id + 6; (i + 1) % 5 == 0; i += 6) {
+  for (i = id + 6; (i + 1) % 5 != 0; i += 6) {
     if (G.cells[i].piece === null) {
       tempCells = [];
       break;
