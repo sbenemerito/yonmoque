@@ -22,8 +22,6 @@ export function getInitialState(ctx) {
   // Set the game board, we can insert board mutations here (custom boards)
   G.cells = [ ...initialCells ];
 
-  console.log("Initial Game State", G, "Initial ctx", ctx);
-
   // Our game state is ready to go– return it!
   return G;
 }
@@ -243,6 +241,15 @@ function flipableCells(id, currentPlayer, G) {
   G.canFlipCells.push(tempCells);
 }
 
+function flipCells(currentPlayer, G) {
+  for(i = 0; i < G.canFlipCells.length; i += 1) {
+    let currentArray = G.canFlipCells[i];
+    for(j = 0; j < currentArray.length; j += 1) {
+      G.cells[currentArray[j]].piece = currentPlayer;
+    }
+  }
+}
+
 const Game = BGGame({
   // The setup method is passed ctx
   setup: getInitialState,
@@ -251,7 +258,7 @@ const Game = BGGame({
     // G and ctx are provided automatically when calling from App– `this.props.moves.movePiece(id)`
     addPiece: (G, ctx, id) => {
       G.moveAbleCells = [];
-      G.selectedCell = [];
+      G.selectedCell = null;
       if(G.players[ctx.currentPlayer].pieces != 0) {
         if(G.cells[id].piece === null) {
           G.cells[id].piece = ctx.currentPlayer;
@@ -261,8 +268,8 @@ const Game = BGGame({
     },
     selectPiece: (G, ctx, id) => {
       G.moveAbleCells = [];
-      G.selectedCell = id;
       if(G.cells[id].piece === ctx.currentPlayer) {
+        G.selectedCell = id;
         CheckMoves(id, ctx.currentPlayer, G);
       }
     },
@@ -270,7 +277,10 @@ const Game = BGGame({
       if(G.moveAbleCells.includes(id)) {
         G.cells[G.selectedCell].piece = null;
         G.cells[id].piece = ctx.currentPlayer;
+        flipableCells(id, ctx.currentPlayer, G);
+        flipCells(ctx.currentPlayer, G);
         G.moveAbleCells = [];
+        G.selectedCell = null;
         //flip function
       }
     },
