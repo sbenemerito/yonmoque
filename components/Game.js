@@ -115,7 +115,8 @@ function flipableCells(id, currentPlayer, G) {
       else if (currentPlayer != G.cells[i].piece) {
         tempCells.push(i);
       }
-      else {
+      else if (tempCells.length != null) {
+        G.canFlipCells.push(tempCells);
         break;
       }
     } catch (err) {
@@ -123,7 +124,6 @@ function flipableCells(id, currentPlayer, G) {
     }
   }
 
-  G.canFlipCells.push(tempCells);
   tempCells = [];
 
   // flip right direction
@@ -136,7 +136,8 @@ function flipableCells(id, currentPlayer, G) {
       else if (currentPlayer != G.cells[i].piece) {
         tempCells.push(i);
       }
-      else {
+      else if (tempCells.length != null) {
+        G.canFlipCells.push(tempCells);
         break;
       }
     } catch (err) {
@@ -144,7 +145,6 @@ function flipableCells(id, currentPlayer, G) {
     }
   }
 
-  G.canFlipCells.push(tempCells);
   tempCells = [];
 
   // flip up direction
@@ -157,7 +157,8 @@ function flipableCells(id, currentPlayer, G) {
       else if (currentPlayer != G.cells[i].piece) {
         tempCells.push(i);
       }
-      else {
+      else if (tempCells.length != null) {
+        G.canFlipCells.push(tempCells);
         break;
       }
     } catch (err) {
@@ -165,7 +166,6 @@ function flipableCells(id, currentPlayer, G) {
     }
   }
 
-  G.canFlipCells.push(tempCells);
   tempCells = [];
 
   // flip down direction
@@ -178,7 +178,8 @@ function flipableCells(id, currentPlayer, G) {
       else if (currentPlayer != G.cells[i].piece) {
         tempCells.push(i);
       }
-      else {
+      else if (tempCells.length != null) {
+        G.canFlipCells.push(tempCells);
         break;
       }
     } catch (err) {
@@ -186,7 +187,6 @@ function flipableCells(id, currentPlayer, G) {
     }
   }
 
-  G.canFlipCells.push(tempCells);
   tempCells = [];
 
   // flip diagonal left up
@@ -199,7 +199,8 @@ function flipableCells(id, currentPlayer, G) {
       else if (currentPlayer != G.cells[i].piece) {
         tempCells.push(i);
       }
-      else {
+      else if (tempCells.length != null) {
+        G.canFlipCells.push(tempCells);
         break;
       }
     } catch (err) {
@@ -207,7 +208,6 @@ function flipableCells(id, currentPlayer, G) {
     }
   }
 
-  G.canFlipCells.push(tempCells);
   tempCells = [];
 
   // flip diagonal right up
@@ -220,7 +220,8 @@ function flipableCells(id, currentPlayer, G) {
       else if (currentPlayer != G.cells[i].piece) {
         tempCells.push(i);
       }
-      else {
+      else if (tempCells.length != null) {
+        G.canFlipCells.push(tempCells);
         break;
       }
     } catch (err) {
@@ -228,7 +229,6 @@ function flipableCells(id, currentPlayer, G) {
     }
   }
 
-  G.canFlipCells.push(tempCells);
   tempCells = [];
 
   // flip diagonal left down
@@ -241,7 +241,8 @@ function flipableCells(id, currentPlayer, G) {
       else if (currentPlayer != G.cells[i].piece) {
         tempCells.push(i);
       }
-      else {
+      else if (tempCells.length != null) {
+        G.canFlipCells.push(tempCells);
         break;
       }
     } catch (err) {
@@ -249,7 +250,6 @@ function flipableCells(id, currentPlayer, G) {
     }
   }
 
-  G.canFlipCells.push(tempCells);
   tempCells = [];
 
   // flip diagonal right down
@@ -262,7 +262,8 @@ function flipableCells(id, currentPlayer, G) {
       else if (currentPlayer != G.cells[i].piece) {
         tempCells.push(i);
       }
-      else {
+      else if (tempCells.length != null) {
+        G.canFlipCells.push(tempCells);
         break;
       }
     } catch (err) {
@@ -270,7 +271,7 @@ function flipableCells(id, currentPlayer, G) {
     }
   }
 
-  G.canFlipCells.push(tempCells);
+  tempCells = [];
 }
 
 function flipCells(currentPlayer, G) {
@@ -312,6 +313,7 @@ const Game = BGGame({
         flipableCells(id, ctx.currentPlayer, G);
         flipCells(ctx.currentPlayer, G);
         console.log(G.canFlipCells);
+        G.canFlipCells = [];
         G.moveAbleCells = [];
         G.selectedCell = null;
         //flip function
