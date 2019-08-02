@@ -73,13 +73,13 @@ function CheckMoves(id, currentPlayer, G) {
   if(id % 5 !== 0) {
     for(currentID = id - 6; CheckTile(currentID, G); currentID -= 6) {
       G.moveAbleCells.push(currentID);
-      if(!CanDiagonal(id, currentPlayer, G) || currentID % 5 === 0) {
+      if(!CanDiagonal(id, currentPlayer, G) || currentID % 5 === 0 || G.cells[currentID].color === neutralValue) {
         break;
       }
     }
     for(currentID = id + 4; CheckTile(currentID, G); currentID += 4) {
       G.moveAbleCells.push(currentID);
-      if(!CanDiagonal(id, currentPlayer, G) || currentID % 5 === 0) {
+      if(!CanDiagonal(id, currentPlayer, G) || currentID % 5 === 0 || G.cells[currentID].color === neutralValue) {
         break;
       }
     }
@@ -89,13 +89,13 @@ function CheckMoves(id, currentPlayer, G) {
   if((id + 1) % 5 !== 0) {
     for(currentID = id - 4; CheckTile(currentID, G); currentID -= 4) {
       G.moveAbleCells.push(currentID);
-      if(!CanDiagonal(id, currentPlayer, G) || (currentID + 1) % 5 === 0) {
+      if(!CanDiagonal(id, currentPlayer, G) || (currentID + 1) % 5 === 0 || G.cells[currentID].color === neutralValue) {
         break;
       }
     }
     for(currentID = id + 6; CheckTile(currentID, G); currentID += 6) {
       G.moveAbleCells.push(currentID);
-      if(!CanDiagonal(id, currentPlayer, G) || (currentID + 1) % 5 === 0) {
+      if(!CanDiagonal(id, currentPlayer, G) || (currentID + 1) % 5 === 0 || G.cells[currentID].color === neutralValue) {
         break;
       }
     }
@@ -279,6 +279,7 @@ const Game = BGGame({
         G.cells[id].piece = ctx.currentPlayer;
         flipableCells(id, ctx.currentPlayer, G);
         flipCells(ctx.currentPlayer, G);
+
         G.moveAbleCells = [];
         G.selectedCell = null;
         //flip function
