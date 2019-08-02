@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, View, TouchableNativeFeedback, Text } from "react-native";
+import { StyleSheet, View, TouchableHighlight, Text } from "react-native";
 import { vw } from 'react-native-expo-viewport-units';
 
 import {
@@ -41,7 +41,7 @@ class Board extends React.Component {
     const { G } = this.props;
     let cells = G.cells.map((cell) => {
       return (
-        <TouchableNativeFeedback
+        <TouchableHighlight
           key={cell.id}
           id={`cell${cell.id}`}
           onPress={() => {
@@ -56,7 +56,7 @@ class Board extends React.Component {
                 piece={cell.piece}
               />
           </View>
-        </TouchableNativeFeedback>
+        </TouchableHighlight>
       );
     });
 

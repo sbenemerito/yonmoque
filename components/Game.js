@@ -311,7 +311,7 @@ const Game = BGGame({
         G.cells[id].piece = ctx.currentPlayer;
         flipableCells(id, ctx.currentPlayer, G);
         flipCells(ctx.currentPlayer, G);
-
+        console.log(G.canFlipCells);
         G.moveAbleCells = [];
         G.selectedCell = null;
         //flip function
