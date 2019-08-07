@@ -20,7 +20,7 @@ class Board extends React.Component {
         this.movePiece(cell.id, moveAbles);
       }
     } else {
-      this.selectPiece(cell.id, selectedCell);
+      this.selectPiece(cell, selectedCell);
     }
   }
 
@@ -32,10 +32,10 @@ class Board extends React.Component {
     }
   }
 
-  selectPiece(id, selectedCell) {
+  selectPiece(cell, selectedCell) {
     this.props.moves.resetVars();
-    if(id !== selectedCell) {
-      this.props.moves.selectPiece(id);
+    if(cell.id !== selectedCell && cell.piece === this.props.ctx.currentPlayer) {
+      this.props.moves.selectPiece(cell.id);
     }
   }
 
