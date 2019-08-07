@@ -107,7 +107,7 @@ function flippableCells(id, currentPlayer, G) {
   let tempCells = [];
 
   // flip left direction
-  for (i = id - 1; i % 5 != 0; i--) {
+  for (i = id - 1; true; i--) {
     try {
       if (G.cells[i].piece === null) {
         tempCells = [];
@@ -116,11 +116,14 @@ function flippableCells(id, currentPlayer, G) {
       else if (currentPlayer != G.cells[i].piece) {
         tempCells.push(i);
       }
-      else if (tempCells.length != null) {
+      else if (tempCells.length > 0) {
         G.canFlipCells.push(tempCells);
         break;
       }
     } catch (err) {
+      break;
+    }
+    if (i % 5 == 0) {
       break;
     }
   }
@@ -128,7 +131,7 @@ function flippableCells(id, currentPlayer, G) {
   tempCells = [];
 
   // flip right direction
-  for (i = id + 1; (i + 1) % 5 != 0; i++) {
+  for (i = id + 1; true; i++) {
     try {
       if (G.cells[i].piece === null) {
         tempCells = [];
@@ -137,11 +140,14 @@ function flippableCells(id, currentPlayer, G) {
       else if (currentPlayer != G.cells[i].piece) {
         tempCells.push(i);
       }
-      else if (tempCells.length != null) {
+      else if (tempCells.length > 0) {
         G.canFlipCells.push(tempCells);
         break;
       }
     } catch (err) {
+      break;
+    }
+    if ((i + 1) % 5 == 0) {
       break;
     }
   }
@@ -158,7 +164,7 @@ function flippableCells(id, currentPlayer, G) {
       else if (currentPlayer != G.cells[i].piece) {
         tempCells.push(i);
       }
-      else if (tempCells.length != null) {
+      else if (tempCells.length > 0) {
         G.canFlipCells.push(tempCells);
         break;
       }
@@ -179,7 +185,7 @@ function flippableCells(id, currentPlayer, G) {
       else if (currentPlayer != G.cells[i].piece) {
         tempCells.push(i);
       }
-      else if (tempCells.length != null) {
+      else if (tempCells.length > 0) {
         G.canFlipCells.push(tempCells);
         break;
       }
@@ -191,7 +197,7 @@ function flippableCells(id, currentPlayer, G) {
   tempCells = [];
 
   // flip diagonal left up
-  for (i = id - 6; i % 5 != 0; i -= 6) {
+  for (i = id - 6; true; i -= 6) {
     try {
       if (G.cells[i].piece === null) {
         tempCells = [];
@@ -200,11 +206,14 @@ function flippableCells(id, currentPlayer, G) {
       else if (currentPlayer != G.cells[i].piece) {
         tempCells.push(i);
       }
-      else if (tempCells.length != null) {
+      else if (tempCells.length > 0) {
         G.canFlipCells.push(tempCells);
         break;
       }
     } catch (err) {
+      break;
+    }
+    if (i % 5 == 0) {
       break;
     }
   }
@@ -212,7 +221,7 @@ function flippableCells(id, currentPlayer, G) {
   tempCells = [];
 
   // flip diagonal right up
-  for (i = id - 4; (i + 1) % 5 != 0; i -= 4) {
+  for (i = id - 4; true; i -= 4) {
     try {
       if (G.cells[i].piece === null) {
         tempCells = [];
@@ -221,11 +230,14 @@ function flippableCells(id, currentPlayer, G) {
       else if (currentPlayer != G.cells[i].piece) {
         tempCells.push(i);
       }
-      else if (tempCells.length != null) {
+      else if (tempCells.length > 0) {
         G.canFlipCells.push(tempCells);
         break;
       }
     } catch (err) {
+      break;
+    }
+    if ((i + 1) % 5 == 0) {
       break;
     }
   }
@@ -233,7 +245,7 @@ function flippableCells(id, currentPlayer, G) {
   tempCells = [];
 
   // flip diagonal left down
-  for (i = id + 4; i % 5 != 0; i += 4) {
+  for (i = id + 4; true; i += 4) {
     try {
       if (G.cells[i].piece === null) {
         tempCells = [];
@@ -242,11 +254,14 @@ function flippableCells(id, currentPlayer, G) {
       else if (currentPlayer != G.cells[i].piece) {
         tempCells.push(i);
       }
-      else if (tempCells.length != null) {
+      else if (tempCells.length > 0) {
         G.canFlipCells.push(tempCells);
         break;
       }
     } catch (err) {
+      break;
+    }
+    if (i % 5 == 0) {
       break;
     }
   }
@@ -254,7 +269,7 @@ function flippableCells(id, currentPlayer, G) {
   tempCells = [];
 
   // flip diagonal right down
-  for (i = id + 6; (i + 1) % 5 != 0; i += 6) {
+  for (i = id + 6; true; i += 6) {
     try {
       if (G.cells[i].piece === null) {
         tempCells = [];
@@ -263,11 +278,14 @@ function flippableCells(id, currentPlayer, G) {
       else if (currentPlayer != G.cells[i].piece) {
         tempCells.push(i);
       }
-      else if (tempCells.length != null) {
+      else if (tempCells.length > 0) {
         G.canFlipCells.push(tempCells);
         break;
       }
     } catch (err) {
+      break;
+    }
+    if ((i + 1) % 5 == 0) {
       break;
     }
   }
@@ -305,6 +323,7 @@ const Game = BGGame({
       flipCells(ctx.currentPlayer, G);
     },
     resetVars: (G) => {
+      G.canFlipCells = [];
       G.moveAbleCells = [];
       G.selectedCell = null;
     }
