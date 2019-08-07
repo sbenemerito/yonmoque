@@ -7,6 +7,7 @@ import {
   neutralValue,
 } from "./constants/board";
 
+
 export function getInitialState(ctx) {
   const G = {
     cells: [],
@@ -73,13 +74,13 @@ function CheckMoves(id, currentPlayer, G) {
   if (id % 5 !== 0) {
     for (currentID = id - 6; CheckTile(currentID, G); currentID -= 6) {
       G.moveAbleCells.push(currentID);
-      if (!CanDiagonal(id, currentPlayer, G) || currentID % 5 === 0 || G.cells[currentID].color === neutralValue) {
+      if(!CanDiagonal(id, currentPlayer, G) || currentID % 5 === 0 || G.cells[currentID].color === neutralValue) {
         break;
       }
     }
     for (currentID = id + 4; CheckTile(currentID, G); currentID += 4) {
       G.moveAbleCells.push(currentID);
-      if (!CanDiagonal(id, currentPlayer, G) || currentID % 5 === 0 || G.cells[currentID].color === neutralValue) {
+      if(!CanDiagonal(id, currentPlayer, G) || currentID % 5 === 0 || G.cells[currentID].color === neutralValue) {
         break;
       }
     }
@@ -89,13 +90,13 @@ function CheckMoves(id, currentPlayer, G) {
   if ((id + 1) % 5 !== 0) {
     for (currentID = id - 4; CheckTile(currentID, G); currentID -= 4) {
       G.moveAbleCells.push(currentID);
-      if (!CanDiagonal(id, currentPlayer, G) || (currentID + 1) % 5 === 0 || G.cells[currentID].color === neutralValue) {
+      if(!CanDiagonal(id, currentPlayer, G) || (currentID + 1) % 5 === 0 || G.cells[currentID].color === neutralValue) {
         break;
       }
     }
     for (currentID = id + 6; CheckTile(currentID, G); currentID += 6) {
       G.moveAbleCells.push(currentID);
-      if (!CanDiagonal(id, currentPlayer, G) || (currentID + 1) % 5 === 0 || G.cells[currentID].color === neutralValue) {
+      if(!CanDiagonal(id, currentPlayer, G) || (currentID + 1) % 5 === 0 || G.cells[currentID].color === neutralValue) {
         break;
       }
     }
@@ -316,27 +317,25 @@ const Game = BGGame({
           G.players[ctx.currentPlayer].pieces -= 1;
         }
       }
+      G.cells[id].piece = ctx.currentPlayer;
+      G.players[ctx.currentPlayer].pieces -= 1;
     },
     selectPiece: (G, ctx, id) => {
-      G.moveAbleCells = [];
-      if (G.cells[id].piece === ctx.currentPlayer) {
+      if(G.cells[id].piece === ctx.currentPlayer) {
         G.selectedCell = id;
         CheckMoves(id, ctx.currentPlayer, G);
       }
     },
     movePiece: (G, ctx, id) => {
-      if (G.moveAbleCells.includes(id)) {
-        G.cells[G.selectedCell].piece = null;
-        G.cells[id].piece = ctx.currentPlayer;
-        flippableCells(id, ctx.currentPlayer, G);
-        flipCells(ctx.currentPlayer, G);
-        console.log(G.canFlipCells);
-        G.canFlipCells = [];
-        G.moveAbleCells = [];
-        G.selectedCell = null;
-        //flip function
-      }
+      G.cells[G.selectedCell].piece = null;
+      G.cells[id].piece = ctx.currentPlayer;
+      flippableCells(id, ctx.currentPlayer, G);
+      flipCells(ctx.currentPlayer, G);
     },
+    resetVars: (G) => {
+      G.moveAbleCells = [];
+      G.selectedCell = null;
+    }
   },
 
   flow: {

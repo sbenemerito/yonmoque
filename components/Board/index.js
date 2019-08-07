@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, View, TouchableNativeFeedback, Text } from "react-native";
+import { StyleSheet, View, TouchableHighlight, Text } from "react-native";
 import { vw } from 'react-native-expo-viewport-units';
 
 import {
@@ -10,42 +10,52 @@ import {
 } from "../constants/board";
 import Tile from "../Tile";
 
+
 class Board extends React.Component {
-  onClick(cell, moveAbles) {
+  onClick(cell, moveAbles, numPieces, selectedCell) {
     if(cell.piece === null) {
       if(moveAbles.length === 0 ) {
-        this.addPiece(cell.id);
+        this.addPiece(cell.id, numPieces);
       } else {
-        this.movePiece(cell.id);
+        this.movePiece(cell.id, moveAbles);
       }
     } else {
-      this.selectPiece(cell.id);
+      this.selectPiece(cell.id, selectedCell);
     }
   }
 
-  addPiece(id) {
-    this.props.moves.addPiece(id);
-    this.props.events.endTurn();
+  addPiece(id, numPieces) {
+    if(numPieces !== 0) {
+      this.props.moves.resetVars();
+      this.props.moves.addPiece(id);
+      this.props.events.endTurn();
+    }
   }
 
-  selectPiece(id) {
-    this.props.moves.selectPiece(id);
+  selectPiece(id, selectedCell) {
+    this.props.moves.resetVars();
+    if(id !== selectedCell) {
+      this.props.moves.selectPiece(id);
+    }
   }
 
-  movePiece(id) {
-    this.props.moves.movePiece(id);
-    this.props.events.endTurn();
+  movePiece(id, moveAbles) {
+    if(moveAbles.includes(id)) {
+      this.props.moves.movePiece(id);
+      this.props.events.endTurn();
+    }
+    this.props.moves.resetVars();
   }
 
   render() {
     const { G } = this.props;
     let cells = G.cells.map((cell) => {
       return (
-        <TouchableNativeFeedback
+        <TouchableHighlight
           key={cell.id}
           id={`cell${cell.id}`}
           onPress={() => {
-            this.onClick(cell, G.moveAbleCells);
+            this.onClick(cell, G.moveAbleCells, G.players[this.props.ctx.currentPlayer].pieces, G.selectedCell);
           }}
           underlayColor="white">
           <View style={styles.cell}>
@@ -56,7 +66,7 @@ class Board extends React.Component {
                 piece={cell.piece}
               />
           </View>
-        </TouchableNativeFeedback>
+        </TouchableHighlight>
       );
     });
 
