@@ -295,10 +295,8 @@ const Game = BGGame({
       G.players[ctx.currentPlayer].pieces -= 1;
     },
     selectPiece: (G, ctx, id) => {
-      if(G.cells[id].piece === ctx.currentPlayer) {
-        G.selectedCell = id;
-        CheckMoves(id, ctx.currentPlayer, G);
-      }
+      G.selectedCell = id;
+      CheckMoves(id, ctx.currentPlayer, G);
     },
     movePiece: (G, ctx, id) => {
       G.cells[G.selectedCell].piece = null;
