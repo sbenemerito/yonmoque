@@ -193,7 +193,7 @@ function flippableCells(id, currentPlayer, G) {
   tempCells = [];
 
   // flip diagonal left up
-  for (i = id - 6; ; i -= 6) {
+  for (i = id - 6; true; i -= 6) {
     try {
       if (G.cells[i].piece === null) {
         break;
@@ -323,6 +323,7 @@ const Game = BGGame({
       flipCells(ctx.currentPlayer, G);
     },
     resetVars: (G) => {
+      G.canFlipCells = [];
       G.moveAbleCells = [];
       G.selectedCell = null;
     }
