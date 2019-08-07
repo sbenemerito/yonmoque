@@ -107,138 +107,171 @@ function flipableCells(id, currentPlayer, G) {
 
   // flip left direction
   for (i = id - 1; i % 5 != 0; i--) {
-    if (G.cells[i].piece === null) {
-      tempCells = [];
-      break;
-    }
-    else if (currentPlayer != G.cells[i].piece) {
-      tempCells.push(i);
-    }
-    else {
+    try {
+      if (G.cells[i].piece === null) {
+        tempCells = [];
+        break;
+      }
+      else if (currentPlayer != G.cells[i].piece) {
+        tempCells.push(i);
+      }
+      else if (tempCells.length != null) {
+        G.canFlipCells.push(tempCells);
+        break;
+      }
+    } catch (err) {
       break;
     }
   }
 
-  G.canFlipCells.push(tempCells);
   tempCells = [];
 
   // flip right direction
   for (i = id + 1; (i + 1) % 5 != 0; i++) {
-    if (G.cells[i].piece === null) {
-      tempCells = [];
-      break;
-    }
-    else if (currentPlayer != G.cells[i].piece) {
-      tempCells.push(i);
-    }
-    else {
+    try {
+      if (G.cells[i].piece === null) {
+        tempCells = [];
+        break;
+      }
+      else if (currentPlayer != G.cells[i].piece) {
+        tempCells.push(i);
+      }
+      else if (tempCells.length != null) {
+        G.canFlipCells.push(tempCells);
+        break;
+      }
+    } catch (err) {
       break;
     }
   }
 
-  G.canFlipCells.push(tempCells);
   tempCells = [];
 
   // flip up direction
   for (i = id - 5; i >= 0; i-=5) {
-    if (G.cells[i].piece === null) {
-      tempCells = [];
-      break;
-    }
-    else if (currentPlayer != G.cells[i].piece) {
-      tempCells.push(i);
-    }
-    else {
+    try {
+      if (G.cells[i].piece === null) {
+        tempCells = [];
+        break;
+      }
+      else if (currentPlayer != G.cells[i].piece) {
+        tempCells.push(i);
+      }
+      else if (tempCells.length != null) {
+        G.canFlipCells.push(tempCells);
+        break;
+      }
+    } catch (err) {
       break;
     }
   }
 
-  G.canFlipCells.push(tempCells);
   tempCells = [];
 
   // flip down direction
   for (i = id + 5; i <= 24; i += 5) {
-    if (G.cells[i].piece === null) {
-      tempCells = [];
-      break;
-    }
-    else if (currentPlayer != G.cells[i].piece) {
-      tempCells.push(i);
-    }
-    else {
+    try {
+      if (G.cells[i].piece === null) {
+        tempCells = [];
+        break;
+      }
+      else if (currentPlayer != G.cells[i].piece) {
+        tempCells.push(i);
+      }
+      else if (tempCells.length != null) {
+        G.canFlipCells.push(tempCells);
+        break;
+      }
+    } catch (err) {
       break;
     }
   }
 
-  G.canFlipCells.push(tempCells);
   tempCells = [];
 
   // flip diagonal left up
   for (i = id - 6; i % 5 != 0; i -= 6) {
-    if (G.cells[i].piece === null) {
-      tempCells = [];
-      break;
-    }
-    else if (currentPlayer != G.cells[i].piece) {
-      tempCells.push(i);
-    }
-    else {
+    try {
+      if (G.cells[i].piece === null) {
+        tempCells = [];
+        break;
+      }
+      else if (currentPlayer != G.cells[i].piece) {
+        tempCells.push(i);
+      }
+      else if (tempCells.length != null) {
+        G.canFlipCells.push(tempCells);
+        break;
+      }
+    } catch (err) {
       break;
     }
   }
 
-  G.canFlipCells.push(tempCells);
   tempCells = [];
 
   // flip diagonal right up
   for (i = id - 4; (i + 1) % 5 != 0; i -= 4) {
-    if (G.cells[i].piece === null) {
-      tempCells = [];
-      break;
-    }
-    else if (currentPlayer != G.cells[i].piece) {
-      tempCells.push(i);
-    }
-    else {
+    try {
+      if (G.cells[i].piece === null) {
+        tempCells = [];
+        break;
+      }
+      else if (currentPlayer != G.cells[i].piece) {
+        tempCells.push(i);
+      }
+      else if (tempCells.length != null) {
+        G.canFlipCells.push(tempCells);
+        break;
+      }
+    } catch (err) {
       break;
     }
   }
 
-  G.canFlipCells.push(tempCells);
   tempCells = [];
 
   // flip diagonal left down
   for (i = id + 4; i % 5 != 0; i += 4) {
-    if (G.cells[i].piece === null) {
-      tempCells = [];
-      break;
-    }
-    else if (currentPlayer != G.cells[i].piece) {
-      tempCells.push(i);
-    }
-    else {
+    try {
+      if (G.cells[i].piece === null) {
+        tempCells = [];
+        break;
+      }
+      else if (currentPlayer != G.cells[i].piece) {
+        tempCells.push(i);
+      }
+      else if (tempCells.length != null) {
+        G.canFlipCells.push(tempCells);
+        break;
+      }
+    } catch (err) {
       break;
     }
   }
 
-  G.canFlipCells.push(tempCells);
   tempCells = [];
 
   // flip diagonal right down
   for (i = id + 6; (i + 1) % 5 != 0; i += 6) {
-    if (G.cells[i].piece === null) {
-      tempCells = [];
-      break;
-    }
-    else if (currentPlayer != G.cells[i].piece) {
-      tempCells.push(i);
-    }
-    else {
+    try {
+      if (G.cells[i].piece === null) {
+        tempCells = [];
+        break;
+      }
+      else if (currentPlayer != G.cells[i].piece) {
+        tempCells.push(i);
+      }
+      else if (tempCells.length != null) {
+        G.canFlipCells.push(tempCells);
+        break;
+      }
+    } catch (err) {
       break;
     }
   }
 
-  G.canFlipCells.push(tempCells);
+  tempCells = [];
 }
 
 function flipCells(currentPlayer, G) {
