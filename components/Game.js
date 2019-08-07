@@ -102,7 +102,7 @@ function CheckMoves(id, currentPlayer, G) {
   }
 }
 
-function flipableCells(id, currentPlayer, G) {
+function flippableCells(id, currentPlayer, G) {
   let tempCells = [];
 
   // flip left direction
@@ -310,7 +310,7 @@ const Game = BGGame({
       if(G.moveAbleCells.includes(id)) {
         G.cells[G.selectedCell].piece = null;
         G.cells[id].piece = ctx.currentPlayer;
-        flipableCells(id, ctx.currentPlayer, G);
+        flippableCells(id, ctx.currentPlayer, G);
         flipCells(ctx.currentPlayer, G);
         console.log(G.canFlipCells);
         G.canFlipCells = [];
