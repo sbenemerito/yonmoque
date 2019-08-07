@@ -7,6 +7,7 @@ import {
   neutralValue,
 } from "./constants/board";
 
+
 export function getInitialState(ctx) {
   const G = {
     cells: [],
@@ -102,7 +103,7 @@ function CheckMoves(id, currentPlayer, G) {
   }
 }
 
-function flipableCells(id, currentPlayer, G) {
+function flippableCells(id, currentPlayer, G) {
   let tempCells = [];
 
   // flip left direction
@@ -290,17 +291,11 @@ const Game = BGGame({
   moves: { 
     // G and ctx are provided automatically when calling from App– `this.props.moves.movePiece(id)`
     addPiece: (G, ctx, id) => {
-      if(G.players[ctx.currentPlayer].pieces != 0) {
-        if(G.cells[id].piece === null) {
-          G.cells[id].piece = ctx.currentPlayer;
-          G.players[ctx.currentPlayer].pieces -= 1;
-        }
-      }
+      G.cells[id].piece = ctx.currentPlayer;
+      G.players[ctx.currentPlayer].pieces -= 1;
     },
     selectPiece: (G, ctx, id) => {
-      if(G.selectedCell === id) {
-        G.selectedCell = null;
-      } else if(G.cells[id].piece === ctx.currentPlayer) {
+      if(G.cells[id].piece === ctx.currentPlayer) {
         G.selectedCell = id;
         CheckMoves(id, ctx.currentPlayer, G);
       }
@@ -308,7 +303,7 @@ const Game = BGGame({
     movePiece: (G, ctx, id) => {
       G.cells[G.selectedCell].piece = null;
       G.cells[id].piece = ctx.currentPlayer;
-      flipableCells(id, ctx.currentPlayer, G);
+      flippableCells(id, ctx.currentPlayer, G);
       flipCells(ctx.currentPlayer, G);
     },
     resetVars: (G) => {
