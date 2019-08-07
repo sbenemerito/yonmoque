@@ -11,30 +11,41 @@ import {
 import Tile from "../Tile";
 
 class Board extends React.Component {
-  onClick(cell, moveAbles, selected) {
+  onClick(cell, moveAbles) {
     if(cell.piece === null) {
       if(moveAbles.length === 0 ) {
-        this.addPiece(cell.id, selected);
+        this.addPiece(cell.id, moveAbles);
       } else {
-        this.movePiece(cell.id);
+        this.movePiece(cell.id, moveAbles);
       }
     } else {
       this.selectPiece(cell.id);
     }
   }
 
-  addPiece(id, selected) {
-    this.props.moves.addPiece(id);
-    this.props.events.endTurn();
+  addPiece(id, moveAbles) {
+    if(moveAbles.length === 0) {
+      this.props.moves.resetVars();
+      this.props.moves.addPiece(id);
+      this.props.events.endTurn();
+    } else {
+      this.props.moves.resetVars();
+    }
   }
 
   selectPiece(id) {
+    this.props.moves.resetVars();
     this.props.moves.selectPiece(id);
   }
 
-  movePiece(id) {
-    this.props.moves.movePiece(id);
-    this.props.events.endTurn();
+  movePiece(id, moveAbles) {
+    if(moveAbles.includes(id)) {
+      this.props.moves.movePiece(id);
+      this.props.moves.resetVars();
+      this.props.events.endTurn();
+    } else {
+      this.props.moves.resetVars();
+    }
   }
 
   render() {
@@ -45,7 +56,7 @@ class Board extends React.Component {
           key={cell.id}
           id={`cell${cell.id}`}
           onPress={() => {
-            this.onClick(cell, G.moveAbleCells, G.selectedCell);
+            this.onClick(cell, G.moveAbleCells);
           }}
           underlayColor="white">
           <View style={styles.cell}>

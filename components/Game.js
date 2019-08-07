@@ -257,8 +257,6 @@ const Game = BGGame({
   moves: { 
     // G and ctx are provided automatically when calling from App– `this.props.moves.movePiece(id)`
     addPiece: (G, ctx, id) => {
-      G.moveAbleCells = [];
-      G.selectedCell = null;
       if(G.players[ctx.currentPlayer].pieces != 0) {
         if(G.cells[id].piece === null) {
           G.cells[id].piece = ctx.currentPlayer;
@@ -267,24 +265,23 @@ const Game = BGGame({
       }
     },
     selectPiece: (G, ctx, id) => {
-      G.moveAbleCells = [];
-      if(G.cells[id].piece === ctx.currentPlayer) {
+      if(G.selectedCell === id) {
+        G.selectedCell = null;
+      } else if(G.cells[id].piece === ctx.currentPlayer) {
         G.selectedCell = id;
         CheckMoves(id, ctx.currentPlayer, G);
       }
     },
     movePiece: (G, ctx, id) => {
-      if(G.moveAbleCells.includes(id)) {
-        G.cells[G.selectedCell].piece = null;
-        G.cells[id].piece = ctx.currentPlayer;
-        flipableCells(id, ctx.currentPlayer, G);
-        flipCells(ctx.currentPlayer, G);
-
-        G.moveAbleCells = [];
-        G.selectedCell = null;
-        //flip function
-      }
+      G.cells[G.selectedCell].piece = null;
+      G.cells[id].piece = ctx.currentPlayer;
+      flipableCells(id, ctx.currentPlayer, G);
+      flipCells(ctx.currentPlayer, G);
     },
+    resetVars: (G) => {
+      G.moveAbleCells = [];
+      G.selectedCell = null;
+    }
   },
 
   flow: {
