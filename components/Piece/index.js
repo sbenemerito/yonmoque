@@ -7,8 +7,6 @@ import {
   tileWidth,
 } from "../constants/board";
 import {
-  white,
-  black,
   playerOneTile,
   playerTwoTile,
   playerOneTileBorder,

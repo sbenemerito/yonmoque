@@ -1,6 +1,6 @@
-import React from "react";
-import { StyleSheet, View, TouchableHighlight, Text } from "react-native";
-import { vw } from 'react-native-expo-viewport-units';
+import React, { Fragment } from "react";
+import { ImageBackground, StyleSheet, View, TouchableHighlight, Button } from "react-native";
+import { vw, vh } from 'react-native-expo-viewport-units';
 
 import {
   boardHeight,
@@ -8,8 +8,12 @@ import {
   tileHeight,
   tileWidth,
 } from "../constants/board";
+import {
+  grayDark
+} from "../constants/colors";
 import Tile from "../Tile";
-
+import PlayerOne from "./PlayerOne";
+import PlayerTwo from "./PlayerTwo";
 
 class Board extends React.Component {
   onClick(cell, moveAbles, numPieces, selectedCell) {
@@ -48,7 +52,9 @@ class Board extends React.Component {
   }
 
   render() {
+    const { backToMainMenu } = this.props;
     const { G } = this.props;
+
     let cells = G.cells.map((cell) => {
       return (
         <TouchableHighlight
@@ -70,23 +76,63 @@ class Board extends React.Component {
       );
     });
 
-    return <View style={styles.root}>{cells}</View>;
+    return (
+      <View style={styles.background}>
+        <ImageBackground 
+          style={styles.background}>
+          <Fragment>
+            <Button
+              title="Start Game"
+              accessibilityLabel="Start the game"
+              onPress={backToMainMenu}
+            />
+          </Fragment>
+          <Fragment>
+            <PlayerOne
+              pieces={G.players[0].pieces}
+              name={this.props.playerConfig[0].name}
+              current={this.props.ctx.currentPlayer}>
+            </PlayerOne>
+          </Fragment>
+          <Fragment>
+            <ImageBackground 
+              source={require("../../assets/backgrounds/board.jpg")}
+              style={styles.boardBackground}>
+              <View style={styles.board}>{cells}</View>
+            </ImageBackground>
+          </Fragment>
+          <Fragment>
+            <PlayerTwo
+              pieces={G.players[1].pieces}
+              name={this.props.playerConfig[1].name}
+              current={this.props.ctx.currentPlayer}>
+            </PlayerTwo>
+          </Fragment>
+        </ImageBackground>
+      </View>
+    );
   }
 };
 
 const styles = StyleSheet.create({
-  root: {
+  background: {
+    ...StyleSheet.absoluteFillObject,
+    flexDirection: 'column',
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: grayDark,
+  },
+  boardBackground: {
+    marginRight: 'auto',
+    marginLeft: 'auto',
+  },
+  board: {
     width: vw(boardWidth),
     height: vw(boardHeight),
-    backgroundColor: "#444",
     flexWrap: "wrap",
     flexDirection: 'row',
     justifyContent: "center",
     alignContent: "center",
-    marginTop: 'auto',
-    marginRight: 'auto',
-    marginBottom: 'auto',
-    marginLeft: 'auto',
   },
   cell: {
     width: vw(tileWidth),

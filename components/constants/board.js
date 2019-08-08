@@ -21,9 +21,10 @@ const initialCells = Array(rows * columns).fill(0).map((_, index) => {
 const center = Math.floor(boardSize / 2);
 const tileWidth = 16;
 const tileHeight = 16;
-const boardWidth = (tileWidth * columns) + 5;
-const boardHeight = (tileHeight * rows) + 5;
+const boardWidth = (16 * columns) + 6;
+const boardHeight = (16 * rows) + 6;
 const initialPieces = 6;
+const playerTile = 16;
 
 module.exports = {
   blueTiles,
@@ -40,4 +41,5 @@ module.exports = {
   tileHeight,
   rows,
   whiteValue,
+  playerTile,
 };
