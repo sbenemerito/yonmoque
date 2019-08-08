@@ -1,6 +1,6 @@
-import React from "react";
-import { StyleSheet, View, TouchableHighlight, Text } from "react-native";
-import { vw } from 'react-native-expo-viewport-units';
+import React, { Fragment } from "react";
+import { ImageBackground, StyleSheet, View, TouchableHighlight, Button } from "react-native";
+import { vw, vh } from 'react-native-expo-viewport-units';
 
 import {
   boardHeight,
@@ -8,8 +8,12 @@ import {
   tileHeight,
   tileWidth,
 } from "../constants/board";
+import {
+  brown
+} from "../constants/colors";
 import Tile from "../Tile";
-
+import PlayerOne from "./PlayerOne";
+import PlayerTwo from "./PlayerTwo";
 
 class Board extends React.Component {
   onClick(cell, moveAbles, numPieces, selectedCell) {
@@ -25,6 +29,7 @@ class Board extends React.Component {
   }
 
   addPiece(id, numPieces) {
+    console.log(this.props)
     if(numPieces !== 0) {
       this.props.moves.resetVars();
       this.props.moves.addPiece(id);
@@ -70,23 +75,62 @@ class Board extends React.Component {
       );
     });
 
-    return <View style={styles.root}>{cells}</View>;
+    return (
+      <View style={styles.background}>
+        <ImageBackground 
+          source={require("../../assets/backgrounds/board.jpg")}
+          style={styles.background}>
+          <Fragment>
+            <PlayerOne
+              pieces={G.players[0].pieces}
+              name={this.props.playerConfig[0].name}
+              current={this.props.ctx.currentPlayer}>
+            </PlayerOne>
+          </Fragment>
+          <Fragment>
+            <ImageBackground 
+              style={styles.boardBackground}>
+              <View style={styles.board}>{cells}</View>
+            </ImageBackground>
+          </Fragment>
+          <Fragment>
+            <PlayerTwo
+              pieces={G.players[1].pieces}
+              name={this.props.playerConfig[1].name}
+              current={this.props.ctx.currentPlayer}>
+            </PlayerTwo>
+          </Fragment>
+        </ImageBackground>
+      </View>
+    );
   }
 };
 
 const styles = StyleSheet.create({
-  root: {
-    width: vw(boardWidth),
-    height: vw(boardHeight),
-    backgroundColor: "#444",
+  background: {
+    ...StyleSheet.absoluteFillObject,
+    flexDirection: 'column',
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#525B5D",
+  },
+  boardBackground: {
+    marginRight: 'auto',
+    marginLeft: 'auto',
+    marginTop: vh(1),
+    marginBottom: vh(1), 
+    backgroundColor: brown,
+    borderRadius: 12,
+  },
+  board: {
+    width: vw(boardWidth + 10),
+    height: vw(boardHeight + 10),
     flexWrap: "wrap",
     flexDirection: 'row',
+    paddingLeft: 1,
+    paddingTop: 1,
     justifyContent: "center",
     alignContent: "center",
-    marginTop: 'auto',
-    marginRight: 'auto',
-    marginBottom: 'auto',
-    marginLeft: 'auto',
   },
   cell: {
     width: vw(tileWidth),
