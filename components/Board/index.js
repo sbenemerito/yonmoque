@@ -52,7 +52,9 @@ class Board extends React.Component {
   }
 
   render() {
+    const { backToMainMenu } = this.props;
     const { G } = this.props;
+
     let cells = G.cells.map((cell) => {
       return (
         <TouchableHighlight
@@ -78,6 +80,13 @@ class Board extends React.Component {
       <View style={styles.background}>
         <ImageBackground 
           style={styles.background}>
+          <Fragment>
+            <Button
+              title="Start Game"
+              accessibilityLabel="Start the game"
+              onPress={backToMainMenu}
+            />
+          </Fragment>
           <Fragment>
             <PlayerOne
               pieces={G.players[0].pieces}
