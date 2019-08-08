@@ -29,7 +29,6 @@ class Board extends React.Component {
   }
 
   addPiece(id, numPieces) {
-    console.log(this.props)
     if(numPieces !== 0) {
       this.props.moves.resetVars();
       this.props.moves.addPiece(id);
@@ -117,16 +116,12 @@ const styles = StyleSheet.create({
   boardBackground: {
     marginRight: 'auto',
     marginLeft: 'auto',
-    marginTop: vh(1),
-    marginBottom: vh(1), 
   },
   board: {
-    width: vw(boardWidth + 10),
-    height: vw(boardHeight + 10),
+    width: vw(boardWidth),
+    height: vw(boardHeight),
     flexWrap: "wrap",
     flexDirection: 'row',
-    paddingLeft: 1,
-    paddingTop: 1,
     justifyContent: "center",
     alignContent: "center",
   },

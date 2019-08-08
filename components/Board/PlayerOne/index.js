@@ -5,7 +5,7 @@ import { vw } from 'react-native-expo-viewport-units';
 import {
   boardHeight,
   boardWidth,
-  playerTile
+  playerTile,
 } from "../../constants/board";
 import {
   white,
@@ -13,7 +13,7 @@ import {
   blueDark,
   playerOneTile,
   playerOneTileBorder,
-  yellowLight
+  yellowLight,
 } from "../../constants/colors";
 
 const PlayerOne = ({pieces, name, current}) => { 
@@ -31,8 +31,7 @@ const PlayerOne = ({pieces, name, current}) => {
 
   return (
     <View >
-      <ImageBackground 
-        style={styles.root}>
+      <ImageBackground style={styles.root}>
         <View style={playerInnerTileStyle}>
           <View style={{flex: 1}}> 
             <Image
@@ -58,15 +57,16 @@ const styles = StyleSheet.create({
     width: vw(boardWidth),
     height: vw(boardHeight / 3),
     backgroundColor: blueDark,
-    borderRadius: 12,
+    borderTopLeftRadius: 12,
+    borderTopRightRadius: 12,
   },
   base: {
     width: vw(playerTile * 5),
     height: vw(playerTile * 1.4),
-    backgroundColor: blue,
-    borderRadius: 10,
     borderWidth: 3,
+    borderRadius: 10,
     borderColor: blue,
+    backgroundColor: blue,
     flexDirection: 'row',
     flexWrap: "wrap",
   },
@@ -80,8 +80,8 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   glowPieceText: {
+    textShadowRadius: 20,
     textShadowColor: yellowLight,
-    textShadowRadius: 20
   },
   image: {
     width: vw(playerTile),
@@ -97,23 +97,23 @@ const styles = StyleSheet.create({
   basePiece: {
     width: vw(6),
     height: vw(6),
-    borderWidth: 2,
-    borderRadius: vw(6)/2,
-    backgroundColor: playerOneTile,
-    borderColor: playerOneTileBorder,
     marginTop: 'auto', 
     marginBottom: 'auto', 
+    borderWidth: 2,
+    borderRadius: vw(6)/2,
+    borderColor: playerOneTileBorder,
+    backgroundColor: playerOneTile,
   },
   nameComponent: {
     flex: 2,
     flexDirection: 'row',
   },
   name: {
-    color: white,
-    fontSize: vw(6),
-    marginLeft: vw(2),
     marginTop: 'auto', 
     marginBottom: 'auto', 
+    marginLeft: vw(2),
+    color: white,
+    fontSize: vw(6),
   },
 });
 

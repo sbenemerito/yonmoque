@@ -5,7 +5,7 @@ import { vw } from 'react-native-expo-viewport-units';
 import {
   boardHeight,
   boardWidth,
-  playerTile
+  playerTile,
 } from "../../constants/board";
 import {
   white,
@@ -13,7 +13,7 @@ import {
   grayLight,
   playerTwoTile,
   playerTwoTileBorder,
-  yellowLight
+  yellowLight,
 } from "../../constants/colors";
 
 const PlayerTwo = ({pieces, name, current}) => {  
@@ -31,8 +31,7 @@ const PlayerTwo = ({pieces, name, current}) => {
 
   return (
     <View >
-      <ImageBackground 
-        style={styles.root}>
+      <ImageBackground style={styles.root}>
         <View style={playerInnerTileStyle}>
           <View style={{flex: 1}}> 
             <Text style={pieceStyle}> {pieces} </Text> 
@@ -58,15 +57,16 @@ const styles = StyleSheet.create({
     width: vw(boardWidth),
     height: vw(boardHeight / 3),
     backgroundColor: grayLight,
-    borderRadius: 12,
+    borderBottomLeftRadius: 12,
+    borderBottomRightRadius: 12,
   },
   base: {
     width: vw(playerTile * 5),
     height: vw(playerTile * 1.4),
-    backgroundColor: white,
-    borderRadius: 10,
     borderWidth: 3,
+    borderRadius: 10,
     borderColor: white,
+    backgroundColor: white,
     flexDirection: 'row',
     flexWrap: "wrap",
   },
@@ -77,11 +77,11 @@ const styles = StyleSheet.create({
   numPieces: {
     color: blue,
     fontSize: vw(15),
-    fontWeight: 'bold'
+    fontWeight: 'bold',
   },
   glowPieceText: {
+    textShadowRadius: 20,
     textShadowColor: yellowLight,
-    textShadowRadius: 20
   },
   image: {
     width: vw(playerTile),
@@ -97,12 +97,12 @@ const styles = StyleSheet.create({
   basePiece: {
     width: vw(6),
     height: vw(6),
-    borderWidth: 2,
-    borderRadius: vw(6)/2,
-    backgroundColor: playerTwoTile,
-    borderColor: playerTwoTileBorder,
     marginTop: 'auto', 
     marginBottom: 'auto', 
+    borderWidth: 2,
+    borderRadius: vw(6)/2,
+    borderColor: playerTwoTileBorder,
+    backgroundColor: playerTwoTile,
   },
   nameComponent: {
     flex: 2,
@@ -110,12 +110,12 @@ const styles = StyleSheet.create({
     justifyContent: "flex-end",
   },
   name: {
-    color: blue,
-    fontSize: vw(6),
-    marginLeft: vw(2),
     marginTop: 'auto', 
     marginBottom: 'auto', 
-    marginRight: 8
+    marginLeft: vw(2),
+    marginRight: 8,
+    color: blue,
+    fontSize: vw(6),
   },
 });
 
