@@ -11,13 +11,13 @@ import {
 } from "../constants/board";
 import {
   blue,
-  blueDark,
+  grayMedium,
   white,
   yellowLight,
 } from "../constants/colors";
 import Piece from "../Piece";
 
-const Tile = ({ index, tileColor, isMovable, piece }) => {
+const Tile = ({ tileColor, isMovable, piece }) => {
   let styleList = [styles.baseTile];
   switch(tileColor) {
     case whiteValue:
@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
     backgroundColor: blue
   },
   neutralTile: {
-    backgroundColor: blueDark
+    backgroundColor: grayMedium
   },
   movableTile: {
     borderWidth: 2,
