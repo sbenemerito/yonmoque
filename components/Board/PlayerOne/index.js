@@ -23,16 +23,17 @@ const PlayerOne = ({pieces, name, current}) => {
     pieceStyle.push(styles.glowPieceText);
   }
 
-  let playerTileStyle = [styles.root];
+  let playerInnerTileStyle = [styles.base];
+  playerInnerTileStyle.push(styles.margins);
   if (current === '0') {
-    playerTileStyle.push(styles.rootGlow);
+    playerInnerTileStyle.push(styles.baseGlow);
   }
 
   return (
     <View >
       <ImageBackground 
-        style={playerTileStyle}>
-        <View style={[styles.base, styles.margins]}>
+        style={styles.root}>
+        <View style={playerInnerTileStyle}>
           <View style={{flex: 1}}> 
             <Image
               style={[styles.image, styles.margins]}
@@ -59,16 +60,19 @@ const styles = StyleSheet.create({
     backgroundColor: blueDark,
     borderRadius: 12,
   },
-  rootGlow: {
-    backgroundColor: yellowLight,
-  },
   base: {
     width: vw(playerTile * 5),
     height: vw(playerTile * 1.4),
     backgroundColor: blue,
     borderRadius: 10,
+    borderWidth: 3,
+    borderColor: blue,
     flexDirection: 'row',
     flexWrap: "wrap",
+  },
+  baseGlow: {
+    borderWidth: 3,
+    borderColor: yellowLight,
   },
   numPieces: {
     color: white,

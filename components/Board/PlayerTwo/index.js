@@ -1,7 +1,6 @@
 import React from "react";
 import { StyleSheet, View, ImageBackground, Text, Image } from "react-native";
 import { vw } from 'react-native-expo-viewport-units';
-import LinearGradient from 'react-native-linear-gradient';
 
 import {
   boardHeight,
@@ -24,18 +23,17 @@ const PlayerTwo = ({pieces, name, current}) => {
     pieceStyle.push(styles.glowPieceText);
   }
 
-  let playerTileStyle = [styles.root];
+  let playerInnerTileStyle = [styles.base];
+  playerInnerTileStyle.push(styles.margins);
   if (current === '1') {
-    playerTileStyle.push(styles.rootGlow);
+    playerInnerTileStyle.push(styles.baseGlow);
   }
 
   return (
     <View >
       <ImageBackground 
-        style={playerTileStyle}>
-        <LinearGradient 
-          colors={[white, blue]}
-          style={[styles.base, styles.margins]}>
+        style={styles.root}>
+        <View style={playerInnerTileStyle}>
           <View style={{flex: 1}}> 
             <Text style={pieceStyle}> {pieces} </Text> 
           </View>
@@ -49,7 +47,7 @@ const PlayerTwo = ({pieces, name, current}) => {
               source={require("../../../assets/playertwo.png")}
             /> 
           </View>
-        </LinearGradient>
+        </View>
       </ImageBackground>
     </View>
   );
@@ -62,17 +60,19 @@ const styles = StyleSheet.create({
     backgroundColor: grayLight,
     borderRadius: 12,
   },
-  rootGlow: {
-shadowColor: yellowLight,
-textShadowRadius: 20
-  },
   base: {
     width: vw(playerTile * 5),
     height: vw(playerTile * 1.4),
     backgroundColor: white,
     borderRadius: 10,
+    borderWidth: 3,
+    borderColor: white,
     flexDirection: 'row',
     flexWrap: "wrap",
+  },
+  baseGlow: {
+    borderWidth: 3,
+    borderColor: yellowLight,
   },
   numPieces: {
     color: blue,

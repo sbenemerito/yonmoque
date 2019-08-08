@@ -9,7 +9,7 @@ import {
   tileWidth,
 } from "../constants/board";
 import {
-  brown
+  grayDark
 } from "../constants/colors";
 import Tile from "../Tile";
 import PlayerOne from "./PlayerOne";
@@ -78,7 +78,6 @@ class Board extends React.Component {
     return (
       <View style={styles.background}>
         <ImageBackground 
-          source={require("../../assets/backgrounds/board.jpg")}
           style={styles.background}>
           <Fragment>
             <PlayerOne
@@ -89,6 +88,7 @@ class Board extends React.Component {
           </Fragment>
           <Fragment>
             <ImageBackground 
+              source={require("../../assets/backgrounds/board.jpg")}
               style={styles.boardBackground}>
               <View style={styles.board}>{cells}</View>
             </ImageBackground>
@@ -112,15 +112,13 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#525B5D",
+    backgroundColor: grayDark,
   },
   boardBackground: {
     marginRight: 'auto',
     marginLeft: 'auto',
     marginTop: vh(1),
     marginBottom: vh(1), 
-    backgroundColor: brown,
-    borderRadius: 12,
   },
   board: {
     width: vw(boardWidth + 10),
