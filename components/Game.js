@@ -105,50 +105,55 @@ function CheckMoves(id, currentPlayer, G) {
 
 function flippableCells(id, currentPlayer, G) {
   let tempCells = [];
+  let i = id;
 
   // flip left direction
-  for (i = id - 1; true; i--) {
-    try {
-      if (G.cells[i].piece === null) {
-        tempCells = [];
+  if (id % 5 != 0) {
+    for (i = id - 1; true; i--) {
+      try {
+        if (G.cells[i].piece === null) {
+          tempCells = [];
+          break;
+        }
+        else if (currentPlayer != G.cells[i].piece) {
+          tempCells.push(i);
+        }
+        else if (tempCells.length > 0) {
+          G.canFlipCells.push(tempCells);
+          break;
+        }
+      } catch (err) {
         break;
       }
-      else if (currentPlayer != G.cells[i].piece) {
-        tempCells.push(i);
-      }
-      else if (tempCells.length > 0) {
-        G.canFlipCells.push(tempCells);
+      if (i % 5 == 0) {
         break;
       }
-    } catch (err) {
-      break;
-    }
-    if (i % 5 == 0) {
-      break;
     }
   }
 
   tempCells = [];
 
   // flip right direction
-  for (i = id + 1; true; i++) {
-    try {
-      if (G.cells[i].piece === null) {
-        tempCells = [];
+  if ((id + 1) % 5 != 0) {
+    for (i = id + 1; true; i++) {
+      try {
+        if (G.cells[i].piece === null) {
+          tempCells = [];
+          break;
+        }
+        else if (currentPlayer != G.cells[i].piece) {
+          tempCells.push(i);
+        }
+        else if (tempCells.length > 0) {
+          G.canFlipCells.push(tempCells);
+          break;
+        }
+      } catch (err) {
         break;
       }
-      else if (currentPlayer != G.cells[i].piece) {
-        tempCells.push(i);
-      }
-      else if (tempCells.length > 0) {
-        G.canFlipCells.push(tempCells);
+      if ((i + 1) % 5 == 0) {
         break;
       }
-    } catch (err) {
-      break;
-    }
-    if ((i + 1) % 5 == 0) {
-      break;
     }
   }
 
@@ -302,6 +307,11 @@ function flipCells(currentPlayer, G) {
   }
 }
 
+function checkVictory(id, currentPlayer, G) {
+  
+  
+}
+
 const Game = BGGame({
   // The setup method is passed ctx
   setup: getInitialState,
@@ -321,6 +331,7 @@ const Game = BGGame({
       G.cells[id].piece = ctx.currentPlayer;
       flippableCells(id, ctx.currentPlayer, G);
       flipCells(ctx.currentPlayer, G);
+      console.log(G.canFlipCells);
     },
     resetVars: (G) => {
       G.canFlipCells = [];
