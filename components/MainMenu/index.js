@@ -10,7 +10,7 @@ class MainMenu extends React.Component {
     return (
       <View style={styles.root}>
         <ImageBackground
-          source={require("../../assets/backgrounds/mainmenu.jpg")}
+          source={require("../../assets/backgrounds/mainmenubackground.jpg")}
           style={styles.root}
           >
           <Fragment>
