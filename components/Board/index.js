@@ -1,5 +1,5 @@
 import React, { Fragment } from "react";
-import { ImageBackground, StyleSheet, View, TouchableHighlight, Button } from "react-native";
+import { ImageBackground, StyleSheet, View, TouchableHighlight, Button, Text } from "react-native";
 import { vw, vh } from 'react-native-expo-viewport-units';
 
 import {
@@ -9,6 +9,7 @@ import {
   tileWidth,
 } from "../constants/board";
 import {
+  white,
   grayDark
 } from "../constants/colors";
 import Tile from "../Tile";
@@ -78,15 +79,22 @@ class Board extends React.Component {
 
     return (
       <View style={styles.background}>
-        <ImageBackground 
-          style={styles.background}>
+        <View style={styles.menuComponent}>
           <Fragment>
             <Button
-              title="Start Game"
-              accessibilityLabel="Start the game"
+              title="Menu "
+              accessibilityLabel="Go to Menu"
               onPress={backToMainMenu}
             />
+            <Button
+              title="Undo  "
+              disabled
+              accessibilityLabel="Undo Move"
+            />
+            <Text style={styles.text}>Yonmoque</Text>
           </Fragment>
+        </View>
+        <View style={styles.gameComponent}>
           <Fragment>
             <PlayerOne
               pieces={G.players[0].pieces}
@@ -108,7 +116,7 @@ class Board extends React.Component {
               current={this.props.ctx.currentPlayer}>
             </PlayerTwo>
           </Fragment>
-        </ImageBackground>
+        </View>
       </View>
     );
   }
@@ -118,9 +126,13 @@ const styles = StyleSheet.create({
   background: {
     ...StyleSheet.absoluteFillObject,
     flexDirection: 'column',
+    backgroundColor: grayDark,
+  },
+  gameComponent: {
+    ...StyleSheet.absoluteFillObject,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: grayDark,
+    flexDirection: 'column',
   },
   boardBackground: {
     marginRight: 'auto',
@@ -137,6 +149,15 @@ const styles = StyleSheet.create({
   cell: {
     width: vw(tileWidth),
     height: vw(tileHeight),
+  },
+  menuComponent: {
+    flexDirection: 'row',
+    justifyContent: "center",
+    marginTop: vh(5),
+  },
+  text: {
+    color: white,
+    fontSize: 48,
   },
 });
 
