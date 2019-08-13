@@ -1,15 +1,17 @@
 import React from 'react';
+import { Client } from 'boardgame.io/react-native';
 import { StatusBar, StyleSheet, View } from 'react-native';
-import { Client } from "boardgame.io/react-native";
 
-import colors from "./components/constants/colors";
 import Board from './components/Board';
-import Game from "./components/Game";
+import colors from './components/constants/colors';
+import Game from './components/Game';
+import Lobby from './components/Lobby';
 import MainMenu from './components/MainMenu';
+
 
 class App extends React.Component {
   state = {
-    isMainMenuVisible: true,
+    screen: 'mainMenu',
     numPlayers: 2,
     playerConfig: {
       "0": {
@@ -22,42 +24,47 @@ class App extends React.Component {
         color: colors.white,
         skin: null,
       },
-    }
+    },
+    socket: null,
   };
 
-  backToMainMenu = () => {
+  showMainMenu = () => {
     this.setState({
-      isMainMenuVisible: true,
+      screen: 'mainMenu'
     });
   };
 
   startGame = () => {
     this.setState({
-      isMainMenuVisible: false,
+      screen: 'game'
+    });
+  };
+
+  joinLobby = () => {
+    this.setState({
+      screen: 'lobby'
     });
   };
 
   render() {
-    const { isMainMenuVisible, numPlayers, playerConfig } = this.state;
+    const { numPlayers, playerConfig } = this.state;
     const YonmoqueClient = Client({
       game: Game,
       board: Board,
       numPlayers,
       debug: true,
     });
+    const screenMap = {
+      mainMenu: <MainMenu startGame={this.startGame} joinLobby={this.joinLobby} />,
+      lobby: <Lobby socket={this.state.socket} />,
+      game: <YonmoqueClient showMainMenu={this.showMainMenu} playerConfig={playerConfig} />
+    };
 
     return (
       <View style={styles.container}>
         <StatusBar hidden />
         {
-          isMainMenuVisible
-            ? <MainMenu
-                startGame={this.startGame}
-              />
-            : <YonmoqueClient
-                backToMainMenu={this.backToMainMenu}
-                playerConfig={playerConfig}
-              />
+          screenMap[this.state.screen]
         }
       </View>
     );

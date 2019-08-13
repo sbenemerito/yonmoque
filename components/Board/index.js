@@ -53,7 +53,7 @@ class Board extends React.Component {
   }
 
   render() {
-    const { backToMainMenu } = this.props;
+    const { showMainMenu } = this.props;
     const { G } = this.props;
 
     let cells = G.cells.map((cell) => {
@@ -84,7 +84,7 @@ class Board extends React.Component {
             <Button
               title="Menu "
               accessibilityLabel="Go to Menu"
-              onPress={backToMainMenu}
+              onPress={showMainMenu}
             />
             <Button
               title="Undo  "

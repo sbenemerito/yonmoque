@@ -5,7 +5,7 @@ import colors from "../constants/colors";
 
 class MainMenu extends React.Component {
   render() {
-    const { startGame } = this.props;
+    const { startGame, joinLobby } = this.props;
 
     return (
       <View style={styles.root}>
@@ -21,6 +21,13 @@ class MainMenu extends React.Component {
               color={colors.yellowLight}
               accessibilityLabel="Start the game"
               onPress={startGame}
+            />
+
+            <Button
+              title="Multiplayer"
+              color={colors.redMedium}
+              accessibilityLabel="Multiplayer"
+              onPress={joinLobby}
             />
           </Fragment>
         </ImageBackground>
