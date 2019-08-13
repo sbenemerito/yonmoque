@@ -1,4 +1,5 @@
 import React from "react";
+import socketIO from 'socket.io-client';
 import { ImageBackground, StyleSheet, View, TouchableHighlight, Button, Text } from "react-native";
 import { vw, vh } from 'react-native-expo-viewport-units';
 
@@ -7,6 +8,10 @@ import {
   grayDark
 } from "../constants/colors";
 import api from '../../utils/YonmoqueApi';
+import getEnvVars from '../../environment';
+
+const { apiUrl } = getEnvVars();
+
 
 class Lobby extends React.Component {
   state = {
@@ -14,8 +19,28 @@ class Lobby extends React.Component {
   };
 
   componentDidMount() {
+    const { setSocket, startGame } = this.props;
+    const socket = socketIO(apiUrl, {
+      transports: ['websocket'],
+      jsonp: false
+    });
+
+    socket.on('room joined', (joinedRoom) => {
+      startGame(joinedRoom);
+    });
+
+    socket.on('room created', (rooms) => {
+      this.setState({ rooms });
+    });
+
+    socket.connect();
+
+    socket.on('connect', () => {
+      setSocket(socket);
+    });
+
     api.get('/rooms').then(response => {
-      this.setState({ rooms: response.data.rooms })
+      this.setState({ rooms: response.data.rooms });
     }).catch(error => console.error(error));
   }
 
