@@ -1,5 +1,5 @@
 import React from 'react';
-import { StatusBar, StyleSheet, View } from 'react-native';
+import { StatusBar, StyleSheet, View, ImageBackground } from 'react-native';
 import { Client } from "boardgame.io/react-native";
 
 import colors from "./components/constants/colors";
@@ -47,18 +47,22 @@ class App extends React.Component {
     });
 
     return (
-      <View style={styles.container}>
-        <StatusBar hidden />
-        {
-          isMainMenuVisible
-            ? <MainMenu
-                startGame={this.startGame}
-              />
-            : <YonmoqueClient
-                backToMainMenu={this.backToMainMenu}
-                playerConfig={playerConfig}
-              />
-        }
+      <View>
+        <StatusBar/>
+        <ImageBackground
+          source={require("./assets/backgrounds/mainmenubackground.jpg")}
+          style={styles.container}>
+          {
+            isMainMenuVisible
+              ? <MainMenu
+                  startGame={this.startGame}
+                />
+              : <YonmoqueClient
+                  backToMainMenu={this.backToMainMenu}
+                  playerConfig={playerConfig}
+                />
+          }
+        </ImageBackground>
       </View>
     );
   }
@@ -69,8 +73,7 @@ const styles = StyleSheet.create({
     position: "relative",
     width: "100%",
     height: "100%",
-    overflow: "hidden",
-    backgroundColor: "#888",
+    overflow: "hidden"
   },
 });
 

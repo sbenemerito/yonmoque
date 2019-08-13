@@ -1,5 +1,5 @@
 import React, { Fragment } from "react";
-import { ImageBackground, StyleSheet, View, TouchableHighlight, Button, Text } from "react-native";
+import { ImageBackground, StyleSheet, View, TouchableHighlight, Image, Text } from "react-native";
 import { vw, vh } from 'react-native-expo-viewport-units';
 
 import {
@@ -10,6 +10,8 @@ import {
 } from "../constants/board";
 import {
   white,
+  blue,
+  blueDark,
   grayDark
 } from "../constants/colors";
 import Tile from "../Tile";
@@ -79,22 +81,32 @@ class Board extends React.Component {
 
     return (
       <View style={styles.background}>
-        <View style={styles.menuComponent}>
-          <Fragment>
-            <Button
-              title="Menu "
-              accessibilityLabel="Go to Menu"
-              onPress={backToMainMenu}
-            />
-            <Button
-              title="Undo  "
-              disabled
-              accessibilityLabel="Undo Move"
-            />
-            <Text style={styles.text}>Yonmoque</Text>
-          </Fragment>
-        </View>
         <View style={styles.gameComponent}>
+          <View style={styles.menuComponent}>
+            <TouchableHighlight 
+              style={styles.buttonMargin}
+              onPress={backToMainMenu} >
+              <View style={[styles.buttonBase]}>
+                <View style={[styles.button, styles.margins]}>
+                  <Image
+                    style={[{width: vw(8), height: vw(8)}, styles.margins]}
+                    source={require("../../assets/icons/settings.png")}
+                  />
+                </View>
+              </View>
+            </TouchableHighlight>
+            <TouchableHighlight style={styles.buttonMargin}>
+              <View style={[styles.buttonBase]}>
+                <View style={[styles.button, styles.margins]}>
+                  <Image
+                    style={[{width: vw(6), height: vw(6)}, styles.margins]}
+                    source={require("../../assets/icons/undo.png")}
+                  />
+                </View>
+              </View>
+            </TouchableHighlight>
+            <Text style={[styles.text]}>Yonmoque</Text>
+          </View>
           <Fragment>
             <PlayerOne
               pieces={G.players[0].pieces}
@@ -128,6 +140,11 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     backgroundColor: grayDark,
   },
+  menuComponent: {
+    flexDirection: 'row',
+    justifyContent: "center",
+    marginBottom: vh(6),
+  },
   gameComponent: {
     ...StyleSheet.absoluteFillObject,
     justifyContent: "center",
@@ -150,10 +167,28 @@ const styles = StyleSheet.create({
     width: vw(tileWidth),
     height: vw(tileHeight),
   },
-  menuComponent: {
-    flexDirection: 'row',
-    justifyContent: "center",
-    marginTop: vh(5),
+  buttonBase: {
+    backgroundColor: blueDark,
+    width: vw(12),
+    height: vw(12),
+    borderRadius: vw(12) / 2,
+  },
+  button: {
+    backgroundColor: blue,
+    width: '80%',
+    height: '80%',
+    borderRadius: vw(12) / 2,
+  },
+  buttonMargin: {
+    marginRight: 30,
+    marginTop: 'auto',
+    marginBottom: 'auto',
+  },
+  margins: {
+    marginRight: 'auto',
+    marginLeft: 'auto',
+    marginTop: 'auto',
+    marginBottom: 'auto',
   },
   text: {
     color: white,
