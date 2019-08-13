@@ -53,8 +53,7 @@ class Board extends React.Component {
   }
 
   render() {
-    const { showMainMenu } = this.props;
-    const { G } = this.props;
+    const { G, playerData, showMainMenu } = this.props;
 
     let cells = G.cells.map((cell) => {
       return (
@@ -98,7 +97,7 @@ class Board extends React.Component {
           <Fragment>
             <PlayerOne
               pieces={G.players[0].pieces}
-              name={this.props.playerConfig[0].name}
+              name={playerData[0].name}
               current={this.props.ctx.currentPlayer}>
             </PlayerOne>
           </Fragment>
@@ -112,7 +111,7 @@ class Board extends React.Component {
           <Fragment>
             <PlayerTwo
               pieces={G.players[1].pieces}
-              name={this.props.playerConfig[1].name}
+              name={playerData[1].name}
               current={this.props.ctx.currentPlayer}>
             </PlayerTwo>
           </Fragment>

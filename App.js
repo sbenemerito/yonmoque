@@ -13,17 +13,11 @@ class App extends React.Component {
   state = {
     screen: 'mainMenu',
     numPlayers: 2,
-    playerConfig: {
-      "0": {
-        name: "Player 1",
-        color: colors.blue,
-        skin: null,
-      },
-      "1": {
-        name: "Player 2",
-        color: colors.white,
-        skin: null,
-      },
+    gameRoom: {
+      name: null,
+      players: null,
+      isMultiplayer: null,
+      secret: null
     },
     socket: null,
   };
@@ -34,9 +28,10 @@ class App extends React.Component {
     });
   };
 
-  startGame = () => {
+  startGame = ({ name, players, isMultiplayer, secret }) => {
     this.setState({
-      screen: 'game'
+      screen: 'game',
+      gameRoom: { name, players, isMultiplayer, secret }
     });
   };
 
@@ -47,7 +42,7 @@ class App extends React.Component {
   };
 
   render() {
-    const { numPlayers, playerConfig } = this.state;
+    const { numPlayers, gameRoom } = this.state;
     const YonmoqueClient = Client({
       game: Game,
       board: Board,
@@ -57,7 +52,10 @@ class App extends React.Component {
     const screenMap = {
       mainMenu: <MainMenu startGame={this.startGame} joinLobby={this.joinLobby} />,
       lobby: <Lobby socket={this.state.socket} />,
-      game: <YonmoqueClient showMainMenu={this.showMainMenu} playerConfig={playerConfig} />
+      game: <YonmoqueClient
+              showMainMenu={this.showMainMenu}
+              playerData={gameRoom.players}
+            />
     };
 
     return (

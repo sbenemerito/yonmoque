@@ -6,6 +6,21 @@ import colors from "../constants/colors";
 class MainMenu extends React.Component {
   render() {
     const { startGame, joinLobby } = this.props;
+    const gameDataAI = {
+      name: "Playing with AI",
+      players: {
+        "0": {
+          name: 'You',
+          skin: null
+        },
+        "1": {
+          name: 'AI',
+          skin: null
+        }
+      },
+      secret: null,
+      isMultiplayer: false
+    };
 
     return (
       <View style={styles.root}>
@@ -17,10 +32,10 @@ class MainMenu extends React.Component {
             <Text style={styles.text}>Yonmoque</Text>
 
             <Button
-              title="Start Game"
+              title="Play with AI"
               color={colors.yellowLight}
               accessibilityLabel="Start the game"
-              onPress={startGame}
+              onPress={() => startGame(gameDataAI)}
             />
 
             <Button
