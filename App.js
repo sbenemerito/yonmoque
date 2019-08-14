@@ -1,6 +1,6 @@
 import React from 'react';
 import { Client } from 'boardgame.io/react-native';
-import { StatusBar, StyleSheet, View } from 'react-native';
+import { StatusBar, StyleSheet, View, ImageBackground } from 'react-native';
 
 import Board from './components/Board';
 import colors from './components/constants/colors';
@@ -63,11 +63,15 @@ class App extends React.Component {
     };
 
     return (
-      <View style={styles.container}>
-        <StatusBar hidden />
-        {
-          screenMap[this.state.screen]
-        }
+      <View>
+        <StatusBar/>
+        <ImageBackground
+          source={require("./assets/backgrounds/mainmenubackground.jpg")}
+          style={styles.container}>
+          {
+            screenMap[this.state.screen]
+          }
+        </ImageBackground>
       </View>
     );
   }
@@ -78,8 +82,7 @@ const styles = StyleSheet.create({
     position: "relative",
     width: "100%",
     height: "100%",
-    overflow: "hidden",
-    backgroundColor: "#888",
+    overflow: "hidden"
   },
 });
 

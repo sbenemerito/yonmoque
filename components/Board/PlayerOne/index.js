@@ -55,14 +55,14 @@ const PlayerOne = ({pieces, name, current}) => {
 const styles = StyleSheet.create({
   root: {
     width: vw(boardWidth),
-    height: vw(boardHeight / 3),
+    height: vw(boardHeight / 4),
     backgroundColor: blueDark,
     borderTopLeftRadius: 12,
     borderTopRightRadius: 12,
   },
   base: {
     width: vw(playerTile * 5),
-    height: vw(playerTile * 1.4),
+    height: vw(playerTile),
     borderWidth: 3,
     borderRadius: 10,
     borderColor: blue,
@@ -74,26 +74,15 @@ const styles = StyleSheet.create({
     borderWidth: 3,
     borderColor: yellowLight,
   },
-  numPieces: {
-    color: white,
-    fontSize: vw(15),
-    fontWeight: 'bold',
-  },
-  glowPieceText: {
-    textShadowRadius: 20,
-    textShadowColor: yellowLight,
+  nameComponent: {
+    flex: 2,
+    flexDirection: 'row',
   },
   image: {
-    width: vw(playerTile),
-    height: vw(playerTile),
+    width: vw(playerTile - 4),
+    height: vw(playerTile - 4),
     borderRadius: (vw(playerTile) / 2),
   }, 
-  margins: {
-    marginRight: 'auto',
-    marginLeft: 'auto',
-    marginTop: 'auto',
-    marginBottom: 'auto',
-  },
   basePiece: {
     width: vw(6),
     height: vw(6),
@@ -104,16 +93,27 @@ const styles = StyleSheet.create({
     borderColor: playerOneTileBorder,
     backgroundColor: playerOneTile,
   },
-  nameComponent: {
-    flex: 2,
-    flexDirection: 'row',
-  },
   name: {
     marginTop: 'auto', 
     marginBottom: 'auto', 
     marginLeft: vw(2),
     color: white,
     fontSize: vw(6),
+  },
+  numPieces: {
+    color: white,
+    fontSize: vw(12),
+    fontWeight: 'bold',
+  },
+  glowPieceText: {
+    textShadowRadius: 20,
+    textShadowColor: yellowLight,
+  },
+  margins: {
+    marginRight: 'auto',
+    marginLeft: 'auto',
+    marginTop: 'auto',
+    marginBottom: 'auto',
   },
 });
 
