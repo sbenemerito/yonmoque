@@ -84,7 +84,7 @@ class Board extends React.Component {
           <View style={styles.menuComponent}>
             <TouchableHighlight 
               style={styles.buttonMargin}
-              onPress={backToMainMenu} >
+              onPress={showMainMenu} >
               <View style={[styles.buttonBase]}>
                 <View style={[styles.button, styles.margins]}>
                   <Image
@@ -109,7 +109,7 @@ class Board extends React.Component {
           <Fragment>
             <PlayerOne
               pieces={G.players[0].pieces}
-              name={playerData[0].name}
+              name={playerData[0].name ? playerData[0].name : 'waiting...'}
               current={this.props.ctx.currentPlayer}>
             </PlayerOne>
           </Fragment>
@@ -123,7 +123,7 @@ class Board extends React.Component {
           <Fragment>
             <PlayerTwo
               pieces={G.players[1].pieces}
-              name={playerData[1].name}
+              name={playerData[1].name ? playerData[1].name : 'waiting...'}
               current={this.props.ctx.currentPlayer}>
             </PlayerTwo>
           </Fragment>

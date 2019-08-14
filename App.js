@@ -55,7 +55,11 @@ class App extends React.Component {
     });
     const screenMap = {
       mainMenu: <MainMenu startGame={this.startGame} joinLobby={this.joinLobby} />,
-      lobby: <Lobby setSocket={this.setSocket} startGame={this.startGame} />,
+      lobby: <Lobby
+              socket={this.state.socket}
+              setSocket={this.setSocket}
+              startGame={this.startGame}
+            />,
       game: <YonmoqueClient
               showMainMenu={this.showMainMenu}
               playerData={gameRoom.players}
