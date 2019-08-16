@@ -20,7 +20,14 @@ class Lobby extends React.Component {
 
   createRoom = () => {
     const { socket } = this.props;
-    socket.emit('create room', { roomData: { name: 'Game Room', side: '0' }, playerName: 'Sam' });
+    // socket.id is a temporary name
+    socket.emit('create room', { roomData: { name: 'Game Room', side: '1' }, playerName: socket.id });
+  };
+
+  joinRoom = (id) => {
+    const { socket } = this.props;
+    // socket.id is a temporary name
+    socket.emit('join room', { id, playerName: socket.id })
   };
 
   componentDidMount() {
@@ -53,9 +60,8 @@ class Lobby extends React.Component {
   }
 
   componentWillUnmount() {
-    const { socket, setSocket } = this.props;
+    const { socket } = this.props;
     socket.removeAllListeners();
-    setSocket(socket);
   }
 
   render() {
@@ -70,11 +76,13 @@ class Lobby extends React.Component {
             const statusStyle = room.status === 'waiting' ? styles.waiting : styles.started;
 
             return (
-              <View style={[styles.room, statusStyle]} key={index}>
-                <Text>{room.name}</Text>
-                <Text>White: {room.players[0].name}</Text>
-                <Text>Blue: {room.players[1].name}</Text>
-              </View>
+              <TouchableHighlight key={index} onPress={() => room.status === 'waiting' ? this.joinRoom(room.id) : null}>
+                <View style={[styles.room, statusStyle]}>
+                  <Text>{room.name}</Text>
+                  <Text>Blue: {room.players[0].name}</Text>
+                  <Text>White: {room.players[1].name}</Text>
+                </View>
+              </TouchableHighlight>
             )
           })
         }

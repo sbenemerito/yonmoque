@@ -38,7 +38,8 @@ class App extends React.Component {
   startGame = ({ id, name, players, isMultiplayer, secret, turn }) => {
     this.setState({
       screen: 'game',
-      gameRoom: { id, name, players, isMultiplayer, secret, turn }
+      gameRoom: { id, name, players, isMultiplayer, secret, turn },
+      playerSide: players[0].socket === this.state.socket.id ? 0 : 1
     });
   };
 
@@ -61,6 +62,7 @@ class App extends React.Component {
       lobby: <Lobby
                socket={this.state.socket}
                setSocket={this.setSocket}
+               setSide={this.setSide}
                startGame={this.startGame}
              />,
       game: <YonmoqueClient
