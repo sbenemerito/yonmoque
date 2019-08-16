@@ -24,7 +24,9 @@ class Board extends React.Component {
     const { ctx, gameRoom, playerSide, socket } = this.props;
 
     const notLocalVersus = gameRoom.isMultiplayer || gameRoom.isAI;
-    if (ctx.currentPlayer != playerSide && notLocalVersus) return;
+    const oppositePlayer = (playerSide - 1) * -1;
+    const noOpponent = gameRoom.players[oppositePlayer].name === null;
+    if ((ctx.currentPlayer != playerSide || noOpponent) && notLocalVersus) return;
 
     let moveData = {
       id: gameRoom.id,
