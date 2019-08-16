@@ -13,11 +13,14 @@ class App extends React.Component {
   state = {
     screen: 'mainMenu',
     numPlayers: 2,
+    playerSide: 0,
     gameRoom: {
+      id: null,
       name: null,
       players: null,
       isMultiplayer: null,
-      secret: null
+      secret: null,
+      turn: null,
     },
     socket: null,
   };
@@ -32,10 +35,10 @@ class App extends React.Component {
     });
   };
 
-  startGame = ({ name, players, isMultiplayer, secret }) => {
+  startGame = ({ id, name, players, isMultiplayer, secret, turn }) => {
     this.setState({
       screen: 'game',
-      gameRoom: { name, players, isMultiplayer, secret }
+      gameRoom: { id, name, players, isMultiplayer, secret, turn }
     });
   };
 
@@ -56,13 +59,15 @@ class App extends React.Component {
     const screenMap = {
       mainMenu: <MainMenu startGame={this.startGame} joinLobby={this.joinLobby} />,
       lobby: <Lobby
-              socket={this.state.socket}
-              setSocket={this.setSocket}
-              startGame={this.startGame}
-            />,
+               socket={this.state.socket}
+               setSocket={this.setSocket}
+               startGame={this.startGame}
+             />,
       game: <YonmoqueClient
               showMainMenu={this.showMainMenu}
-              playerData={gameRoom.players}
+              gameRoom={this.state.gameRoom}
+              playerSide={this.state.playerSide}
+              socket={this.state.socket}
             />
     };
 

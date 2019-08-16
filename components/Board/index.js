@@ -18,13 +18,39 @@ import Tile from "../Tile";
 import PlayerOne from "./PlayerOne";
 import PlayerTwo from "./PlayerTwo";
 
+
 class Board extends React.Component {
   onClick(cell, moveAbles, numPieces, selectedCell) {
+    const { ctx, gameRoom, playerSide, socket } = this.props;
+
+    const notLocalVersus = gameRoom.isMultiplayer || gameRoom.isAI;
+    if (ctx.currentPlayer != playerSide && notLocalVersus) return;
+
+    let moveData = {
+      id: gameRoom.id,
+      type: null,
+      src: null,
+      dest: null
+    };
+
     if(cell.piece === null) {
       if(moveAbles.length === 0 ) {
         this.addPiece(cell.id, numPieces);
+
+        if (gameRoom.isMultiplayer) {
+          moveData.type = 'addPiece';
+          moveData.dest = cell.id;
+          socket.emit('make move', moveData);
+        }
       } else {
         this.movePiece(cell.id, moveAbles);
+
+        if (gameRoom.isMultiplayer) {
+          moveData.type = 'movePiece';
+          moveData.src = selectedCell;
+          moveData.dest = cell.id;
+          socket.emit('make move', moveData);
+        }
       }
     } else {
       this.selectPiece(cell, selectedCell);
@@ -54,8 +80,39 @@ class Board extends React.Component {
     this.props.moves.resetVars();
   }
 
+  componentDidMount() {
+    const { G, socket } = this.props;
+
+    if (socket !== null) {
+      socket.on('opponent moved', (moveData) => {
+        if (moveData.type) {
+          switch (moveData.type) {
+            case 'addPiece':
+              this.addPiece(moveData.dest, G.players[this.props.ctx.currentPlayer].pieces);
+              break;
+            case 'movePiece':
+              this.selectPiece(moveData.src, G.selectedCell);
+              this.movePiece(moveData.dest, G.moveAbleCells);
+              break;
+            default:
+              console.error('Invalid move');
+          }
+        }
+      });
+
+      socket.on('disconnect', (reason) => {
+        console.log(`Disconnected. Reason: ${reason}`);
+      });
+    }
+  }
+
+  componentWillUnmount() {
+    const { socket } = this.props;
+    socket.removeAllListeners();
+  }
+
   render() {
-    const { G, playerData, showMainMenu } = this.props;
+    const { G, gameRoom, showMainMenu } = this.props;
 
     let cells = G.cells.map((cell) => {
       return (
@@ -109,7 +166,7 @@ class Board extends React.Component {
           <Fragment>
             <PlayerOne
               pieces={G.players[0].pieces}
-              name={playerData[0].name ? playerData[0].name : 'waiting...'}
+              name={gameRoom.players[0].name ? gameRoom.players[0].name : 'waiting...'}
               current={this.props.ctx.currentPlayer}>
             </PlayerOne>
           </Fragment>
@@ -123,7 +180,7 @@ class Board extends React.Component {
           <Fragment>
             <PlayerTwo
               pieces={G.players[1].pieces}
-              name={playerData[1].name ? playerData[1].name : 'waiting...'}
+              name={gameRoom.players[1].name ? gameRoom.players[1].name : 'waiting...'}
               current={this.props.ctx.currentPlayer}>
             </PlayerTwo>
           </Fragment>

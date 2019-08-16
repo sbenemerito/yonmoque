@@ -21,7 +21,8 @@ class MainMenu extends React.Component {
         }
       },
       secret: null,
-      isMultiplayer: false
+      isMultiplayer: false,
+      turn: 0
     };
 
     return (

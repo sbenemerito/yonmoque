@@ -266,6 +266,7 @@ function flippableCells(id, currentPlayer, G) {
     } catch (err) {
       break;
     }
+
     if (i % 5 == 0) {
       break;
     }
