@@ -18,6 +18,11 @@ class Lobby extends React.Component {
     rooms: []
   };
 
+  createRoom = () => {
+    const { socket } = this.props;
+    socket.emit('create room', { roomData: { name: 'Game Room', side: '0' }, playerName: 'Sam' });
+  };
+
   componentDidMount() {
     const { socket, setSocket, startGame } = this.props;
 
@@ -47,10 +52,11 @@ class Lobby extends React.Component {
     }).catch(error => console.error(error));
   }
 
-  createRoom = () => {
-    const { socket } = this.props;
-    socket.emit('create room', { roomData: { name: 'Game Room', side: '0' }, playerName: 'Sam' });
-  };
+  componentWillUnmount() {
+    const { socket, setSocket } = this.props;
+    socket.removeAllListeners();
+    setSocket(socket);
+  }
 
   render() {
     return (
