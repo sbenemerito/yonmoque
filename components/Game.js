@@ -16,7 +16,7 @@ export function getInitialState(ctx) {
     canFlipCells: [],
     selectedCell: [],
     checkVictory: [],
-    victory: false
+    victory: null
   };
 
   // Set up the game state for each player
@@ -405,6 +405,7 @@ function checkDiagLeft(id, currentPlayer, G) {
 
 function checkVictory(currentPlayer, G) {
   let lineNum = 0;
+  let winner = null;
   var checkCells = G.canFlipCells;
 
   //check all directions for flipped and moved
@@ -419,18 +420,18 @@ function checkVictory(currentPlayer, G) {
 
   if (lineNum == 5) {
     if (currentPlayer == 0) {
-      alert("White wins.");
+      winner = 1;
     } else {
-      alert("Blue wins.")
+      winner = 0;
     }
-    return true;
+    return winner;
   }
   else if (lineNum == 4) {
-    alert("Player " + currentPlayer + " wins.");
-    return true;
+    winner = currentPlayer;
+    return winner;
   } else {
     fourLine = 0;
-    return false;
+    return winner;
   }
 }
 
@@ -466,7 +467,8 @@ const Game = BGGame({
   flow: {
     endGameIf: (G, ctx) => {
       // Put winning condition here, return player key.
-      if (G.victory) {
+      if (G.victory != null) {
+        alert("Player " + G.victory + " wins.");
         return { winner: ctx.currentPlayer };
       }
     },
