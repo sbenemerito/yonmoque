@@ -25,6 +25,10 @@ class App extends React.Component {
     socket: null,
   };
 
+  updateGameState = (gameRoom) => {
+    this.setState({ gameRoom });
+  };
+
   setSocket = (socket) => {
     this.setState({ socket });
   };
@@ -70,6 +74,7 @@ class App extends React.Component {
               gameRoom={this.state.gameRoom}
               playerSide={this.state.playerSide}
               socket={this.state.socket}
+              updateGameState={this.updateGameState}
             />
     };
 

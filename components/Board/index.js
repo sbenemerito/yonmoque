@@ -74,8 +74,11 @@ class Board extends React.Component {
     }
   }
 
-  movePiece(id, moveAbles) {
-    if(moveAbles.includes(id)) {
+  movePiece(id, moveAbles, src=null) {
+    if (src !== null) {
+      this.props.moves.movePiece(id, src);
+      this.props.events.endTurn();
+    } else if (moveAbles.includes(id)) {
       this.props.moves.movePiece(id);
       this.props.events.endTurn();
     }
@@ -83,7 +86,7 @@ class Board extends React.Component {
   }
 
   componentDidMount() {
-    const { G, socket } = this.props;
+    const { G, socket, updateGameState } = this.props;
 
     if (socket !== null) {
       socket.on('opponent moved', (moveData) => {
@@ -93,13 +96,16 @@ class Board extends React.Component {
               this.addPiece(moveData.dest, G.players[this.props.ctx.currentPlayer].pieces);
               break;
             case 'movePiece':
-              this.selectPiece(moveData.src, G.selectedCell);
-              this.movePiece(moveData.dest, G.moveAbleCells);
+              this.movePiece(moveData.dest, null, moveData.src);
               break;
             default:
               console.error('Invalid move');
           }
         }
+      });
+
+      socket.on('player joined', (roomData) => {
+        updateGameState(roomData);
       });
 
       socket.on('disconnect', (reason) => {
