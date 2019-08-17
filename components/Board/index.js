@@ -1,5 +1,6 @@
 import React, { Fragment } from "react";
-import { ImageBackground, StyleSheet, View, TouchableHighlight, Image, Text } from "react-native";
+import { ImageBackground, StyleSheet, View, TouchableHighlight, Image } from "react-native";
+import Text from '../CustomText';
 import { vw, vh } from 'react-native-expo-viewport-units';
 
 import {
@@ -9,7 +10,7 @@ import {
   tileWidth,
 } from "../constants/board";
 import {
-  white,
+  black,
   blue,
   blueDark,
   grayDark
@@ -81,7 +82,9 @@ class Board extends React.Component {
 
     return (
       <View style={styles.background}>
-        <View style={styles.gameComponent}>
+        <ImageBackground
+          source={require("../../assets/backgrounds/gamebackground.jpg")} 
+          style={styles.gameComponent}>
           <View style={styles.menuComponent}>
             <TouchableHighlight 
               style={styles.buttonMargin}
@@ -105,7 +108,7 @@ class Board extends React.Component {
                 </View>
               </View>
             </TouchableHighlight>
-            <Text style={[styles.text]}>Yonmoque</Text>
+            <Text style={[styles.text]} type="PressStart">Yonmoque</Text>
           </View>
           <Fragment>
             <PlayerOne
@@ -128,7 +131,7 @@ class Board extends React.Component {
               current={this.props.ctx.currentPlayer}>
             </PlayerTwo>
           </Fragment>
-        </View>
+        </ImageBackground>
       </View>
     );
   }
@@ -143,7 +146,7 @@ const styles = StyleSheet.create({
   menuComponent: {
     flexDirection: 'row',
     justifyContent: "center",
-    marginBottom: vh(6),
+    marginBottom: vh(4),
   },
   gameComponent: {
     ...StyleSheet.absoluteFillObject,
@@ -180,7 +183,7 @@ const styles = StyleSheet.create({
     borderRadius: vw(12) / 2,
   },
   buttonMargin: {
-    marginRight: 30,
+    marginRight: vw(4),
     marginTop: 'auto',
     marginBottom: 'auto',
   },
@@ -191,8 +194,10 @@ const styles = StyleSheet.create({
     marginBottom: 'auto',
   },
   text: {
-    color: white,
-    fontSize: 48,
+    color: black,
+    fontSize: 35,
+    marginTop: 'auto',
+    marginBottom: 'auto',
   },
 });
 

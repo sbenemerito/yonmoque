@@ -1,5 +1,6 @@
 import React from "react";
-import { StyleSheet, View, Image, TouchableHighlight, Text } from "react-native";
+import { StyleSheet, View, Image, TouchableHighlight } from "react-native";
+import Text from '../CustomText';
 import {
   white,
 }  from "../constants/colors";
@@ -106,7 +107,7 @@ const styles = StyleSheet.create({
   },
   text: {
     color: white,
-    fontSize: vw(4),
+    fontSize: vw(5),
   },
   margins: {
     marginRight: 'auto',
