@@ -1,14 +1,16 @@
 import React from 'react';
-import { StatusBar, StyleSheet, View, ImageBackground } from 'react-native';
+import { StatusBar, StyleSheet, View, ImageBackground, ActivityIndicator } from 'react-native';
 import { Client } from "boardgame.io/react-native";
 
 import colors from "./components/constants/colors";
 import Board from './components/Board';
 import Game from "./components/Game";
 import MainMenu from './components/MainMenu';
+import {Font} from 'expo';
 
 class App extends React.Component {
   state = {
+    fontLoaded: false,
     isMainMenuVisible: true,
     numPlayers: 2,
     playerConfig: {
@@ -24,6 +26,15 @@ class App extends React.Component {
       },
     }
   };
+
+  async componentDidMount() {
+    await Font.loadAsync({
+      'JosefinSans': require("./assets/fonts/JosefinSans-Regular.ttf"),
+      'PressStart': require("./assets/fonts/PressStart2P.ttf"),
+    });
+
+    this.setState({ fontLoaded: true });
+  }
 
   backToMainMenu = () => {
     this.setState({
@@ -49,20 +60,25 @@ class App extends React.Component {
     return (
       <View>
         <StatusBar/>
-        <ImageBackground
-          source={require("./assets/backgrounds/mainmenubackground.jpg")}
-          style={styles.container}>
-          {
-            isMainMenuVisible
-              ? <MainMenu
-                  startGame={this.startGame}
-                />
-              : <YonmoqueClient
-                  backToMainMenu={this.backToMainMenu}
-                  playerConfig={playerConfig}
-                />
-          }
-        </ImageBackground>
+        {this.state.fontLoaded ? (
+          <ImageBackground
+            source={require("./assets/backgrounds/mainmenubackground.jpg")}
+            style={styles.container}>
+            {
+              isMainMenuVisible
+                ? <MainMenu
+                    startGame={this.startGame}
+                  />
+                : <YonmoqueClient
+                    backToMainMenu={this.backToMainMenu}
+                    playerConfig={playerConfig}
+                  />
+            }
+          </ImageBackground>
+        ) : (
+          <ActivityIndicator size="large" />
+        )}
+        
       </View>
     );
   }
