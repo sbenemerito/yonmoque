@@ -269,6 +269,7 @@ function flippableCells(id, currentPlayer, G) {
     } catch (err) {
       break;
     }
+
     if (i % 5 == 0) {
       break;
     }
@@ -449,8 +450,9 @@ const Game = BGGame({
       G.selectedCell = id;
       CheckMoves(id, ctx.currentPlayer, G);
     },
-    movePiece: (G, ctx, id) => {
-      G.cells[G.selectedCell].piece = null;
+    movePiece: (G, ctx, id, src=null) => {
+      console.log(src, 'src');
+      G.cells[src !== null ? src : G.selectedCell].piece = null;
       G.cells[id].piece = ctx.currentPlayer;
       flippableCells(id, ctx.currentPlayer, G);
       flipCells(ctx.currentPlayer, G);
