@@ -47,6 +47,10 @@ class Lobby extends React.Component {
         this.setState({ rooms });
       });
 
+      socket.on('room started', (rooms) => {
+        this.setState({ rooms });
+      });
+
       socket.connect();
 
       socket.on('connect', () => {
