@@ -79,7 +79,14 @@ class App extends React.Component {
   };
 
   render() {
-    const { numPlayers, gameRoom, isChooseColorVisible } = this.state;
+    const {
+      gameRoom,
+      isChooseColorVisible,
+      numPlayers,
+      playerSide,
+      socket
+    } = this.state;
+
     const YonmoqueClient = Client({
       game: Game,
       board: Board,
@@ -90,10 +97,11 @@ class App extends React.Component {
       mainMenu: <MainMenu
                   startGame={this.startGame}
                   joinLobby={this.joinLobby}
-                  isChooseColorVisible={isChooseColorVisible
-                }/>,
+                  toggleChooseColor={this.toggleChooseColor}
+                  isChooseColorVisible={isChooseColorVisible}
+                />,
       lobby: <Lobby
-               socket={this.state.socket}
+               socket={socket}
                setSocket={this.setSocket}
                setSide={this.setSide}
                startGame={this.startGame}
@@ -101,9 +109,9 @@ class App extends React.Component {
              />,
       game: <YonmoqueClient
               showMainMenu={this.showMainMenu}
-              gameRoom={this.state.gameRoom}
-              playerSide={this.state.playerSide}
-              socket={this.state.socket}
+              gameRoom={gameRoom}
+              playerSide={playerSide}
+              socket={socket}
               updateGameState={this.updateGameState}
               isChooseColorVisible={isChooseColorVisible}
             />
