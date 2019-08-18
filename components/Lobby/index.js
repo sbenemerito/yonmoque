@@ -21,7 +21,7 @@ class Lobby extends React.Component {
   createRoom = () => {
     const { socket } = this.props;
     // socket.id is a temporary name
-    socket.emit('create room', { roomData: { name: 'Game Room', side: '1' }, playerName: socket.id });
+    socket.emit('create room', { roomData: { name: 'Game Room', side: 1 }, playerName: socket.id });
   };
 
   joinRoom = (id) => {

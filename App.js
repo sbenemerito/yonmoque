@@ -57,9 +57,7 @@ class App extends React.Component {
       gameRoom: { id, name, players, isMultiplayer, secret, turn },
       playerSide: side !== undefined
                     ? side
-                    : players[0].socket === this.state.socket.id
-                        ? 0
-                        : 1
+                    : players[0].socket === this.state.socket.id ? 0 : 1
     });
   };
 
