@@ -40,7 +40,17 @@ class Lobby extends React.Component {
       });
 
       socket.on('room joined', (joinedRoom) => {
-        startGame(joinedRoom);
+        let side;
+
+        if (joinedRoom.players[0].socket === socket.id) {
+          joinedRoom.players[0].name = `${joinedRoom.players[0].name} (You)`;
+          side = 0;
+        } else {
+          joinedRoom.players[1].name = `${joinedRoom.players[1].name} (You)`;
+          side = 1;
+        }
+
+        startGame({ ...joinedRoom, side });
       });
 
       socket.on('room created', (rooms) => {

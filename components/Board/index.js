@@ -106,7 +106,17 @@ class Board extends React.Component {
       });
 
       socket.on('player joined', (roomData) => {
-        updateGameState(roomData);
+        let side;
+
+        if (roomData.players[0].socket === socket.id) {
+          roomData.players[0].name = `${roomData.players[0].name} (You)`;
+          side = 0;
+        } else {
+          roomData.players[1].name = `${roomData.players[1].name} (You)`;
+          side = 1;
+        }
+
+        updateGameState({ ...roomData, side });
       });
 
       socket.on('disconnect', (reason) => {
