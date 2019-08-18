@@ -1,5 +1,5 @@
 import React, { Fragment } from "react";
-import { ImageBackground, StyleSheet, View, TouchableHighlight, Button } from "react-native";
+import { ImageBackground, StyleSheet, View, TouchableHighlight, Image, Text } from "react-native";
 import { vw, vh } from 'react-native-expo-viewport-units';
 
 import {
@@ -9,6 +9,9 @@ import {
   tileWidth,
 } from "../constants/board";
 import {
+  white,
+  blue,
+  blueDark,
   grayDark
 } from "../constants/colors";
 import Tile from "../Tile";
@@ -78,15 +81,32 @@ class Board extends React.Component {
 
     return (
       <View style={styles.background}>
-        <ImageBackground 
-          style={styles.background}>
-          <Fragment>
-            <Button
-              title="Start Game"
-              accessibilityLabel="Start the game"
-              onPress={backToMainMenu}
-            />
-          </Fragment>
+        <View style={styles.gameComponent}>
+          <View style={styles.menuComponent}>
+            <TouchableHighlight 
+              style={styles.buttonMargin}
+              onPress={backToMainMenu} >
+              <View style={[styles.buttonBase]}>
+                <View style={[styles.button, styles.margins]}>
+                  <Image
+                    style={[{width: vw(8), height: vw(8)}, styles.margins]}
+                    source={require("../../assets/icons/settings.png")}
+                  />
+                </View>
+              </View>
+            </TouchableHighlight>
+            <TouchableHighlight style={styles.buttonMargin}>
+              <View style={[styles.buttonBase]}>
+                <View style={[styles.button, styles.margins]}>
+                  <Image
+                    style={[{width: vw(6), height: vw(6)}, styles.margins]}
+                    source={require("../../assets/icons/undo.png")}
+                  />
+                </View>
+              </View>
+            </TouchableHighlight>
+            <Text style={[styles.text]}>Yonmoque</Text>
+          </View>
           <Fragment>
             <PlayerOne
               pieces={G.players[0].pieces}
@@ -108,7 +128,7 @@ class Board extends React.Component {
               current={this.props.ctx.currentPlayer}>
             </PlayerTwo>
           </Fragment>
-        </ImageBackground>
+        </View>
       </View>
     );
   }
@@ -118,9 +138,18 @@ const styles = StyleSheet.create({
   background: {
     ...StyleSheet.absoluteFillObject,
     flexDirection: 'column',
+    backgroundColor: grayDark,
+  },
+  menuComponent: {
+    flexDirection: 'row',
+    justifyContent: "center",
+    marginBottom: vh(6),
+  },
+  gameComponent: {
+    ...StyleSheet.absoluteFillObject,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: grayDark,
+    flexDirection: 'column',
   },
   boardBackground: {
     marginRight: 'auto',
@@ -137,6 +166,33 @@ const styles = StyleSheet.create({
   cell: {
     width: vw(tileWidth),
     height: vw(tileHeight),
+  },
+  buttonBase: {
+    backgroundColor: blueDark,
+    width: vw(12),
+    height: vw(12),
+    borderRadius: vw(12) / 2,
+  },
+  button: {
+    backgroundColor: blue,
+    width: '80%',
+    height: '80%',
+    borderRadius: vw(12) / 2,
+  },
+  buttonMargin: {
+    marginRight: 30,
+    marginTop: 'auto',
+    marginBottom: 'auto',
+  },
+  margins: {
+    marginRight: 'auto',
+    marginLeft: 'auto',
+    marginTop: 'auto',
+    marginBottom: 'auto',
+  },
+  text: {
+    color: white,
+    fontSize: 48,
   },
 });
 
