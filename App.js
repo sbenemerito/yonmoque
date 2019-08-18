@@ -10,6 +10,7 @@ import {Font} from 'expo';
 
 class App extends React.Component {
   state = {
+    isChooseColorVisible: false,
     fontLoaded: false,
     isMainMenuVisible: true,
     numPlayers: 2,
@@ -45,11 +46,18 @@ class App extends React.Component {
   startGame = () => {
     this.setState({
       isMainMenuVisible: false,
+      isChooseColorVisible: false,
+    });
+  };
+
+  toggleChooseColor = () => {
+    this.setState({ 
+      isChooseColorVisible: !this.state.isChooseColorVisible 
     });
   };
 
   render() {
-    const { isMainMenuVisible, numPlayers, playerConfig } = this.state;
+    const { isMainMenuVisible, numPlayers, playerConfig, isChooseColorVisible } = this.state;
     const YonmoqueClient = Client({
       game: Game,
       board: Board,
@@ -68,10 +76,14 @@ class App extends React.Component {
               isMainMenuVisible
                 ? <MainMenu
                     startGame={this.startGame}
+                    toggleChooseColor={this.toggleChooseColor}
+                    isChooseColorVisible={isChooseColorVisible}
                   />
                 : <YonmoqueClient
                     backToMainMenu={this.backToMainMenu}
                     playerConfig={playerConfig}
+                    toggleChooseColor={this.toggleChooseColor}
+                    isChooseColorVisible={isChooseColorVisible}
                   />
             }
           </ImageBackground>
