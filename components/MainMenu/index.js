@@ -1,13 +1,17 @@
 import React from "react";
-import { StyleSheet, View, Image, TouchableHighlight, Text } from "react-native";
+import { StyleSheet, View, Image, TouchableHighlight, Button } from "react-native";
+import Text from '../CustomText';
 import {
   white,
 }  from "../constants/colors";
 import { vw, vh } from "react-native-expo-viewport-units";
+import Modal from "react-native-modal";
+import ChooseColor from "../ChooseColorModal";
 
 class MainMenu extends React.Component {
+
   render() {
-    const { startGame, joinLobby } = this.props;
+    const { startGame, joinLobby, toggleChooseColor } = this.props;
     const gameDataAI = {
       name: "Playing with AI",
       players: {
@@ -47,8 +51,13 @@ class MainMenu extends React.Component {
           />
         </View>
         <View style={styles.menuComponent}>
+          <Modal isVisible={this.props.isChooseColorVisible}>
+            <ChooseColor 
+              toggleChooseColor={toggleChooseColor}
+              startGame={startGame}/>
+          </Modal>
           <TouchableHighlight
-            onPress={() => startGame(gameDataAI)}>
+            onPress={toggleChooseColor}>
             <View style={[styles.buttonBase, styles.menuButtonBase]}>
               <View style={[styles.button, styles.menuButton, styles.margins]}>
                 <Text style={[styles.text, styles.margins]}> Play with AI </Text> 
@@ -122,7 +131,7 @@ const styles = StyleSheet.create({
   },
   text: {
     color: white,
-    fontSize: vw(4),
+    fontSize: vw(5),
   },
   margins: {
     marginRight: 'auto',

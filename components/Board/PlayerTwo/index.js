@@ -1,5 +1,6 @@
 import React from "react";
-import { StyleSheet, View, ImageBackground, Text, Image } from "react-native";
+import { StyleSheet, View, ImageBackground, Image } from "react-native";
+import Text from '../../CustomText';
 import { vw } from 'react-native-expo-viewport-units';
 
 import {

@@ -1,17 +1,20 @@
 import React from 'react';
 import { Client } from 'boardgame.io/react-native';
-import { StatusBar, StyleSheet, View, ImageBackground } from 'react-native';
+import { StatusBar, StyleSheet, View, ImageBackground, ActivityIndicator } from 'react-native';
 
 import Board from './components/Board';
 import colors from './components/constants/colors';
 import Game from './components/Game';
 import Lobby from './components/Lobby';
 import MainMenu from './components/MainMenu';
+import {Font} from 'expo';
 
 
 class App extends React.Component {
   state = {
     screen: 'mainMenu',
+    isChooseColorVisible: false,
+    fontLoaded: false,
     numPlayers: 2,
     playerSide: 0,
     gameRoom: {
@@ -39,11 +42,27 @@ class App extends React.Component {
     });
   };
 
+  async componentDidMount() {
+    await Font.loadAsync({
+      'JosefinSans': require("./assets/fonts/JosefinSans-Regular.ttf"),
+      'PressStart': require("./assets/fonts/PressStart2P.ttf"),
+    });
+
+    this.setState({ fontLoaded: true });
+  }
+
   startGame = ({ id, name, players, isMultiplayer, secret, turn }) => {
     this.setState({
       screen: 'game',
       gameRoom: { id, name, players, isMultiplayer, secret, turn },
       playerSide: players[0].socket === this.state.socket.id ? 0 : 1
+    });
+  };
+
+  backToMainMenu = () => {
+    this.setState({
+      isMainMenuVisible: false,
+      isChooseColorVisible: false,
     });
   };
 
@@ -53,8 +72,14 @@ class App extends React.Component {
     });
   };
 
+  toggleChooseColor = () => {
+    this.setState({ 
+      isChooseColorVisible: !this.state.isChooseColorVisible 
+    });
+  };
+
   render() {
-    const { numPlayers, gameRoom } = this.state;
+    const { numPlayers, gameRoom, isChooseColorVisible } = this.state;
     const YonmoqueClient = Client({
       game: Game,
       board: Board,
@@ -62,12 +87,17 @@ class App extends React.Component {
       debug: true,
     });
     const screenMap = {
-      mainMenu: <MainMenu startGame={this.startGame} joinLobby={this.joinLobby} />,
+      mainMenu: <MainMenu
+                  startGame={this.startGame}
+                  joinLobby={this.joinLobby}
+                  isChooseColorVisible={isChooseColorVisible
+                }/>,
       lobby: <Lobby
                socket={this.state.socket}
                setSocket={this.setSocket}
                setSide={this.setSide}
                startGame={this.startGame}
+               isChooseColorVisible={isChooseColorVisible}
              />,
       game: <YonmoqueClient
               showMainMenu={this.showMainMenu}
@@ -75,19 +105,26 @@ class App extends React.Component {
               playerSide={this.state.playerSide}
               socket={this.state.socket}
               updateGameState={this.updateGameState}
+              isChooseColorVisible={isChooseColorVisible}
             />
     };
 
     return (
       <View>
         <StatusBar/>
-        <ImageBackground
-          source={require("./assets/backgrounds/mainmenubackground.jpg")}
-          style={styles.container}>
-          {
-            screenMap[this.state.screen]
-          }
-        </ImageBackground>
+        {
+          this.state.fontLoaded ? (
+            <ImageBackground
+              source={require("./assets/backgrounds/mainmenubackground.jpg")}
+              style={styles.container}>
+              {
+                screenMap[this.state.screen]
+              }
+            </ImageBackground>
+          ) : (
+            <ActivityIndicator size="large" />
+          )
+        }
       </View>
     );
   }
