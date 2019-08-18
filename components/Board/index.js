@@ -117,7 +117,7 @@ class Board extends React.Component {
 
   componentWillUnmount() {
     const { socket } = this.props;
-    socket.removeAllListeners();
+    if (socket !== null) socket.removeAllListeners();
   }
 
   render() {

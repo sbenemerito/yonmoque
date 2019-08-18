@@ -16,11 +16,11 @@ class MainMenu extends React.Component {
       name: "Playing with AI",
       players: {
         "0": {
-          name: 'You',
+          name: 'Player 1',
           skin: null
         },
         "1": {
-          name: 'AI',
+          name: 'Player 2',
           skin: null
         }
       },
@@ -54,7 +54,9 @@ class MainMenu extends React.Component {
           <Modal isVisible={this.props.isChooseColorVisible}>
             <ChooseColor 
               toggleChooseColor={toggleChooseColor}
-              startGame={startGame}/>
+              startGame={startGame}
+              gameData={gameDataAI}
+            />
           </Modal>
           <TouchableHighlight
             onPress={toggleChooseColor}>

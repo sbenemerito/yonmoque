@@ -13,7 +13,7 @@ import {
   playerTwoTile,
 } from "./constants/colors";
 
-const ChooseColor = ({toggleChooseColor, startGame}) => {
+const ChooseColor = ({toggleChooseColor, startGame, gameData}) => {
 
   return (
     <View style={{flex: 1}}>
@@ -21,13 +21,21 @@ const ChooseColor = ({toggleChooseColor, startGame}) => {
         <View style={[styles.margins]}>
           <Text style={[styles.text]}>Choose your color!</Text>
           <TouchableHighlight
-            onPress={startGame}>
+            onPress={() => {
+              gameData.players[0].name = `${gameData.players[0].name} (You)`;
+              startGame({ ...gameData, side: 0 });
+            }}
+          >
             <View style={[styles.basePiece, styles.pieceBlue]}>
               <Text style={[styles.buttonText, styles.margins]}>Blue</Text>
             </View>
           </TouchableHighlight>
           <TouchableHighlight
-            onPress={startGame}>
+            onPress={() => {
+              gameData.players[1].name = `${gameData.players[1].name} (You)`;
+              startGame({ ...gameData, side: 1 });
+            }}
+          >
             <View style={[styles.basePiece, styles.pieceWhite]}>
               <Text style={[styles.buttonText, styles.margins]}>White</Text>
             </View>

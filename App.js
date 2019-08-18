@@ -51,11 +51,15 @@ class App extends React.Component {
     this.setState({ fontLoaded: true });
   }
 
-  startGame = ({ id, name, players, isMultiplayer, secret, turn }) => {
+  startGame = ({ id, name, players, isMultiplayer, secret, turn, side }) => {
     this.setState({
       screen: 'game',
       gameRoom: { id, name, players, isMultiplayer, secret, turn },
-      playerSide: players[0].socket === this.state.socket.id ? 0 : 1
+      playerSide: side !== undefined
+                    ? side
+                    : players[0].socket === this.state.socket.id
+                        ? 0
+                        : 1
     });
   };
 
