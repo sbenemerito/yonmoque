@@ -358,7 +358,7 @@ function checkDiagRight(id, currentPlayer, G) {
   var j = id;
   //get last index in the right side
   while (j % 5 != 0) {
-    if (j > 20 && j < 25) {
+    if (j >= 20 && j <= 24) {
       break;
     }
     j += 4;
@@ -383,12 +383,11 @@ function checkDiagLeft(id, currentPlayer, G) {
   var j = id;
   //get last index in the right side
   while ((j + 1) % 5 != 0) {
-    if (j > 20 && j < 25) {
+    if (j >= 20 && j <= 24) {
       break;
     }
     j += 6;
   }
-
   //check horizontal from right to left
   do {
     if (G.cells[j].piece == currentPlayer) {
