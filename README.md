@@ -1,4 +1,3 @@
-# Yonmoque
 
 A mobile game adaptation of Mitsuo Yamamoto's game called [Yonmoque](http://www.logygames.com/english/yonmoque.html).
 
