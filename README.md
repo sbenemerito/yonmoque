@@ -38,4 +38,3 @@ Refer to [Expo documentation](https://docs.expo.io/versions/v28.0.0/introduction
 
 - [Matchimals.fun](https://github.com/igravitystudios/matchimals.fun)
 - [react-native-donkey-kong](https://github.com/bberak/react-native-donkey-kong/)
-- [react-native-game-engine-handbook](https://github.com/bberak/react-native-game-engine-handbook)
