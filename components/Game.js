@@ -14,7 +14,9 @@ export function getInitialState(ctx) {
     players: {},
     moveAbleCells: [],
     canFlipCells: [],
-    selectedCell: []
+    selectedCell: [],
+    checkVictory: [],
+    victory: null
   };
 
   // Set up the game state for each player
@@ -314,6 +316,130 @@ function flippableCells(id, currentPlayer, G) {
   }
 }
 
+function checkHorizontal(id, currentPlayer, G) {
+  var lineNum = 0;
+  var j = id;
+  //get last index in the right side
+  do {
+    j++;
+  } while (j % 5 != 0);
+
+  //check horizontal from right to left
+  do {
+    j--;
+    if (G.cells[j].piece == currentPlayer) {
+      lineNum += 1;
+    }
+    else if (G.cells[j].piece == null && lineNum < 4) {
+      lineNum = 0;
+    } 
+  } while (j % 5 != 0);
+  G.checkVictory.push(lineNum);
+}
+
+function checkVertical(id, currentPlayer, G) {
+  var lineNum = 0;
+  var j = id;
+  console.log(j);
+  //get last index in the right side
+  while (j >= 0) {
+    j -= 5;
+  }
+
+  //check vertical from right to left
+  while (j < 20) {
+    j += 5;
+    if (G.cells[j].piece == currentPlayer) {
+      lineNum += 1;
+    }
+    else if (G.cells[j].piece == null && lineNum < 4) {
+      lineNum = 0;
+    }
+  }
+  G.checkVictory.push(lineNum);
+}
+
+function checkDiagRight(id, currentPlayer, G) {
+  var lineNum = 0;
+  var j = id;
+  //get last index in the right side
+  while (j % 5 != 0) {
+    if (j >= 20 && j <= 24) {
+      break;
+    }
+    j += 4;
+  }
+
+  //check horizontal from right to left
+  do {
+    if (G.cells[j].piece == currentPlayer) {
+      lineNum += 1;
+    }
+    else if (G.cells[j].piece == null && lineNum < 4) {
+      lineNum = 0;
+    }
+    j -= 4;
+  } while ((j + 5) % 5 != 0 && j >= 0);
+  G.checkVictory.push(lineNum);
+
+}
+
+function checkDiagLeft(id, currentPlayer, G) {
+  var lineNum = 0;
+  var j = id;
+  //get last index in the right side
+  while ((j + 1) % 5 != 0) {
+    if (j >= 20 && j <= 24) {
+      break;
+    }
+    j += 6;
+  }
+  //check horizontal from right to left
+  do {
+    if (G.cells[j].piece == currentPlayer) {
+      lineNum += 1;
+    }
+    else if (G.cells[j].piece == null && lineNum < 4) {
+      lineNum = 0;
+    }
+    j -= 6;
+  } while ((j + 6) % 5 != 0 && j >= 0);
+  G.checkVictory.push(lineNum);
+  
+}
+
+function checkVictory(currentPlayer, G) {
+  let lineNum = 0;
+  let winner = null;
+  var checkCells = G.canFlipCells;
+
+  //check all directions for flipped and moved
+  for (i = 0; i < checkCells.length; i++){
+    //get left side last id to check horizontal
+    checkHorizontal(checkCells[0], currentPlayer, G);
+    checkVertical(checkCells[0], currentPlayer, G);
+    checkDiagRight(checkCells[0], currentPlayer, G);
+    checkDiagLeft(checkCells[0], currentPlayer, G);
+  }
+  lineNum = Math.max(...G.checkVictory);
+
+  if (lineNum == 5) {
+    if (currentPlayer == 0) {
+      winner = 1;
+    } else {
+      winner = 0;
+    }
+    return winner;
+  }
+  else if (lineNum == 4) {
+    winner = currentPlayer;
+    return winner;
+  } else {
+    fourLine = 0;
+    return winner;
+  }
+}
+
 const Game = BGGame({
   // The setup method is passed ctx
   setup: getInitialState,
@@ -328,10 +454,13 @@ const Game = BGGame({
       G.selectedCell = id;
       CheckMoves(id, ctx.currentPlayer, G);
     },
-    movePiece: (G, ctx, id) => {
-      G.cells[G.selectedCell].piece = null;
+    movePiece: (G, ctx, id, src=null) => {
+      console.log(src, 'src');
+      G.cells[src !== null ? src : G.selectedCell].piece = null;
       G.cells[id].piece = ctx.currentPlayer;
       flippableCells(id, ctx.currentPlayer, G);
+      G.victory = checkVictory(ctx.currentPlayer, G);
+      console.log(G.canFlipCells);
     },
     resetVars: (G) => {
       G.canFlipCells = [];
@@ -343,7 +472,10 @@ const Game = BGGame({
   flow: {
     endGameIf: (G, ctx) => {
       // Put winning condition here, return player key.
-      
+      if (G.victory != null) {
+        alert("Player " + G.victory + " wins.");
+        return { winner: ctx.currentPlayer };
+      }
     },
   },
 });

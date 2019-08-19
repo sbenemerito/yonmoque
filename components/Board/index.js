@@ -1,5 +1,6 @@
 import React, { Fragment } from "react";
-import { ImageBackground, StyleSheet, View, TouchableHighlight, Image, Text } from "react-native";
+import { ImageBackground, StyleSheet, View, TouchableHighlight, Image } from "react-native";
+import Text from '../CustomText';
 import { vw, vh } from 'react-native-expo-viewport-units';
 
 import {
@@ -9,7 +10,7 @@ import {
   tileWidth,
 } from "../constants/board";
 import {
-  white,
+  black,
   blue,
   blueDark,
   grayDark
@@ -18,13 +19,41 @@ import Tile from "../Tile";
 import PlayerOne from "./PlayerOne";
 import PlayerTwo from "./PlayerTwo";
 
+
 class Board extends React.Component {
   onClick(cell, moveAbles, numPieces, selectedCell) {
+    const { ctx, gameRoom, playerSide, socket } = this.props;
+
+    const notLocalVersus = gameRoom.isMultiplayer || gameRoom.isAI;
+    const oppositePlayer = (playerSide - 1) * -1;
+    const noOpponent = gameRoom.players[oppositePlayer].name === null;
+    if ((ctx.currentPlayer != playerSide || noOpponent) && notLocalVersus) return;
+
+    let moveData = {
+      id: gameRoom.id,
+      type: null,
+      src: null,
+      dest: null
+    };
+
     if(cell.piece === null) {
       if(moveAbles.length === 0 ) {
         this.addPiece(cell.id, numPieces);
+
+        if (gameRoom.isMultiplayer) {
+          moveData.type = 'addPiece';
+          moveData.dest = cell.id;
+          socket.emit('make move', moveData);
+        }
       } else {
         this.movePiece(cell.id, moveAbles);
+
+        if (gameRoom.isMultiplayer) {
+          moveData.type = 'movePiece';
+          moveData.src = selectedCell;
+          moveData.dest = cell.id;
+          socket.emit('make move', moveData);
+        }
       }
     } else {
       this.selectPiece(cell, selectedCell);
@@ -46,17 +75,63 @@ class Board extends React.Component {
     }
   }
 
-  movePiece(id, moveAbles) {
-    if(moveAbles.includes(id)) {
+  movePiece(id, moveAbles, src=null) {
+    if (src !== null) {
+      this.props.moves.movePiece(id, src);
+      this.props.events.endTurn();
+    } else if (moveAbles.includes(id)) {
       this.props.moves.movePiece(id);
       this.props.events.endTurn();
     }
     this.props.moves.resetVars();
   }
 
+  componentDidMount() {
+    const { G, socket, updateGameState } = this.props;
+
+    if (socket !== null) {
+      socket.on('opponent moved', (moveData) => {
+        if (moveData.type) {
+          switch (moveData.type) {
+            case 'addPiece':
+              this.addPiece(moveData.dest, G.players[this.props.ctx.currentPlayer].pieces);
+              break;
+            case 'movePiece':
+              this.movePiece(moveData.dest, null, moveData.src);
+              break;
+            default:
+              console.error('Invalid move');
+          }
+        }
+      });
+
+      socket.on('player joined', (roomData) => {
+        let side;
+
+        if (roomData.players[0].socket === socket.id) {
+          roomData.players[0].name = `${roomData.players[0].name} (You)`;
+          side = 0;
+        } else {
+          roomData.players[1].name = `${roomData.players[1].name} (You)`;
+          side = 1;
+        }
+
+        updateGameState({ ...roomData, side });
+      });
+
+      socket.on('disconnect', (reason) => {
+        console.log(`Disconnected. Reason: ${reason}`);
+      });
+    }
+  }
+
+  componentWillUnmount() {
+    const { socket } = this.props;
+    if (socket !== null) socket.removeAllListeners();
+  }
+
   render() {
-    const { backToMainMenu } = this.props;
-    const { G } = this.props;
+    const { G, gameRoom, showMainMenu } = this.props;
 
     let cells = G.cells.map((cell) => {
       return (
@@ -81,11 +156,13 @@ class Board extends React.Component {
 
     return (
       <View style={styles.background}>
-        <View style={styles.gameComponent}>
+        <ImageBackground
+          source={require("../../assets/backgrounds/gamebackground.jpg")} 
+          style={styles.gameComponent}>
           <View style={styles.menuComponent}>
             <TouchableHighlight 
               style={styles.buttonMargin}
-              onPress={backToMainMenu} >
+              onPress={showMainMenu} >
               <View style={[styles.buttonBase]}>
                 <View style={[styles.button, styles.margins]}>
                   <Image
@@ -105,12 +182,12 @@ class Board extends React.Component {
                 </View>
               </View>
             </TouchableHighlight>
-            <Text style={[styles.text]}>Yonmoque</Text>
+            <Text style={[styles.text]} type="PressStart">Yonmoque</Text>
           </View>
           <Fragment>
             <PlayerOne
               pieces={G.players[0].pieces}
-              name={this.props.playerConfig[0].name}
+              name={gameRoom.players[0].name ? gameRoom.players[0].name : 'waiting...'}
               current={this.props.ctx.currentPlayer}>
             </PlayerOne>
           </Fragment>
@@ -124,11 +201,11 @@ class Board extends React.Component {
           <Fragment>
             <PlayerTwo
               pieces={G.players[1].pieces}
-              name={this.props.playerConfig[1].name}
+              name={gameRoom.players[1].name ? gameRoom.players[1].name : 'waiting...'}
               current={this.props.ctx.currentPlayer}>
             </PlayerTwo>
           </Fragment>
-        </View>
+        </ImageBackground>
       </View>
     );
   }
@@ -143,7 +220,7 @@ const styles = StyleSheet.create({
   menuComponent: {
     flexDirection: 'row',
     justifyContent: "center",
-    marginBottom: vh(6),
+    marginBottom: vh(4),
   },
   gameComponent: {
     ...StyleSheet.absoluteFillObject,
@@ -180,7 +257,7 @@ const styles = StyleSheet.create({
     borderRadius: vw(12) / 2,
   },
   buttonMargin: {
-    marginRight: 30,
+    marginRight: vw(4),
     marginTop: 'auto',
     marginBottom: 'auto',
   },
@@ -191,8 +268,10 @@ const styles = StyleSheet.create({
     marginBottom: 'auto',
   },
   text: {
-    color: white,
-    fontSize: 48,
+    color: black,
+    fontSize: 35,
+    marginTop: 'auto',
+    marginBottom: 'auto',
   },
 });
 
