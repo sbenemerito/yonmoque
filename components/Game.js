@@ -111,7 +111,7 @@ function flipHorizontal(id, currentPlayer, G) {
   if (id % 5 != 0) {
     do {
       i--;
-      if (G.cells[i].piece === null) {
+      if (G.cells[i].piece === null || G.cells[id - 1].piece == currentPlayer) {
         break;
       }
       else if (currentPlayer != G.cells[i].piece) {
@@ -131,7 +131,7 @@ function flipHorizontal(id, currentPlayer, G) {
   if ((id + 1) % 5 != 0) {
     do {
       i++;
-      if (G.cells[i].piece === null) {
+      if (G.cells[i].piece === null || G.cells[id + 1].piece == currentPlayer) {
         break;
       }
       else if (currentPlayer != G.cells[i].piece) {
@@ -155,7 +155,7 @@ function flipVertical(id, currentPlayer, G) {
     do {
       i -= 5;
       try {
-        if (G.cells[i].piece === null) {
+        if (G.cells[i].piece === null || G.cells[id - 5].piece == currentPlayer) {
           break;
         }
         else if (currentPlayer != G.cells[i].piece) {
@@ -180,7 +180,7 @@ function flipVertical(id, currentPlayer, G) {
     do {
       i += 5;
       try {
-        if (G.cells[i].piece === null) {
+        if (G.cells[i].piece === null || G.cells[id + 5].piece == currentPlayer) {
           break;
         }
         else if (currentPlayer != G.cells[i].piece) {
@@ -206,7 +206,7 @@ function flipDiagLeft(id, currentPlayer, G) {
     do {
       i -= 6;
       try {
-        if (G.cells[i].piece === null) {
+        if (G.cells[i].piece === null || G.cells[id - 6].piece == currentPlayer) {
           break;
         }
         else if (currentPlayer != G.cells[i].piece) {
@@ -230,7 +230,7 @@ function flipDiagLeft(id, currentPlayer, G) {
     do {
       i += 6;
       try {
-        if (G.cells[i].piece === null) {
+        if (G.cells[i].piece === null || G.cells[id + 6].piece == currentPlayer) {
           break;
         }
         else if (currentPlayer != G.cells[i].piece) {
@@ -257,7 +257,7 @@ function flipDiagRight(id, currentPlayer, G) {
     do {
       i -= 4;
       try {
-        if (G.cells[i].piece === null) {
+        if (G.cells[i].piece === null || G.cells[id + 1].piece == currentPlayer) {
           break;
         }
         else if (currentPlayer != G.cells[i].piece) {
@@ -281,7 +281,7 @@ function flipDiagRight(id, currentPlayer, G) {
     do {
       i += 4;
       try {
-        if (G.cells[i].piece === null) {
+        if (G.cells[i].piece === null || G.cells[id + 1].piece === currentPlayer) {
           break;
         }
         else if (currentPlayer != G.cells[i].piece) {
