@@ -88,7 +88,7 @@ class Board extends React.Component {
   }
 
   componentDidMount() {
-    const { G, socket, updateGameState } = this.props;
+    const { ctx, G, socket, updateGameState } = this.props;
 
     if (socket !== null) {
       socket.on('opponent moved', (moveData) => {
@@ -99,9 +99,15 @@ class Board extends React.Component {
               break;
             case 'movePiece':
               this.movePiece(moveData.dest, null, moveData.src);
+
+              if (ctx.gameover) {
+                socket.to(moveData.id).emit('finish game', { id : moveData.id });
+              }
+
               break;
             default:
               console.error('Invalid move');
+              break;
           }
         }
       });
