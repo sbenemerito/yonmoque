@@ -11,13 +11,29 @@ import ChooseColor from "../ChooseColorModal";
 class MainMenu extends React.Component {
 
   render() {
-    const { toggleChooseColor, startGame } = this.props;
+    const { startGame, joinLobby, toggleChooseColor } = this.props;
+    const gameDataAI = {
+      name: "Playing with AI",
+      players: {
+        "0": {
+          name: 'Player 1',
+          skin: null
+        },
+        "1": {
+          name: 'Player 2',
+          skin: null
+        }
+      },
+      secret: null,
+      isMultiplayer: false,
+      turn: 0
+    };
 
     return (
       <View style={styles.root}>
         <View style={styles.settingComponent}>
           <TouchableHighlight
-            onPress={startGame}>
+            onPress={() => startGame(gameDataAI)}>
             <View style={[styles.buttonBase, styles.roundButtonBase]}>
               <View style={[styles.button, styles.roundButton, styles.margins]}>
                 <Image
@@ -38,7 +54,9 @@ class MainMenu extends React.Component {
           <Modal isVisible={this.props.isChooseColorVisible}>
             <ChooseColor 
               toggleChooseColor={toggleChooseColor}
-              startGame={startGame}/>
+              startGame={startGame}
+              gameData={gameDataAI}
+            />
           </Modal>
           <TouchableHighlight
             onPress={toggleChooseColor}>
@@ -49,7 +67,7 @@ class MainMenu extends React.Component {
             </View>
           </TouchableHighlight>
           <TouchableHighlight
-            onPress={startGame}>
+            onPress={joinLobby}>
             <View style={[styles.buttonBase, styles.menuButtonBase]}>
               <View style={[styles.button, styles.menuButton, styles.margins]}>
                 <Text style={[styles.text, styles.margins]}> Multiplayer </Text> 
