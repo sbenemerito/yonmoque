@@ -173,7 +173,6 @@ function flipVertical(id, currentPlayer, G) {
     } while (i >= 0);
   }
 
-  console.log(G.canFlipCells);
   tempCells = [];
   i = id;
 
@@ -339,7 +338,6 @@ function checkHorizontal(id, currentPlayer, G) {
 function checkVertical(id, currentPlayer, G) {
   var lineNum = 0;
   var j = id;
-  console.log(j);
   //get last index in the right side
   while (j >= 0) {
     j -= 5;
