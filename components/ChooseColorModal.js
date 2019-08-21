@@ -19,13 +19,14 @@ const ChooseColor = ({toggleChooseColor, startGame}) => {
     <View style={{flex: 1}}>
       <View style={[styles.margins, styles.modal]}>
         <View style={[styles.margins]}>
-          <Text style={[styles.text]}>Choose your color!</Text>
+          <Text style={[styles.text, {marginBottom: vh(2)}]}>Choose your color!</Text>
           <TouchableHighlight
             onPress={startGame}>
             <View style={[styles.basePiece, styles.pieceBlue]}>
               <Text style={[styles.buttonText, styles.margins]}>Blue</Text>
             </View>
           </TouchableHighlight>
+          <Text style={[styles.text]}>or</Text>
           <TouchableHighlight
             onPress={startGame}>
             <View style={[styles.basePiece, styles.pieceWhite]}>
@@ -62,11 +63,13 @@ const styles = StyleSheet.create({
   text: {
     fontSize: vw(9),
     color: blueDark,
+    marginRight: 'auto',
+    marginLeft: 'auto',
   },
   basePiece: {
     width: vw(40),
     height: vh(7),
-    marginTop: vh(3), 
+    marginTop: vh(2), 
     marginRight: 'auto',
     marginLeft: 'auto',
     borderWidth: 5,
@@ -83,7 +86,7 @@ const styles = StyleSheet.create({
   buttonMargin: {
     marginRight: 'auto',
     marginLeft: 'auto',
-    marginTop: vh(5),
+    marginTop: vh(4),
   },
   buttonText: {
     fontSize: vw(7),

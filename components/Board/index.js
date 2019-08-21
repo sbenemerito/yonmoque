@@ -1,8 +1,12 @@
 import React, { Fragment } from "react";
 import { ImageBackground, StyleSheet, View, TouchableHighlight, Image } from "react-native";
 import Text from '../CustomText';
-import { vw, vh } from 'react-native-expo-viewport-units';
+import Tile from "../Tile";
+import PlayerOne from "./PlayerOne";
+import PlayerTwo from "./PlayerTwo";
+import Modal from "react-native-modal";
 
+import { vw, vh } from 'react-native-expo-viewport-units';
 import {
   boardHeight,
   boardWidth,
@@ -15,9 +19,6 @@ import {
   blueDark,
   grayDark
 } from "../constants/colors";
-import Tile from "../Tile";
-import PlayerOne from "./PlayerOne";
-import PlayerTwo from "./PlayerTwo";
 
 class Board extends React.Component {
   onClick(cell, moveAbles, numPieces, selectedCell) {
@@ -131,6 +132,9 @@ class Board extends React.Component {
               current={this.props.ctx.currentPlayer}>
             </PlayerTwo>
           </Fragment>
+          <Modal isVisible={this.props.ctx.gameover}>
+            
+          </Modal>
         </ImageBackground>
       </View>
     );
