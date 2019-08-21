@@ -14,12 +14,12 @@ import {
   tileWidth,
 } from "../constants/board";
 import {
+  white,
   black,
   blue,
   blueDark,
   grayDark
 } from "../constants/colors";
-
 
 class Board extends React.Component {
   onClick(cell, moveAbles, numPieces, selectedCell) {
@@ -173,7 +173,8 @@ class Board extends React.Component {
                 </View>
               </View>
             </TouchableHighlight>
-            <TouchableHighlight style={styles.buttonMargin}>
+            <TouchableHighlight 
+              style={styles.buttonMargin}>
               <View style={[styles.buttonBase]}>
                 <View style={[styles.button, styles.margins]}>
                   <Image
@@ -207,7 +208,29 @@ class Board extends React.Component {
             </PlayerTwo>
           </Fragment>
           <Modal isVisible={this.props.ctx.gameover}>
-            
+          <View style={{flex: 1}}>
+            <View style={[styles.margins, styles.modal]}>
+              <View style={[styles.margins]}>
+                <Image
+                  style={[{width: vw(50), height: vw(55)}, styles.margins]}
+                  source={require("../../assets/icons/winner.png")}
+                />
+                <Text style={[styles.text, styles.margins, {marginBottom: vh(2)}]}> Player {parseInt(G.victory) + 1} </Text>
+                <TouchableHighlight 
+                  style={[styles.buttonMargin, styles.margins]}
+                  onPress={showMainMenu}>
+                  <View style={[styles.buttonBase]}>
+                    <View style={[styles.button, styles.margins]}>
+                      <Image
+                        style={[{width: vw(6), height: vw(6)}, styles.margins]}
+                        source={require("../../assets/icons/close.png")}
+                      />
+                    </View>
+                  </View>
+                </TouchableHighlight>
+              </View>
+            </View>
+          </View>
           </Modal>
         </ImageBackground>
       </View>
@@ -276,6 +299,14 @@ const styles = StyleSheet.create({
     fontSize: 35,
     marginTop: 'auto',
     marginBottom: 'auto',
+  },
+  modal: {
+    width: vw(75),
+    height: vh(45),
+    backgroundColor: white,
+    borderWidth: 5,
+    borderRadius: 10,
+    borderColor: blueDark,
   },
 });
 

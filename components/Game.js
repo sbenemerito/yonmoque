@@ -247,7 +247,6 @@ function flipDiagLeft(id, currentPlayer, G) {
       }
     } while ((i + 1) % 5 != 0 && i <= 24);
   }
-
 }
 
 function flipDiagRight(id, currentPlayer, G) {
@@ -455,12 +454,10 @@ const Game = BGGame({
       CheckMoves(id, ctx.currentPlayer, G);
     },
     movePiece: (G, ctx, id, src=null) => {
-      console.log(src, 'src');
       G.cells[src !== null ? src : G.selectedCell].piece = null;
       G.cells[id].piece = ctx.currentPlayer;
       flippableCells(id, ctx.currentPlayer, G);
       G.victory = checkVictory(ctx.currentPlayer, G);
-      console.log(G.canFlipCells);
     },
     resetVars: (G) => {
       G.canFlipCells = [];
@@ -473,7 +470,6 @@ const Game = BGGame({
     endGameIf: (G, ctx) => {
       // Put winning condition here, return player key.
       if (G.victory != null) {
-        alert("Player " + G.victory + " wins.");
         return { winner: ctx.currentPlayer };
       }
     },
