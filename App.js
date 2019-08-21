@@ -3,7 +3,6 @@ import { Client } from 'boardgame.io/react-native';
 import { StatusBar, StyleSheet, View, ImageBackground, ActivityIndicator } from 'react-native';
 
 import Board from './components/Board';
-import colors from './components/constants/colors';
 import Game from './components/Game';
 import Lobby from './components/Lobby';
 import MainMenu from './components/MainMenu';
@@ -38,7 +37,8 @@ class App extends React.Component {
 
   showMainMenu = () => {
     this.setState({
-      screen: 'mainMenu'
+      screen: 'mainMenu',
+      isChooseColorVisible: false,
     });
   };
 
