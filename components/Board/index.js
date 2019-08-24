@@ -88,7 +88,7 @@ class Board extends React.Component {
   }
 
   componentDidMount() {
-    const { ctx, G, socket, updateGameState } = this.props;
+    const { G, socket, updateGameState, moves } = this.props;
 
     if (socket !== null) {
       socket.on('opponent moved', (moveData) => {
@@ -99,11 +99,6 @@ class Board extends React.Component {
               break;
             case 'movePiece':
               this.movePiece(moveData.dest, null, moveData.src);
-
-              if (ctx.gameover) {
-                socket.to(moveData.id).emit('finish game', { id : moveData.id });
-              }
-
               break;
             default:
               console.error('Invalid move');
@@ -126,6 +121,10 @@ class Board extends React.Component {
         updateGameState({ ...roomData, side });
       });
 
+      socket.on('opponent left', ({ player }) => {
+        if (!this.props.ctx.gameover) moves.surrender(player);
+      });
+
       socket.on('disconnect', (reason) => {
         console.log(`Disconnected. Reason: ${reason}`);
       });
@@ -133,12 +132,26 @@ class Board extends React.Component {
   }
 
   componentWillUnmount() {
-    const { socket } = this.props;
-    if (socket !== null) socket.removeAllListeners();
+    const { socket, setSocket, gameRoom } = this.props;
+    const firstPlayerSocket = gameRoom.players[0].socket;
+    const secondPlayerSocket = gameRoom.players[1].socket;
+    // it is an 'ongoing game' if there are 2 players in a room
+    const isOngoingGame = firstPlayerSocket !== null && secondPlayerSocket !== null;
+
+    // stop warnings for 'memory leak'
+    this.addPiece = () => {};
+    this.selectPiece = () => {};
+    this.movePiece = () => {};
+
+    if (isOngoingGame && socket !== null) {
+      // disconnect player so opponent wins, and reset socket
+      socket.disconnect();
+      setSocket(null);
+    }
   }
 
   render() {
-    const { G, gameRoom, showMainMenu } = this.props;
+    const { G, gameRoom, showMainMenu, socket, setSocket } = this.props;
 
     let cells = G.cells.map((cell) => {
       return (
@@ -169,7 +182,15 @@ class Board extends React.Component {
           <View style={styles.menuComponent}>
             <TouchableHighlight 
               style={styles.buttonMargin}
-              onPress={showMainMenu} >
+              onPress={() => {
+                if (socket !== null) {
+                  // disconnect player so opponent wins, and reset socket
+                  socket.disconnect();
+                  setSocket(null);
+                }
+
+                showMainMenu();
+              }} >
               <View style={[styles.buttonBase]}>
                 <View style={[styles.button, styles.margins]}>
                   <Image
@@ -213,7 +234,7 @@ class Board extends React.Component {
               current={this.props.ctx.currentPlayer}>
             </PlayerTwo>
           </Fragment>
-          <Modal isVisible={this.props.ctx.gameover}>
+          <Modal isVisible={this.props.ctx.gameover ? true : false}>
           <View style={{flex: 1}}>
             <View style={[styles.margins, styles.modal]}>
               <View style={[styles.margins]}>
