@@ -18,6 +18,36 @@ class Lobby extends React.Component {
     rooms: []
   };
 
+  setSocketListeners = (socketInstance) => {
+    const { startGame } = this.props;
+
+    socketInstance.on('room joined', (joinedRoom) => {
+      let side;
+
+      if (joinedRoom.players[0].socket === socketInstance.id) {
+        joinedRoom.players[0].name = `${joinedRoom.players[0].name} (You)`;
+        side = 0;
+      } else {
+        joinedRoom.players[1].name = `${joinedRoom.players[1].name} (You)`;
+        side = 1;
+      }
+
+      startGame({ ...joinedRoom, side });
+    });
+
+    socketInstance.on('room created', (rooms) => {
+      this.setState({ rooms });
+    });
+
+    socketInstance.on('room started', (rooms) => {
+      this.setState({ rooms });
+    });
+
+    socketInstance.on('room ended', (rooms) => {
+      this.setState({ rooms });
+    });
+  }
+
   createRoom = () => {
     const { socket } = this.props;
     // socket.id is a temporary name
@@ -39,37 +69,14 @@ class Lobby extends React.Component {
         jsonp: false
       });
 
-      socket.on('room joined', (joinedRoom) => {
-        let side;
-
-        if (joinedRoom.players[0].socket === socket.id) {
-          joinedRoom.players[0].name = `${joinedRoom.players[0].name} (You)`;
-          side = 0;
-        } else {
-          joinedRoom.players[1].name = `${joinedRoom.players[1].name} (You)`;
-          side = 1;
-        }
-
-        startGame({ ...joinedRoom, side });
-      });
-
-      socket.on('room created', (rooms) => {
-        this.setState({ rooms });
-      });
-
-      socket.on('room started', (rooms) => {
-        this.setState({ rooms });
-      });
-
-      socket.on('room ended', (rooms) => {
-        this.setState({ rooms });
-      });
-
       socket.connect();
 
       socket.on('connect', () => {
         setSocket(socket);
+        this.setSocketListeners(socket);
       });
+    } else {
+      this.setSocketListeners(socket);
     }
 
     api.get('/rooms').then(response => {

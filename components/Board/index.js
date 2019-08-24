@@ -133,8 +133,13 @@ class Board extends React.Component {
   }
 
   componentWillUnmount() {
-    const { socket } = this.props;
-    if (socket !== null) socket.removeAllListeners();
+    const { socket, gameRoom } = this.props;
+    const firstPlayerSocket = gameRoom.players[0].socket;
+    const secondPlayerSocket = gameRoom.players[1].socket;
+
+    if (firstPlayerSocket !== null && secondPlayerSocket !== null) {
+      if (socket !== null) socket.disconnect();
+    }
   }
 
   render() {
