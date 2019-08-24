@@ -122,7 +122,7 @@ class Board extends React.Component {
       });
 
       socket.on('opponent left', ({ player }) => {
-        moves.surrender(player);
+        if (!this.props.ctx.gameover) moves.surrender(player);
       });
 
       socket.on('disconnect', (reason) => {
@@ -137,6 +137,11 @@ class Board extends React.Component {
     const secondPlayerSocket = gameRoom.players[1].socket;
     // it is an 'ongoing game' if there are 2 players in a room
     const isOngoingGame = firstPlayerSocket !== null && secondPlayerSocket !== null;
+
+    // stop warnings for 'memory leak'
+    this.addPiece = () => {};
+    this.selectPiece = () => {};
+    this.movePiece = () => {};
 
     if (isOngoingGame && socket !== null) {
       // disconnect player so opponent wins, and reset socket
