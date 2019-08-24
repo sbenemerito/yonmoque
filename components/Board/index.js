@@ -213,7 +213,7 @@ class Board extends React.Component {
               current={this.props.ctx.currentPlayer}>
             </PlayerTwo>
           </Fragment>
-          <Modal isVisible={this.props.ctx.gameover}>
+          <Modal isVisible={this.props.ctx.gameover ? true : false}>
           <View style={{flex: 1}}>
             <View style={[styles.margins, styles.modal]}>
               <View style={[styles.margins]}>
