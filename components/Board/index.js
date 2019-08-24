@@ -99,11 +99,6 @@ class Board extends React.Component {
               break;
             case 'movePiece':
               this.movePiece(moveData.dest, null, moveData.src);
-
-              if (ctx.gameover) {
-                socket.to(moveData.id).emit('finish game', { id : moveData.id });
-              }
-
               break;
             default:
               console.error('Invalid move');

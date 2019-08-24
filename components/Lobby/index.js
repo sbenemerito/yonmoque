@@ -98,11 +98,11 @@ class Lobby extends React.Component {
         </TouchableHighlight>
         {
           this.state.rooms.map((room, index) => {
-            const statusStyle = room.status === 'waiting' ? styles.waiting : styles.started;
+            if (room.status !== 'waiting') return;
 
             return (
-              <TouchableHighlight key={index} onPress={() => room.status === 'waiting' ? this.joinRoom(room.id) : null}>
-                <View style={[styles.room, statusStyle]}>
+              <TouchableHighlight key={index} onPress={() => this.joinRoom(room.id)}>
+                <View style={[styles.room, styles.waiting]}>
                   <Text>{room.name}</Text>
                   <Text>Blue: {room.players[0].name}</Text>
                   <Text>White: {room.players[1].name}</Text>
