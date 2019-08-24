@@ -105,9 +105,9 @@ class App extends React.Component {
       lobby: <Lobby
                socket={socket}
                setSocket={this.setSocket}
-               setSide={this.setSide}
                startGame={this.startGame}
                isChooseColorVisible={isChooseColorVisible}
+               toggleChooseColor={this.toggleChooseColor}
              />,
       game: <YonmoqueClient
               showMainMenu={this.showMainMenu}

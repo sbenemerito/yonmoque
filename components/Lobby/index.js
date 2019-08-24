@@ -2,6 +2,7 @@ import React from "react";
 import socketIO from 'socket.io-client';
 import { ImageBackground, StyleSheet, View, TouchableHighlight, Button, Text } from "react-native";
 import { vw, vh } from 'react-native-expo-viewport-units';
+import Modal from "react-native-modal";
 
 import {
   white,
@@ -9,6 +10,8 @@ import {
 } from "../constants/colors";
 import api from '../../utils/YonmoqueApi';
 import getEnvVars from '../../environment';
+import ChooseColor from "../ChooseColorModal";
+
 
 const { apiUrl } = getEnvVars();
 
@@ -48,10 +51,10 @@ class Lobby extends React.Component {
     });
   }
 
-  createRoom = () => {
+  createRoom = (side) => {
     const { socket } = this.props;
     // socket.id is a temporary name
-    socket.emit('create room', { roomData: { name: 'Game Room', side: 1 }, playerName: socket.id });
+    socket.emit('create room', { roomData: { side }, playerName: socket.id });
   };
 
   joinRoom = (id) => {
@@ -93,9 +96,16 @@ class Lobby extends React.Component {
     return (
       <View style={styles.background}>
         <Text>Lobby</Text>
-        <TouchableHighlight style={styles.button} onPress={this.createRoom}>
+        <TouchableHighlight style={styles.button} onPress={this.props.toggleChooseColor}>
           <Text>Create Room</Text>
         </TouchableHighlight>
+        <Modal isVisible={this.props.isChooseColorVisible}>
+          <ChooseColor
+            toggleChooseColor={this.props.toggleChooseColor}
+            createRoom={this.createRoom}
+            isCreate={true}
+          />
+        </Modal>
         {
           this.state.rooms.map((room, index) => {
             return (

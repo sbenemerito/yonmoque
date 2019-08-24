@@ -13,7 +13,7 @@ import {
   playerTwoTile,
 } from "./constants/colors";
 
-const ChooseColor = ({toggleChooseColor, startGame, gameData}) => {
+const ChooseColor = ({toggleChooseColor, startGame, gameData, createRoom, isCreate}) => {
 
   return (
     <View style={{flex: 1}}>
@@ -22,8 +22,12 @@ const ChooseColor = ({toggleChooseColor, startGame, gameData}) => {
           <Text style={[styles.text, {marginBottom: vh(2)}]}>Choose your color!</Text>
           <TouchableHighlight
             onPress={() => {
-              gameData.players[0].name = `${gameData.players[0].name} (You)`;
-              startGame({ ...gameData, side: 0 });
+              if (isCreate) {
+                createRoom(0);
+              } else {
+                gameData.players[0].name = `${gameData.players[0].name} (You)`;
+                startGame({ ...gameData, side: 0 });
+              }
             }}
           >
             <View style={[styles.basePiece, styles.pieceBlue]}>
@@ -33,8 +37,12 @@ const ChooseColor = ({toggleChooseColor, startGame, gameData}) => {
           <Text style={[styles.text]}>or</Text>
           <TouchableHighlight
             onPress={() => {
-              gameData.players[1].name = `${gameData.players[1].name} (You)`;
-              startGame({ ...gameData, side: 1 });
+              if (isCreate) {
+                createRoom(1);
+              } else {
+                gameData.players[1].name = `${gameData.players[1].name} (You)`;
+                startGame({ ...gameData, side: 1 });
+              }
             }}
           >
             <View style={[styles.basePiece, styles.pieceWhite]}>

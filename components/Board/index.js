@@ -151,7 +151,7 @@ class Board extends React.Component {
   }
 
   render() {
-    const { G, gameRoom, showMainMenu } = this.props;
+    const { G, gameRoom, showMainMenu, socket, setSocket } = this.props;
 
     let cells = G.cells.map((cell) => {
       return (
@@ -182,7 +182,15 @@ class Board extends React.Component {
           <View style={styles.menuComponent}>
             <TouchableHighlight 
               style={styles.buttonMargin}
-              onPress={showMainMenu} >
+              onPress={() => {
+                if (socket !== null) {
+                  // disconnect player so opponent wins, and reset socket
+                  socket.disconnect();
+                  setSocket(null);
+                }
+
+                showMainMenu();
+              }} >
               <View style={[styles.buttonBase]}>
                 <View style={[styles.button, styles.margins]}>
                   <Image
