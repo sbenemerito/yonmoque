@@ -1,12 +1,12 @@
 import React from 'react';
 import { Client } from 'boardgame.io/react-native';
 import { StatusBar, StyleSheet, View, ImageBackground, ActivityIndicator } from 'react-native';
+import * as Font from 'expo-font';
 
 import Board from './components/Board';
 import Game from './components/Game';
 import Lobby from './components/Lobby';
 import MainMenu from './components/MainMenu';
-import {Font} from 'expo';
 
 
 class App extends React.Component {
