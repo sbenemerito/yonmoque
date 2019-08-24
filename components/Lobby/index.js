@@ -61,7 +61,7 @@ class Lobby extends React.Component {
   };
 
   componentDidMount() {
-    const { socket, setSocket, startGame } = this.props;
+    const { socket, setSocket } = this.props;
 
     if (socket === null) {
       const socket = socketIO(apiUrl, {
@@ -98,8 +98,6 @@ class Lobby extends React.Component {
         </TouchableHighlight>
         {
           this.state.rooms.map((room, index) => {
-            if (room.status !== 'waiting') return;
-
             return (
               <TouchableHighlight key={index} onPress={() => this.joinRoom(room.id)}>
                 <View style={[styles.room, styles.waiting]}>

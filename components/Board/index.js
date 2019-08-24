@@ -88,7 +88,7 @@ class Board extends React.Component {
   }
 
   componentDidMount() {
-    const { ctx, G, socket, updateGameState } = this.props;
+    const { G, socket, updateGameState, moves } = this.props;
 
     if (socket !== null) {
       socket.on('opponent moved', (moveData) => {
@@ -119,6 +119,10 @@ class Board extends React.Component {
         }
 
         updateGameState({ ...roomData, side });
+      });
+
+      socket.on('opponent left', ({ player }) => {
+        moves.surrender(player);
       });
 
       socket.on('disconnect', (reason) => {
