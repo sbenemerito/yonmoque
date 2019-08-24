@@ -128,12 +128,16 @@ class Board extends React.Component {
   }
 
   componentWillUnmount() {
-    const { socket, gameRoom } = this.props;
+    const { socket, setSocket, gameRoom } = this.props;
     const firstPlayerSocket = gameRoom.players[0].socket;
     const secondPlayerSocket = gameRoom.players[1].socket;
+    // it is an 'ongoing game' if there are 2 players in a room
+    const isOngoingGame = firstPlayerSocket !== null && secondPlayerSocket !== null;
 
-    if (firstPlayerSocket !== null && secondPlayerSocket !== null) {
-      if (socket !== null) socket.disconnect();
+    if (isOngoingGame && socket !== null) {
+      // disconnect player so opponent wins, and reset socket
+      socket.disconnect();
+      setSocket(null);
     }
   }
 

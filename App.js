@@ -114,6 +114,7 @@ class App extends React.Component {
               gameRoom={gameRoom}
               playerSide={playerSide}
               socket={socket}
+              setSocket={this.setSocket}
               updateGameState={this.updateGameState}
               isChooseColorVisible={isChooseColorVisible}
             />
