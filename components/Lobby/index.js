@@ -1,8 +1,9 @@
 import React from "react";
 import socketIO from 'socket.io-client';
-import { ImageBackground, StyleSheet, View, TouchableHighlight, Button, Text } from "react-native";
+import { ImageBackground, StyleSheet, View, TouchableHighlight, Image } from "react-native";
 import { vw, vh } from 'react-native-expo-viewport-units';
 import Modal from "react-native-modal";
+import Text from '../CustomText';
 
 import {
   white,
@@ -93,33 +94,59 @@ class Lobby extends React.Component {
   }
 
   render() {
+    const {showMainMenu} = this.props;
+
     return (
-      <View style={styles.background}>
-        <Text>Lobby</Text>
-        <TouchableHighlight style={styles.button} onPress={this.props.toggleChooseColor}>
-          <Text>Create Room</Text>
-        </TouchableHighlight>
-        <Modal isVisible={this.props.isChooseColorVisible}>
-          <ChooseColor
-            toggleChooseColor={this.props.toggleChooseColor}
-            createRoom={this.createRoom}
-            isCreate={true}
-          />
-        </Modal>
-        {
-          this.state.rooms.map((room, index) => {
-            return (
-              <TouchableHighlight key={index} onPress={() => this.joinRoom(room.id)}>
-                <View style={[styles.room, styles.waiting]}>
-                  <Text>{room.name}</Text>
-                  <Text>Blue: {room.players[0].name}</Text>
-                  <Text>White: {room.players[1].name}</Text>
-                </View>
+      <ImageBackground 
+        source={require("../../assets/backgrounds/mainmenubackground.jpg")}
+        style={styles.background}>
+          
+        <View style={styles.container}>
+          <View style={{alignItems: 'flex-end'}}>
+            <TouchableHighlight 
+              style={styles.button}
+              onPress={() => {
+                showMainMenu();
+              }}>
+              <Image
+                style={[{width: vw(7), height: vw(7)}, styles.margins]}
+                source={require("../../assets/icons/settings.png")}/>
+            </TouchableHighlight>
+          </View>
+          <View style={{flexDirection: 'row', marginTop: vh(2)}}>
+            <View style={{marginRight: 'auto', marginTop: 'auto', marginBottom: 'auto',}}>
+              <Text style={{fontSize: vw(10)}}>Lobbies:</Text>
+            </View>
+            <View style={{alignItems: 'flex-end'}}>
+              <TouchableHighlight 
+                style={[styles.button, {justifyContent: 'center'}]} 
+                onPress={this.props.toggleChooseColor}>
+                <Text style={[{fontSize: vw(5), color: white}, styles.margins]}>Create Room</Text>
               </TouchableHighlight>
-            )
-          })
-        }
-      </View>
+            </View>
+          </View>
+          <Modal isVisible={this.props.isChooseColorVisible}>
+            <ChooseColor
+              toggleChooseColor={this.props.toggleChooseColor}
+              createRoom={this.createRoom}
+              isCreate={true}
+            />
+          </Modal>
+          {
+            this.state.rooms.map((room, index) => {
+              return (
+                <TouchableHighlight key={index} onPress={() => this.joinRoom(room.id)}>
+                  <View style={[styles.room, styles.waiting]}>
+                    <Text>{room.name}</Text>
+                    <Text>Blue: {room.players[0].name}</Text>
+                    <Text>White: {room.players[1].name}</Text>
+                  </View>
+                </TouchableHighlight>
+              )
+            })
+          }
+        </View>
+      </ImageBackground>
     );
   }
 };
@@ -128,28 +155,38 @@ const styles = StyleSheet.create({
   background: {
     ...StyleSheet.absoluteFillObject,
     flexDirection: 'column',
-    backgroundColor: grayDark,
-    color: white
+    backgroundColor: '#00FFFFFF',
+  },
+  container: {
+    width: '100%',
+    paddingTop: vh(8),
+    paddingLeft: vw(5),
+    paddingRight: vw(5),
   },
   room: {
     backgroundColor: white,
     color: grayDark,
-    margin: vh(1),
+    margin: vh(1),    
     borderRadius: 12,
   },
   button: {
     backgroundColor: '#2B7FAE',
-    width: vw(60),
+    width: vw(32),
     height: vh(7),
-    borderRadius: 12,
-    marginTop: 20
+    borderRadius: vh(2),
   },
   waiting: {
     backgroundColor: white
   },
   started: {
     backgroundColor: grayDark
-  }
+  },
+  margins: {
+    marginRight: 'auto',
+    marginLeft: 'auto',
+    marginTop: 'auto',
+    marginBottom: 'auto',
+  },
 });
 
 export default Lobby;
