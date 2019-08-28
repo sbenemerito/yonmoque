@@ -70,7 +70,7 @@ const ChooseColor = ({toggleChooseColor, startGame, gameData, createRoom, isCrea
 const styles = StyleSheet.create({
   modal: {
     width: vw(75),
-    height: vh(45),
+    height: vh(50),
     backgroundColor: white,
     borderWidth: 5,
     borderRadius: 10,

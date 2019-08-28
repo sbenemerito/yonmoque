@@ -1,8 +1,9 @@
 import React from "react";
 import socketIO from 'socket.io-client';
-import { ImageBackground, StyleSheet, View, TouchableHighlight, Button, Text } from "react-native";
+import { ImageBackground, StyleSheet, View, TouchableHighlight } from "react-native";
 import { vw, vh } from 'react-native-expo-viewport-units';
 import Modal from "react-native-modal";
+import Text from '../CustomText';
 
 import {
   white,
@@ -94,32 +95,36 @@ class Lobby extends React.Component {
 
   render() {
     return (
-      <View style={styles.background}>
-        <Text>Lobby</Text>
-        <TouchableHighlight style={styles.button} onPress={this.props.toggleChooseColor}>
-          <Text>Create Room</Text>
-        </TouchableHighlight>
-        <Modal isVisible={this.props.isChooseColorVisible}>
-          <ChooseColor
-            toggleChooseColor={this.props.toggleChooseColor}
-            createRoom={this.createRoom}
-            isCreate={true}
-          />
-        </Modal>
-        {
-          this.state.rooms.map((room, index) => {
-            return (
-              <TouchableHighlight key={index} onPress={() => this.joinRoom(room.id)}>
-                <View style={[styles.room, styles.waiting]}>
-                  <Text>{room.name}</Text>
-                  <Text>Blue: {room.players[0].name}</Text>
-                  <Text>White: {room.players[1].name}</Text>
-                </View>
-              </TouchableHighlight>
-            )
-          })
-        }
-      </View>
+      <ImageBackground 
+        source={require("../../assets/backgrounds/mainmenubackground.jpg")}
+        style={styles.background}>
+        <View style={styles.container}>
+          <Text style={{fontSize: vw(10)}}>Lobby:</Text>
+          <TouchableHighlight style={styles.button} onPress={this.props.toggleChooseColor}>
+            <Text style={[{fontSize: vw(5), color: white}, styles.margins]}>Create Room</Text>
+          </TouchableHighlight>
+          <Modal isVisible={this.props.isChooseColorVisible}>
+            <ChooseColor
+              toggleChooseColor={this.props.toggleChooseColor}
+              createRoom={this.createRoom}
+              isCreate={true}
+            />
+          </Modal>
+          {
+            this.state.rooms.map((room, index) => {
+              return (
+                <TouchableHighlight key={index} onPress={() => this.joinRoom(room.id)}>
+                  <View style={[styles.room, styles.waiting]}>
+                    <Text>{room.name}</Text>
+                    <Text>Blue: {room.players[0].name}</Text>
+                    <Text>White: {room.players[1].name}</Text>
+                  </View>
+                </TouchableHighlight>
+              )
+            })
+          }
+        </View>
+      </ImageBackground>
     );
   }
 };
@@ -128,8 +133,12 @@ const styles = StyleSheet.create({
   background: {
     ...StyleSheet.absoluteFillObject,
     flexDirection: 'column',
-    backgroundColor: grayDark,
-    color: white
+    backgroundColor: '#00FFFFFF',
+  },
+  container: {
+    marginTop: vh(13),
+    marginLeft: vw(5),
+    marginRight: vw(5),
   },
   room: {
     backgroundColor: white,
@@ -139,7 +148,7 @@ const styles = StyleSheet.create({
   },
   button: {
     backgroundColor: '#2B7FAE',
-    width: vw(60),
+    width: vw(30),
     height: vh(7),
     borderRadius: 12,
     marginTop: 20
@@ -149,7 +158,13 @@ const styles = StyleSheet.create({
   },
   started: {
     backgroundColor: grayDark
-  }
+  },
+  margins: {
+    marginRight: 'auto',
+    marginLeft: 'auto',
+    marginTop: 'auto',
+    marginBottom: 'auto',
+  },
 });
 
 export default Lobby;
