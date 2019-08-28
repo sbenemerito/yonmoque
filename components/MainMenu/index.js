@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, View, Image, TouchableHighlight, Button } from "react-native";
+import { StyleSheet, View, Image, TouchableHighlight } from "react-native";
 import Text from '../CustomText';
 import {
   white,
@@ -31,7 +31,7 @@ class MainMenu extends React.Component {
 
     return (
       <View style={styles.root}>
-        <View style={styles.settingComponent}>
+        {/* <View style={styles.settingComponent}>
           <TouchableHighlight
             onPress={() => startGame(gameDataAI)}>
             <View style={[styles.buttonBase, styles.roundButtonBase]}>
@@ -43,7 +43,7 @@ class MainMenu extends React.Component {
               </View>
             </View>
           </TouchableHighlight>
-        </View>
+        </View> */}
         <View style={styles.imageComponent}>
           <Image
             style={{width: vw(80), height: vw(60),}}
@@ -97,7 +97,7 @@ const styles = StyleSheet.create({
   },
   imageComponent: {
     alignItems: "center",
-    marginTop: vh(3),
+    marginTop: vh(15),
   },
   settingComponent: {
     alignItems: "flex-end",

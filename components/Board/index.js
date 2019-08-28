@@ -194,7 +194,7 @@ class Board extends React.Component {
               <View style={[styles.buttonBase]}>
                 <View style={[styles.button, styles.margins]}>
                   <Image
-                    style={[{width: vw(8), height: vw(8)}, styles.margins]}
+                    style={[{width: vw(7), height: vw(7)}, styles.margins]}
                     source={require("../../assets/icons/settings.png")}
                   />
                 </View>
@@ -323,7 +323,7 @@ const styles = StyleSheet.create({
   },
   text: {
     color: black,
-    fontSize: 35,
+    fontSize: vw(7.5),
     marginTop: 'auto',
     marginBottom: 'auto',
   },
