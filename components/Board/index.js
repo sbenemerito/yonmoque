@@ -89,15 +89,36 @@ class Board extends React.Component {
     this.props.moves.resetVars();
   }
 
+  moveAI() {
+    const { gameRoom, ctx, playerSide } = this.props;
+
+    if (gameRoom.isAI && gameRoom.AI !== null && ctx.currentPlayer != playerSide) {
+      const aiMove = gameRoom.AI.makeMove();
+      switch (aiMove.type) {
+        case 'addPiece':
+          this.addPiece(aiMove.dest, aiMove.pieces);
+          break;
+        case 'movePiece':
+          this.movePiece(aiMove.dest, null, aiMove.src);
+          break;
+        default:
+          console.error('Invalid move');
+          break;
+      }
+    }
+  }
+
   componentDidMount() {
-    const { G, socket, updateGameState, moves } = this.props;
+    const { G, ctx, socket, updateGameState, moves } = this.props;
+
+    this.moveAI();
 
     if (socket !== null) {
       socket.on('opponent moved', (moveData) => {
         if (moveData.type) {
           switch (moveData.type) {
             case 'addPiece':
-              this.addPiece(moveData.dest, G.players[this.props.ctx.currentPlayer].pieces);
+              this.addPiece(moveData.dest, G.players[ctx.currentPlayer].pieces);
               break;
             case 'movePiece':
               this.movePiece(moveData.dest, null, moveData.src);
@@ -136,11 +157,11 @@ class Board extends React.Component {
   componentDidUpdate() {
     // AI should respond when the game state updates.
     // It is placed in componentDidUpdate() so it gets the board state changes.
-    const { G, gameRoom } = this.props;
+    const { G, ctx, playerSide, gameRoom } = this.props;
 
     if (gameRoom.isAI && gameRoom.AI !== null) {
       gameRoom.AI.handleMove([...G.cells]);
-      gameRoom.AI.makeMove();
+      this.moveAI();
     }
   }
 
