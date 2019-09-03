@@ -12,6 +12,9 @@ import {
   playerTwoTileBorder,
   playerTwoTile,
 } from "./constants/colors";
+import { initialCells } from "./constants/board";
+import YonmoqueAI from '../utils/YonmoqueAI';
+
 
 const ChooseColor = ({toggleChooseColor, startGame, gameData, createRoom, isCreate}) => {
 
@@ -26,6 +29,12 @@ const ChooseColor = ({toggleChooseColor, startGame, gameData, createRoom, isCrea
                 createRoom(0);
               } else {
                 gameData.players[0].name = `${gameData.players[0].name} (You)`;
+
+                if (gameData.isAI) {
+                  gameData.players[1].name = `${gameData.players[1].name} (AI)`;
+                  gameData.AI = new YonmoqueAI(1, [...initialCells], 6);
+                }
+
                 startGame({ ...gameData, side: 0 });
               }
             }}
@@ -41,6 +50,12 @@ const ChooseColor = ({toggleChooseColor, startGame, gameData, createRoom, isCrea
                 createRoom(1);
               } else {
                 gameData.players[1].name = `${gameData.players[1].name} (You)`;
+
+                if (gameData.isAI) {
+                  gameData.players[0].name = `${gameData.players[0].name} (AI)`;
+                  gameData.AI = new YonmoqueAI(0, [...initialCells], 6);
+                }
+
                 startGame({ ...gameData, side: 1 });
               }
             }}

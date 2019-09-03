@@ -21,6 +21,7 @@ import {
   grayDark
 } from "../constants/colors";
 
+
 class Board extends React.Component {
   onClick(cell, moveAbles, numPieces, selectedCell) {
     const { ctx, gameRoom, playerSide, socket } = this.props;
@@ -28,6 +29,7 @@ class Board extends React.Component {
     const notLocalVersus = gameRoom.isMultiplayer || gameRoom.isAI;
     const oppositePlayer = (playerSide - 1) * -1;
     const noOpponent = gameRoom.players[oppositePlayer].name === null;
+
     if ((ctx.currentPlayer != playerSide || noOpponent) && notLocalVersus) return;
 
     let moveData = {
@@ -128,6 +130,17 @@ class Board extends React.Component {
       socket.on('disconnect', (reason) => {
         console.log(`Disconnected. Reason: ${reason}`);
       });
+    }
+  }
+
+  componentDidUpdate() {
+    // AI should respond when the game state updates.
+    // It is placed in componentDidUpdate() so it gets the board state changes.
+    const { G, gameRoom } = this.props;
+
+    if (gameRoom.isAI && gameRoom.AI !== null) {
+      gameRoom.AI.handleMove([...G.cells]);
+      gameRoom.AI.makeMove();
     }
   }
 
