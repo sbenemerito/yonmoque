@@ -1,3 +1,9 @@
+import {
+  blueValue,
+  whiteValue
+} from "../components/constants/board";
+
+
 class YonmoqueAI {
   constructor(side, board, pieces=6) {
     this.side = side;
@@ -7,12 +13,11 @@ class YonmoqueAI {
 
   handleMove(board) {
     this.board = board;
-    console.log('AI received new board state');
   }
 
   makeMove() {
     // assume only 'movePiece' can be made
-    let movesList = ['movePiece'];
+    let movesList = [];
     let movablePieces = [];
     let opponentPieces = [];
 
@@ -24,8 +29,10 @@ class YonmoqueAI {
       }
     });
 
-    // add 'addPiece' to moveList if AI still has pieces to place
+    // add 'addPiece' to movesList if AI still has pieces to place
     if (this.pieces > 0) movesList.push('addPiece');
+    // add 'movePiece' to movesList if AI has pieces placed
+    if (movablePieces.length > 0) movesList.push('movePiece');
 
     // AI just randomly decides what to do
     let moveData = {
@@ -57,7 +64,7 @@ class YonmoqueAI {
 
           // right
           const rightCell = cell + 1;
-          if ((cell-4) % 5 > 0 && rightCell <= 24 && this.board[rightCell].piece === null) emptyCells.push(rightCell);
+          if ((cell - 4) % 5 > 0 && rightCell <= 24 && this.board[rightCell].piece === null) emptyCells.push(rightCell);
 
           if (emptyCells.length > 0) {
             moveData.dest = emptyCells[Math.floor(Math.random() * emptyCells.length)];
@@ -67,9 +74,21 @@ class YonmoqueAI {
           return false;
         });
       }
+    } else {
+      const shuffledPieces = this.shuffleList(movablePieces);
+      shuffledPieces.some((cell) => {
+        const movableCells = this.checkMovables(cell);
+
+        if (movableCells.length > 0) {
+          moveData.src = cell;
+          moveData.dest = movableCells[Math.floor(Math.random() * movableCells.length)];
+          return true;
+        }
+
+        return false;
+      });
     }
 
-    console.log(moveData, 'AI made a move!');
     return moveData;
   }
 
@@ -80,6 +99,57 @@ class YonmoqueAI {
     }
 
     return items;
+  }
+
+  checkMovables(cell) {
+    const passableTile = this.side === 0 ? blueValue : whiteValue;
+    let movableCells = [];
+
+    // top
+    const topCell = cell - 5;
+    if (topCell >= 0 && this.board[topCell].piece === null) movableCells.push(topCell);
+
+    // left
+    const leftCell = cell - 1;
+    if (cell % 5 > 0 && leftCell >= 0 && this.board[leftCell].piece === null) movableCells.push(leftCell);
+
+    // bottom
+    const bottomCell = cell + 5;
+    if (cell < 20 && bottomCell <= 24 && this.board[bottomCell].piece === null) movableCells.push(bottomCell);
+
+    // right
+    const rightCell = cell + 1;
+    if ((cell - 4) % 5 > 0 && rightCell <= 24 && this.board[rightCell].piece === null) movableCells.push(rightCell);
+
+    // top-left
+    let diagonalTL = cell - 6;
+    while (cell % 5 > 0 && diagonalTL >= 0 && this.board[diagonalTL].piece === null) {
+      if (this.board[diagonalTL].color === passableTile) movableCells.push(diagonalTL);
+      diagonalTL -= 6;
+    }
+
+    // top-right
+    let diagonalTR = cell - 4;
+    while (diagonalTR % 5 > 0 && diagonalTR >= 0 && this.board[diagonalTR].piece === null) {
+      if (this.board[diagonalTR].color === passableTile) movableCells.push(diagonalTR);
+      diagonalTR -= 4;
+    }
+
+    // bottom-left
+    let diagonalBL = cell + 4;
+    while (cell % 5 > 0 && diagonalBL < 24 && this.board[diagonalBL].piece === null) {
+      if (this.board[diagonalBL].color === passableTile) movableCells.push(diagonalBL);
+      diagonalBL += 4;
+    }
+
+    // bottom-right
+    let diagonalBR = cell + 6;
+    while ((cell-4) % 5 > 0 && diagonalBR <= 24 && this.board[diagonalBR].piece === null) {
+      if (this.board[diagonalBR].color === passableTile) movableCells.push(diagonalBR);
+      diagonalBR += 6;
+    }
+
+    return movableCells;
   }
 }
 

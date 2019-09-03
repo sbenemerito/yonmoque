@@ -97,6 +97,7 @@ class Board extends React.Component {
       switch (aiMove.type) {
         case 'addPiece':
           this.addPiece(aiMove.dest, aiMove.pieces);
+          gameRoom.AI.pieces = gameRoom.AI.pieces - 1;
           break;
         case 'movePiece':
           this.movePiece(aiMove.dest, null, aiMove.src);
