@@ -30,9 +30,9 @@ const ja = {
   waiting: '他のプレイヤーを待っている'
 };
 
+i18n.fallbacks = true;
 i18n.default_locale = 'en';
 i18n.translations = { ja, en };
 i18n.locale = Localization.locale;
-console.log(i18n.locale, 'i18n.locale');
 
 export default i18n;
