@@ -13,7 +13,7 @@ import {
   blue,
   grayMedium,
   white,
-  yellowLight,
+  yellowTile,
 } from "../constants/colors";
 import Piece from "../Piece";
 
@@ -61,8 +61,8 @@ const styles = StyleSheet.create({
     backgroundColor: grayMedium
   },
   movableTile: {
-    borderWidth: 2,
-    borderColor: yellowLight,
+    borderWidth: 36,
+    borderColor: yellowTile,
   },
 });
 
