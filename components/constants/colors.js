@@ -5,6 +5,7 @@ module.exports = {
   redMedium: "#DB7270",
   orangeMedium: "#CD7547",
   yellowLight: "#FFEA87",
+  yellowTile: "#FFEA8766",
   greenLight: "#CAE1C3",
   greenMedium: "#7A9572",
   blue: "#226298",
