@@ -7,13 +7,14 @@ import {
 import { vw, vh } from "react-native-expo-viewport-units";
 import Modal from "react-native-modal";
 import ChooseColor from "../ChooseColorModal";
+import ChooseMultiplayerMode from "../ChooseMultiplayerMode";
 import i18n from '../../utils/i18n';
 
 
 class MainMenu extends React.Component {
 
   render() {
-    const { startGame, joinLobby, toggleChooseColor } = this.props;
+    const { startGame, joinLobby, toggleChooseColor, toggleChooseMultiplayerMode } = this.props;
     const gameDataAI = {
       name: "Playing with AI",
       players: {
@@ -60,6 +61,13 @@ class MainMenu extends React.Component {
               gameData={gameDataAI}
             />
           </Modal>
+          <Modal isVisible={this.props.isChooseMultiplayerModeVisible}>
+            <ChooseMultiplayerMode 
+              toggleChooseMultiplayerMode={toggleChooseMultiplayerMode}
+              startGame={startGame}
+              joinLobby={joinLobby}
+            />
+          </Modal>
           <TouchableHighlight
             onPress={toggleChooseColor}>
             <View style={[styles.buttonBase, styles.menuButtonBase]}>
@@ -69,7 +77,7 @@ class MainMenu extends React.Component {
             </View>
           </TouchableHighlight>
           <TouchableHighlight
-            onPress={joinLobby}>
+            onPress={toggleChooseMultiplayerMode}>
             <View style={[styles.buttonBase, styles.menuButtonBase]}>
               <View style={[styles.button, styles.menuButton, styles.margins]}>
                 <Text style={[styles.text, styles.margins]}>{i18n.t('multiplayer')}</Text>
