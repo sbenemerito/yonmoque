@@ -8,6 +8,8 @@ import { vw, vh } from "react-native-expo-viewport-units";
 import Modal from "react-native-modal";
 import ChooseColor from "../ChooseColorModal";
 import ChooseMultiplayerMode from "../ChooseMultiplayerMode";
+import i18n from '../../utils/i18n';
+
 
 class MainMenu extends React.Component {
 
@@ -70,7 +72,7 @@ class MainMenu extends React.Component {
             onPress={toggleChooseColor}>
             <View style={[styles.buttonBase, styles.menuButtonBase]}>
               <View style={[styles.button, styles.menuButton, styles.margins]}>
-                <Text style={[styles.text, styles.margins]}> Play with AI </Text> 
+                <Text style={[styles.text, styles.margins]}>{i18n.t('withAi')}</Text>
               </View>
             </View>
           </TouchableHighlight>
@@ -78,14 +80,14 @@ class MainMenu extends React.Component {
             onPress={toggleChooseMultiplayerMode}>
             <View style={[styles.buttonBase, styles.menuButtonBase]}>
               <View style={[styles.button, styles.menuButton, styles.margins]}>
-                <Text style={[styles.text, styles.margins]}> Multiplayer </Text> 
+                <Text style={[styles.text, styles.margins]}>{i18n.t('multiplayer')}</Text>
               </View>
             </View>
           </TouchableHighlight>
           <TouchableHighlight>
             <View style={[styles.buttonBase, styles.menuButtonBase]}>
               <View style={[styles.button, styles.menuButton, styles.margins]}>
-                <Text style={[styles.text, styles.margins]}> How to Play </Text> 
+                <Text style={[styles.text, styles.margins]}>{i18n.t('howto')}</Text>
               </View>
             </View>
           </TouchableHighlight>
