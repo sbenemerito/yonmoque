@@ -455,9 +455,10 @@ const Game = BGGame({
       G.cells[src !== null ? src : G.selectedCell].piece = null;
       G.cells[id].piece = ctx.currentPlayer;
       flippableCells(id, ctx.currentPlayer, G);
+      G.moveAbleCells = [];
       G.victory = checkVictory(ctx.currentPlayer, G);
     },
-    surrender: (G, ctx, playerId) => {
+    surrender: (G, playerId) => {
       G.victory = (playerId - 1) * -1;
     },
     resetVars: (G) => {
@@ -466,9 +467,8 @@ const Game = BGGame({
       G.selectedCell = null;
     }
   },
-
   flow: {
-    endGameIf: (G, ctx) => {
+    endGameIf: (G) => {
       // Put winning condition here, return player key.
       if (G.victory != null) {
         return { winner: G.victory };
