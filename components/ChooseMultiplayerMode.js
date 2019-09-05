@@ -10,6 +10,8 @@ import {
   playerTwoTileBorder,
   playerTwoTile,
 } from "./constants/colors";
+import i18n from '../utils/i18n';
+
 
 const ChooseMultiplayerMode = ({toggleChooseMultiplayerMode, startGame, gameData, isCreate, joinLobby}) => {
 
@@ -17,17 +19,17 @@ const ChooseMultiplayerMode = ({toggleChooseMultiplayerMode, startGame, gameData
     <View style={{flex: 1}}>
       <View style={[styles.margins, styles.modal]}>
         <View style={[styles.margins]}>
-          <Text style={[styles.text, {marginBottom: vh(2)}]}>Choose your Mode!</Text>
+          <Text style={[styles.text, { marginBottom: vh(2) }]}>{i18n.t('multiplayerMode')}</Text>
           <TouchableHighlight>
             <View style={[styles.basePiece, styles.pieceWhite]}>
-              <Text style={[styles.buttonText, styles.margins]}>Single Phone</Text>
+              <Text style={[styles.buttonText, styles.margins]}>{i18n.t('samePhone')}</Text>
             </View>
           </TouchableHighlight>
           <Text style={[styles.text]}>or</Text>
           <TouchableHighlight
             onPress={joinLobby}>
             <View style={[styles.basePiece, styles.pieceWhite]}>
-              <Text style={[styles.buttonText, styles.margins]}>Internet</Text>
+              <Text style={[styles.buttonText, styles.margins]}>{i18n.t('internet')}</Text>
             </View>
           </TouchableHighlight>
           <TouchableHighlight 

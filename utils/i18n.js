@@ -13,7 +13,10 @@ const en = {
   or: 'or',
   lobby: 'Lobby',
   createRoom: 'Create Room',
-  waiting: 'Waiting...'
+  waiting: 'Waiting...',
+  multiplayerMode: 'Choose mode',
+  samePhone: 'Same phone',
+  internet: 'Online',
 };
 
 const ja = {
@@ -27,7 +30,10 @@ const ja = {
   or: 'か',
   lobby: 'ロビー',
   createRoom: 'ルーム作成',
-  waiting: '他のプレイヤーを待っている'
+  waiting: '他のプレイヤーを待っている',
+  multiplayerMode: 'どこで遊びますか',
+  samePhone: '当携帯',
+  internet: 'オンライン上',
 };
 
 i18n.fallbacks = true;
