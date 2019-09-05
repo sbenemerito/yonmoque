@@ -22,6 +22,11 @@ import {
 } from "../constants/colors";
 
 class Board extends React.Component {
+  state = {
+    showWinnerModal: false,
+    finalBoard: false,
+  };
+
   onClick(cell, moveAbles, numPieces, selectedCell) {
     const { ctx, gameRoom, playerSide, socket } = this.props;
 
@@ -85,6 +90,19 @@ class Board extends React.Component {
       this.props.events.endTurn();
     }
     this.props.moves.resetVars();
+  }
+
+  toggleWinner = () => {
+    this.setState({ 
+      showWinnerModal: !this.state.showWinnerModal,
+      finalBoard: true
+    });
+  };
+
+  componentDidUpdate() {
+    if(this.props.ctx.gameover && !this.state.showWinnerModal && !this.state.finalBoard) {
+      this.toggleWinner();
+    }
   }
 
   componentDidMount() {
@@ -152,6 +170,9 @@ class Board extends React.Component {
 
   render() {
     const { G, gameRoom, showMainMenu, socket, setSocket } = this.props;
+    const {
+      showWinnerModal
+    } = this.state;
 
     let cells = G.cells.map((cell) => {
       return (
@@ -234,18 +255,14 @@ class Board extends React.Component {
               current={this.props.ctx.currentPlayer}>
             </PlayerTwo>
           </Fragment>
-          <Modal isVisible={this.props.ctx.gameover ? true : false}>
-          <View style={{flex: 1}}>
-            <View style={[styles.margins, styles.modal]}>
-              <View style={[styles.margins]}>
-                <Image
-                  style={[{width: vw(50), height: vw(55)}, styles.margins]}
-                  source={require("../../assets/icons/winner.png")}
-                />
-                <Text style={[styles.text, styles.margins, {marginBottom: vh(2)}]}> Player {parseInt(G.victory) + 1} </Text>
+          <Modal isVisible={showWinnerModal}>
+            <View style={{flex: 1}}>
+              <View style={[styles.margins, styles.modal]}>
                 <TouchableHighlight 
-                  style={[styles.buttonMargin, styles.margins]}
-                  onPress={showMainMenu}>
+                  style={[styles.buttonMargin, styles.marginsRight]}
+                  onPress={() => {
+                    this.toggleWinner();
+                  }}>
                   <View style={[styles.buttonBase]}>
                     <View style={[styles.button, styles.margins]}>
                       <Image
@@ -255,9 +272,28 @@ class Board extends React.Component {
                     </View>
                   </View>
                 </TouchableHighlight>
+                <View style={[styles.marginsTop]}>  
+                  <Image
+                    style={[{width: vw(50), height: vw(55)}, styles.margins]}
+                    source={require("../../assets/icons/winner.png")}/>
+                  <Text style={[styles.text, styles.margins, {marginBottom: vh(2)}]}> Player {parseInt(G.victory) + 1} </Text>
+                  <TouchableHighlight 
+                    style={[styles.buttonMargin, styles.margins]}
+                    onPress={() => {
+                      showMainMenu();
+                    }}>
+                    <View style={[styles.buttonBase]}>
+                      <View style={[styles.button, styles.margins]}>
+                        <Image
+                          style={[{width: vw(6), height: vw(6)}, styles.margins]}
+                          source={require("../../assets/icons/settings.png")}
+                        />
+                      </View>
+                    </View>
+                  </TouchableHighlight>
+                </View>
               </View>
             </View>
-          </View>
           </Modal>
         </ImageBackground>
       </View>
@@ -321,6 +357,15 @@ const styles = StyleSheet.create({
     marginTop: 'auto',
     marginBottom: 'auto',
   },
+  marginsTop: {
+    marginRight: 'auto',
+    marginLeft: 'auto',
+    marginBottom: 'auto',
+  },
+  marginsRight: {
+    marginLeft: 'auto',
+    marginTop: 'auto',
+  },
   text: {
     color: black,
     fontSize: vw(7.5),
@@ -329,7 +374,7 @@ const styles = StyleSheet.create({
   },
   modal: {
     width: vw(75),
-    height: vh(45),
+    height: vh(55),
     backgroundColor: white,
     borderWidth: 5,
     borderRadius: 10,
