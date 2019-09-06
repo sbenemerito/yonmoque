@@ -6,8 +6,8 @@ import * as Font from 'expo-font';
 import Board from './components/Board';
 import Game from './components/Game';
 import Lobby from './components/Lobby';
+import HowToPlay from './components/HowToPlay';
 import MainMenu from './components/MainMenu';
-
 
 class App extends React.Component {
   state = {
@@ -74,6 +74,12 @@ class App extends React.Component {
     });
   };
 
+  howToPlay = () => {
+    this.setState({
+      screen: 'instruction'
+    });
+  };
+
   toggleChooseColor = () => {
     this.setState({ 
       isChooseColorVisible: !this.state.isChooseColorVisible 
@@ -99,6 +105,7 @@ class App extends React.Component {
       mainMenu: <MainMenu
                   startGame={this.startGame}
                   joinLobby={this.joinLobby}
+                  howToPlay={this.howToPlay}
                   toggleChooseColor={this.toggleChooseColor}
                   isChooseColorVisible={isChooseColorVisible}
                 />,
@@ -118,6 +125,9 @@ class App extends React.Component {
               setSocket={this.setSocket}
               updateGameState={this.updateGameState}
               isChooseColorVisible={isChooseColorVisible}
+            />,
+      instruction: <HowToPlay
+              showMainMenu={this.showMainMenu}
             />
     };
 

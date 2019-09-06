@@ -11,7 +11,7 @@ import ChooseColor from "../ChooseColorModal";
 class MainMenu extends React.Component {
 
   render() {
-    const { startGame, joinLobby, toggleChooseColor } = this.props;
+    const { startGame, joinLobby, howToPlay, toggleChooseColor } = this.props;
     const gameDataAI = {
       name: "Playing with AI",
       players: {
@@ -74,7 +74,8 @@ class MainMenu extends React.Component {
               </View>
             </View>
           </TouchableHighlight>
-          <TouchableHighlight>
+          <TouchableHighlight
+            onPress={howToPlay}>
             <View style={[styles.buttonBase, styles.menuButtonBase]}>
               <View style={[styles.button, styles.menuButton, styles.margins]}>
                 <Text style={[styles.text, styles.margins]}> How to Play </Text> 
