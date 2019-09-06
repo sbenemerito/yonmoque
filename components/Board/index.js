@@ -274,7 +274,7 @@ class Board extends React.Component {
                 </TouchableHighlight>
                 <View style={[styles.marginsTop]}>  
                   <Image
-                    style={[{width: vw(50), height: vw(55)}, styles.margins]}
+                    style={[{width: vw(50), height: vh(31)}, styles.margins]}
                     source={require("../../assets/icons/winner.png")}/>
                   <Text style={[styles.text, styles.margins, {marginBottom: vh(2)}]}> Player {parseInt(G.victory) + 1} </Text>
                   <TouchableHighlight 
