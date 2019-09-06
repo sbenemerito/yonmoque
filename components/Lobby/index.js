@@ -1,6 +1,6 @@
 import React from "react";
 import socketIO from 'socket.io-client';
-import { ImageBackground, StyleSheet, View, TouchableHighlight, Image } from "react-native";
+import { ImageBackground, StyleSheet, View, TouchableHighlight, Image, ScrollView } from "react-native";
 import { vw, vh } from 'react-native-expo-viewport-units';
 import Modal from "react-native-modal";
 import Text from '../CustomText';
@@ -132,19 +132,21 @@ class Lobby extends React.Component {
               isCreate={true}
             />
           </Modal>
-          {
-            this.state.rooms.map((room, index) => {
-              return (
-                <TouchableHighlight key={index} onPress={() => this.joinRoom(room.id)}>
-                  <View style={[styles.room, styles.waiting]}>
-                    <Text>{room.name}</Text>
-                    <Text>Blue: {room.players[0].name}</Text>
-                    <Text>White: {room.players[1].name}</Text>
-                  </View>
-                </TouchableHighlight>
-              )
-            })
-          }
+          <ScrollView>
+            {
+              this.state.rooms.map((room, index) => {
+                return (
+                  <TouchableHighlight key={index} onPress={() => this.joinRoom(room.id)}>
+                    <View style={[styles.room, styles.waiting]}>
+                      <Text>{room.name}</Text>
+                      <Text>Blue: {room.players[0].name}</Text>
+                      <Text>White: {room.players[1].name}</Text>
+                    </View>
+                  </TouchableHighlight>
+                )
+              })
+            }
+          </ScrollView>
         </View>
       </ImageBackground>
     );

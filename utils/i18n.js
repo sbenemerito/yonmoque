@@ -15,7 +15,7 @@ const en = {
   createRoom: 'Create Room',
   waiting: 'Waiting...',
   multiplayerMode: 'Choose mode',
-  samePhone: 'Same phone',
+  samePhone: 'Offline',
   internet: 'Online',
 };
 
