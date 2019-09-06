@@ -20,6 +20,8 @@ import {
   blueDark,
   grayDark
 } from "../constants/colors";
+import i18n from '../../utils/i18n';
+
 
 class Board extends React.Component {
   state = {
@@ -237,7 +239,7 @@ class Board extends React.Component {
           <Fragment>
             <PlayerOne
               pieces={G.players[0].pieces}
-              name={gameRoom.players[0].name ? gameRoom.players[0].name : 'waiting...'}
+              name={gameRoom.players[0].name ? gameRoom.players[0].name : i18n.t('waiting')}
               current={this.props.ctx.currentPlayer}>
             </PlayerOne>
           </Fragment>
@@ -251,7 +253,7 @@ class Board extends React.Component {
           <Fragment>
             <PlayerTwo
               pieces={G.players[1].pieces}
-              name={gameRoom.players[1].name ? gameRoom.players[1].name : 'waiting...'}
+              name={gameRoom.players[1].name ? gameRoom.players[1].name : i18n.t('waiting')}
               current={this.props.ctx.currentPlayer}>
             </PlayerTwo>
           </Fragment>
