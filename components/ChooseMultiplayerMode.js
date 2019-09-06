@@ -25,7 +25,7 @@ const ChooseMultiplayerMode = ({toggleChooseMultiplayerMode, startGame, gameData
               <Text style={[styles.buttonText, styles.margins]}>{i18n.t('samePhone')}</Text>
             </View>
           </TouchableHighlight>
-          <Text style={[styles.text]}>or</Text>
+          <Text style={[styles.text]}>{i18n.t('or')}</Text>
           <TouchableHighlight
             onPress={joinLobby}>
             <View style={[styles.basePiece, styles.pieceWhite]}>
@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
     borderColor: blueDark,
   },
   text: {
-    fontSize: vw(9),
+    fontSize: vw(8),
     color: blueDark,
     marginRight: 'auto',
     marginLeft: 'auto',
@@ -84,7 +84,7 @@ const styles = StyleSheet.create({
     marginTop: vh(4),
   },
   buttonText: {
-    fontSize: vw(7),
+    fontSize: vw(5),
   },
   buttonBase: {
     backgroundColor: blueDark,

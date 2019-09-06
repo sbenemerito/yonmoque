@@ -12,6 +12,7 @@ import {
   playerTwoTileBorder,
   playerTwoTile,
 } from "./constants/colors";
+import i18n from '../utils/i18n';
 
 const ChooseColor = ({toggleChooseColor, startGame, gameData, createRoom, isCreate}) => {
 
@@ -19,7 +20,7 @@ const ChooseColor = ({toggleChooseColor, startGame, gameData, createRoom, isCrea
     <View style={{flex: 1}}>
       <View style={[styles.margins, styles.modal]}>
         <View style={[styles.margins]}>
-          <Text style={[styles.text, {marginBottom: vh(2)}]}>Choose your color!</Text>
+          <Text style={[styles.text, {marginBottom: vh(2)}]}>{i18n.t('chooseColor')}</Text>
           <TouchableHighlight
             onPress={() => {
               if (isCreate) {
@@ -31,10 +32,10 @@ const ChooseColor = ({toggleChooseColor, startGame, gameData, createRoom, isCrea
             }}
           >
             <View style={[styles.basePiece, styles.pieceBlue]}>
-              <Text style={[styles.buttonText, styles.margins]}>Blue</Text>
+              <Text style={[styles.buttonText, styles.margins]}>{i18n.t('blue')}</Text>
             </View>
           </TouchableHighlight>
-          <Text style={[styles.text]}>or</Text>
+          <Text style={[styles.text]}>{i18n.t('or')}</Text>
           <TouchableHighlight
             onPress={() => {
               if (isCreate) {
@@ -46,7 +47,7 @@ const ChooseColor = ({toggleChooseColor, startGame, gameData, createRoom, isCrea
             }}
           >
             <View style={[styles.basePiece, styles.pieceWhite]}>
-              <Text style={[styles.buttonText, styles.margins]}>White</Text>
+              <Text style={[styles.buttonText, styles.margins]}>{i18n.t('white')}</Text>
             </View>
           </TouchableHighlight>
           <TouchableHighlight 
@@ -77,7 +78,7 @@ const styles = StyleSheet.create({
     borderColor: blueDark,
   },
   text: {
-    fontSize: vw(9),
+    fontSize: vw(8),
     color: blueDark,
     marginRight: 'auto',
     marginLeft: 'auto',
@@ -105,7 +106,7 @@ const styles = StyleSheet.create({
     marginTop: vh(4),
   },
   buttonText: {
-    fontSize: vw(7),
+    fontSize: vw(5),
   },
   buttonBase: {
     backgroundColor: blueDark,

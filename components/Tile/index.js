@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
     backgroundColor: grayMedium
   },
   movableTile: {
-    borderWidth: 36,
+    borderWidth: tileHeight + vw(4),
     borderColor: yellowTile,
   },
 });
