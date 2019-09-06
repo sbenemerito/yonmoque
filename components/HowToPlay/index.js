@@ -4,7 +4,7 @@ import { vw, vh } from 'react-native-expo-viewport-units';
 import Text from '../CustomText';
 import Swiper from 'react-native-swiper';
 import i18n from '../../utils/i18n';
-
+import { Platform } from 'react-native';
 import {
   white,
   grayDark,
@@ -15,9 +15,34 @@ class HowToPlay extends React.Component {
   render() {
     const {showMainMenu} = this.props;
     let lang = 'en';
-    if (i18n.locale == 'ja') {
+    if (i18n.locale === 'ja-JP') {
       lang = 'ja';
     }
+    const imagesMap = {
+      en: [
+        null,
+        require("../../assets/how-to-play/en/1.jpg"),
+        require("../../assets/how-to-play/en/2.jpg"),
+        require("../../assets/how-to-play/en/3.jpg"),
+        require("../../assets/how-to-play/en/4.jpg"),
+        require("../../assets/how-to-play/en/5.jpg"),
+        require("../../assets/how-to-play/en/6.jpg"),
+        require("../../assets/how-to-play/en/7.jpg"),
+        require("../../assets/how-to-play/en/8.jpg")
+      ],
+      ja: [
+        null,
+        require("../../assets/how-to-play/ja/1.jpg"),
+        require("../../assets/how-to-play/ja/2.jpg"),
+        require("../../assets/how-to-play/ja/3.jpg"),
+        require("../../assets/how-to-play/ja/4.jpg"),
+        require("../../assets/how-to-play/ja/5.jpg"),
+        require("../../assets/how-to-play/ja/6.jpg"),
+        require("../../assets/how-to-play/ja/7.jpg"),
+        require("../../assets/how-to-play/ja/8.jpg")
+      ],
+    };
+
     return (
       <ImageBackground 
         source={require("../../assets/backgrounds/mainmenubackground.jpg")}
@@ -38,32 +63,35 @@ class HowToPlay extends React.Component {
         </View>
         
         <Text style={[styles.text]} type="PressStart">{i18n.t('howToPlay')}</Text>
-        <Swiper style={styles.slide} showsButtons={true}>
+        <Swiper 
+            containerStyle={Platform.OS === 'ios' ? styles.slide : undefined}
+            style={Platform.OS !== 'ios' ? styles.slide : undefined}
+            showsButtons={true}
+          >
           <View style={styles.slide}>
-
             <Image
               style={[{width: vw(85), height: vw(130)}, styles.images]}
-              source={{ uri: "../../assets/how-to-play/" + lang + "/1.jpg"}}/>
+              source={imagesMap[lang][1]}/>
           </View>
           <View style={styles.slide}>
             <Image
               style={[{width: vw(85), height: vw(130)}, styles.images]}
-              source={{ uri: "../../assets/how-to-play/" + lang + "/2.jpg"}}/>
+              source={imagesMap[lang][2]}/>
           </View>
           <View style={styles.slide}>
             <Image
               style={[{width: vw(85), height: vw(130)}, styles.images]}
-              source={{ uri: "../../assets/how-to-play/" + lang + "/3.jpg"}}/>
+              source={imagesMap[lang][3]}/>
           </View>
           <View style={styles.slide}>
             <Image
               style={[{width: vw(85), height: vw(130)}, styles.images]}
-              source={{ uri: "../../assets/how-to-play/" + lang + "/4.jpg"}}/>
+              source={imagesMap[lang][4]}/>
           </View>
           <View style={styles.slide}>
             <Image
               style={[{width: vw(85), height: vw(130)}, styles.images]}
-              source={{ uri: "../../assets/how-to-play/" + lang + "/5.jpg"}}/>
+              source={imagesMap[lang][5]}/>
           </View>
           <View style={styles.slide}>
             <Image
@@ -78,17 +106,17 @@ class HowToPlay extends React.Component {
           <View style={styles.slide}>
             <Image
               style={[{width: vw(85), height: vw(130)}, styles.images]}
-              source={{ uri: "../../assets/how-to-play/" + lang + "/6.jpg"}}/>
+              source={imagesMap[lang][6]}/>
           </View>
           <View style={styles.slide}>
             <Image
               style={[{width: vw(85), height: vw(130)}, styles.images]}
-              source={{ uri: "../../assets/how-to-play/" + lang + "/7.jpg"}}/>
+              source={imagesMap[lang][7]}/>
           </View>
           <View style={styles.slide}>
             <Image
               style={[{width: vw(85), height: vw(130)}, styles.images]}
-              source={{ uri: "../../assets/how-to-play/" + lang + "/8.jpg"}}/>
+              source={imagesMap[lang][8]}/>
           </View>
         </Swiper>
       </ImageBackground>
