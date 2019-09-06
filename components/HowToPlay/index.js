@@ -38,52 +38,52 @@ class HowToPlay extends React.Component {
           <View style={styles.slide}>
             <Image
               style={[{width: vw(85), height: vw(130)}, styles.images]}
-              source={require("../../assets/how-to-play/des-1.jpg")}/>
+              source={require("../../assets/how-to-play/en/1.jpg")}/>
           </View>
           <View style={styles.slide}>
             <Image
               style={[{width: vw(85), height: vw(130)}, styles.images]}
-              source={require("../../assets/how-to-play/des-2.jpg")}/>
+              source={require("../../assets/how-to-play/en/2.jpg")}/>
           </View>
           <View style={styles.slide}>
             <Image
               style={[{width: vw(85), height: vw(130)}, styles.images]}
-              source={require("../../assets/how-to-play/des-3.jpg")}/>
+              source={require("../../assets/how-to-play/en/3.jpg")}/>
           </View>
           <View style={styles.slide}>
             <Image
               style={[{width: vw(85), height: vw(130)}, styles.images]}
-              source={require("../../assets/how-to-play/des-4.jpg")}/>
+              source={require("../../assets/how-to-play/en/4.jpg")}/>
           </View>
           <View style={styles.slide}>
             <Image
               style={[{width: vw(85), height: vw(130)}, styles.images]}
-              source={require("../../assets/how-to-play/des-5.jpg")}/>
+              source={require("../../assets/how-to-play/en/5.jpg")}/>
           </View>
           <View style={styles.slide}>
             <Image
               style={[{width: vw(85), height: vw(130)}, styles.images]}
-              source={require("../../assets/how-to-play/des-5.5.gif")}/>
+              source={require("../../assets/how-to-play/en/5.1.gif")}/>
           </View>
           <View style={styles.slide}>
             <Image
               style={[{width: vw(85), height: vw(130)}, styles.images]}
-              source={require("../../assets/how-to-play/des-6.gif")}/>
+              source={require("../../assets/how-to-play/en/5.2.jpg")}/>
           </View>
           <View style={styles.slide}>
             <Image
               style={[{width: vw(85), height: vw(130)}, styles.images]}
-              source={require("../../assets/how-to-play/des-7.jpg")}/>
+              source={require("../../assets/how-to-play/en/6.jpg")}/>
           </View>
           <View style={styles.slide}>
             <Image
               style={[{width: vw(85), height: vw(130)}, styles.images]}
-              source={require("../../assets/how-to-play/des-8.jpg")}/>
+              source={require("../../assets/how-to-play/en/7.jpg")}/>
           </View>
           <View style={styles.slide}>
             <Image
               style={[{width: vw(85), height: vw(130)}, styles.images]}
-              source={require("../../assets/how-to-play/des-9.jpg")}/>
+              source={require("../../assets/how-to-play/en/8.jpg")}/>
           </View>
         </Swiper>
       </ImageBackground>
