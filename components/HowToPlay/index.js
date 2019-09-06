@@ -2,7 +2,8 @@ import React from "react";
 import { ImageBackground, StyleSheet, View, TouchableHighlight, Image } from "react-native";
 import { vw, vh } from 'react-native-expo-viewport-units';
 import Text from '../CustomText';
-import Swiper from 'react-native-swiper'
+import Swiper from 'react-native-swiper';
+import i18n from '../../utils/i18n';
 
 import {
   white,
@@ -13,7 +14,11 @@ import {
 class HowToPlay extends React.Component {
   render() {
     const {showMainMenu} = this.props;
-
+    let lang = 'en';
+    if (i18n.locale == 'ja') {
+      lang = 'ja';
+    }
+    console.log(lang);
     return (
       <ImageBackground 
         source={require("../../assets/backgrounds/mainmenubackground.jpg")}
@@ -33,57 +38,58 @@ class HowToPlay extends React.Component {
           </View>
         </View>
         
-        <Text style={[styles.text]} type="PressStart">How to Play</Text>
+        <Text style={[styles.text]} type="PressStart">{i18n.t('howToPlay')}</Text>
         <Swiper style={styles.slide} showsButtons={true}>
           <View style={styles.slide}>
+
             <Image
               style={[{width: vw(85), height: vw(130)}, styles.images]}
-              source={require("../../assets/how-to-play/en/1.jpg")}/>
+              source={{ uri: "../../assets/how-to-play/" + lang + "/1.jpg"}}/>
           </View>
           <View style={styles.slide}>
             <Image
               style={[{width: vw(85), height: vw(130)}, styles.images]}
-              source={require("../../assets/how-to-play/en/2.jpg")}/>
+              source={{ uri: "../../assets/how-to-play/" + lang + "/2.jpg"}}/>
           </View>
           <View style={styles.slide}>
             <Image
               style={[{width: vw(85), height: vw(130)}, styles.images]}
-              source={require("../../assets/how-to-play/en/3.jpg")}/>
+              source={{ uri: "../../assets/how-to-play/" + lang + "/3.jpg"}}/>
           </View>
           <View style={styles.slide}>
             <Image
               style={[{width: vw(85), height: vw(130)}, styles.images]}
-              source={require("../../assets/how-to-play/en/4.jpg")}/>
+              source={{ uri: "../../assets/how-to-play/" + lang + "/4.jpg"}}/>
           </View>
           <View style={styles.slide}>
             <Image
               style={[{width: vw(85), height: vw(130)}, styles.images]}
-              source={require("../../assets/how-to-play/en/5.jpg")}/>
+              source={{ uri: "../../assets/how-to-play/" + lang + "/5.jpg"}}/>
           </View>
           <View style={styles.slide}>
             <Image
               style={[{width: vw(85), height: vw(130)}, styles.images]}
-              source={require("../../assets/how-to-play/en/5.1.gif")}/>
+              source={require("../../assets/how-to-play/5.1.gif")}/>
           </View>
           <View style={styles.slide}>
             <Image
               style={[{width: vw(85), height: vw(130)}, styles.images]}
-              source={require("../../assets/how-to-play/en/5.2.jpg")}/>
+              source={require("../../assets/how-to-play/5.2.gif")}/>
           </View>
           <View style={styles.slide}>
             <Image
               style={[{width: vw(85), height: vw(130)}, styles.images]}
-              source={require("../../assets/how-to-play/en/6.jpg")}/>
+              source={{ uri: "../../assets/how-to-play/" + lang + "/6.jpg"}}/>
           </View>
           <View style={styles.slide}>
             <Image
               style={[{width: vw(85), height: vw(130)}, styles.images]}
-              source={require("../../assets/how-to-play/en/7.jpg")}/>
+              source={{ uri: "../../assets/how-to-play/" + lang + "/7.jpg"}}/>
           </View>
           <View style={styles.slide}>
             <Image
               style={[{width: vw(85), height: vw(130)}, styles.images]}
-              source={require("../../assets/how-to-play/en/8.jpg")}/>
+              source={{ uri: "../../assets/how-to-play/" + lang + "/8.jpg"}}/>
           </View>
         </Swiper>
       </ImageBackground>
