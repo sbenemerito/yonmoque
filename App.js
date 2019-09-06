@@ -13,6 +13,7 @@ class App extends React.Component {
   state = {
     screen: 'mainMenu',
     isChooseColorVisible: false,
+    isChooseMultiplayerModeVisible: false,
     fontLoaded: false,
     numPlayers: 2,
     playerSide: 0,
@@ -25,6 +26,7 @@ class App extends React.Component {
       turn: null,
     },
     socket: null,
+    showWinnerModal: false,
   };
 
   updateGameState = (gameRoom) => {
@@ -39,6 +41,7 @@ class App extends React.Component {
     this.setState({
       screen: 'mainMenu',
       isChooseColorVisible: false,
+      isChooseMultiplayerModeVisible: false,
     });
   };
 
@@ -65,6 +68,7 @@ class App extends React.Component {
     this.setState({
       isMainMenuVisible: false,
       isChooseColorVisible: false,
+      isChooseMultiplayerModeVisible: false,
     });
   };
 
@@ -86,13 +90,27 @@ class App extends React.Component {
     });
   };
 
+  toggleWinner = () => {
+    this.setState({ 
+      showWinnerModal: !this.state.showWinnerModal 
+    });
+  };
+  
+  toggleChooseMultiplayerMode = () => {
+    this.setState({ 
+      isChooseMultiplayerModeVisible: !this.state.isChooseMultiplayerModeVisible 
+    });
+  };
+
   render() {
     const {
       gameRoom,
       isChooseColorVisible,
+      isChooseMultiplayerModeVisible,
       numPlayers,
       playerSide,
-      socket
+      socket,
+      showWinnerModal,
     } = this.state;
 
     const YonmoqueClient = Client({
@@ -107,7 +125,9 @@ class App extends React.Component {
                   joinLobby={this.joinLobby}
                   howToPlay={this.howToPlay}
                   toggleChooseColor={this.toggleChooseColor}
+                  toggleChooseMultiplayerMode={this.toggleChooseMultiplayerMode}
                   isChooseColorVisible={isChooseColorVisible}
+                  isChooseMultiplayerModeVisible={isChooseMultiplayerModeVisible}
                 />,
       lobby: <Lobby
                socket={socket}
@@ -122,7 +142,9 @@ class App extends React.Component {
               gameRoom={gameRoom}
               playerSide={playerSide}
               socket={socket}
+              showWinnerModal={showWinnerModal}
               setSocket={this.setSocket}
+              toggleWinner={this.toggleWinner}
               updateGameState={this.updateGameState}
               isChooseColorVisible={isChooseColorVisible}
             />,
