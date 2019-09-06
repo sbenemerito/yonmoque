@@ -18,7 +18,6 @@ class HowToPlay extends React.Component {
     if (i18n.locale == 'ja') {
       lang = 'ja';
     }
-    console.log(lang);
     return (
       <ImageBackground 
         source={require("../../assets/backgrounds/mainmenubackground.jpg")}
