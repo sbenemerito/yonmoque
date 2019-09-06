@@ -17,6 +17,7 @@ const en = {
   multiplayerMode: 'Choose mode',
   samePhone: 'Offline',
   internet: 'Online',
+  howToPlay: 'How to Play',
 };
 
 const ja = {
@@ -34,6 +35,7 @@ const ja = {
   multiplayerMode: 'どこで遊びますか',
   samePhone: '当携帯',
   internet: 'オンライン上',
+  howToPlay: '遊び方',
 };
 
 i18n.fallbacks = true;
