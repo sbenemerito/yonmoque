@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, View, TouchableHighlight, Button, Image} from "react-native";
+import { StyleSheet, View, TouchableHighlight, Image} from "react-native";
 import Text from './CustomText';
 import { vw, vh } from 'react-native-expo-viewport-units';
 
@@ -7,67 +7,34 @@ import {
   blue,
   blueDark,
   white,
-  playerOneTile,
-  playerOneTileBorder,
   playerTwoTileBorder,
   playerTwoTile,
 } from "./constants/colors";
-import { initialCells } from "./constants/board";
-import YonmoqueAI from '../utils/YonmoqueAI';
 import i18n from '../utils/i18n';
 
 
-const ChooseColor = ({toggleChooseColor, startGame, gameData, createRoom, isCreate}) => {
+const ChooseMultiplayerMode = ({toggleChooseMultiplayerMode, startGame, gameData, isCreate, joinLobby}) => {
 
   return (
     <View style={{flex: 1}}>
       <View style={[styles.margins, styles.modal]}>
         <View style={[styles.margins]}>
-          <Text style={[styles.text, {marginBottom: vh(2)}]}>{i18n.t('chooseColor')}</Text>
-          <TouchableHighlight
-            onPress={() => {
-              if (isCreate) {
-                createRoom(0);
-              } else {
-                gameData.players[0].name = `${gameData.players[0].name} (You)`;
-
-                if (gameData.isAI) {
-                  gameData.players[1].name = `${gameData.players[1].name} (AI)`;
-                  gameData.AI = new YonmoqueAI(1, [...initialCells], 6);
-                }
-
-                startGame({ ...gameData, side: 0 });
-              }
-            }}
-          >
-            <View style={[styles.basePiece, styles.pieceBlue]}>
-              <Text style={[styles.buttonText, styles.margins]}>{i18n.t('blue')}</Text>
+          <Text style={[styles.text, { marginBottom: vh(2) }]}>{i18n.t('multiplayerMode')}</Text>
+          <TouchableHighlight>
+            <View style={[styles.basePiece, styles.pieceWhite]}>
+              <Text style={[styles.buttonText, styles.margins]}>{i18n.t('samePhone')}</Text>
             </View>
           </TouchableHighlight>
           <Text style={[styles.text]}>{i18n.t('or')}</Text>
           <TouchableHighlight
-            onPress={() => {
-              if (isCreate) {
-                createRoom(1);
-              } else {
-                gameData.players[1].name = `${gameData.players[1].name} (You)`;
-
-                if (gameData.isAI) {
-                  gameData.players[0].name = `${gameData.players[0].name} (AI)`;
-                  gameData.AI = new YonmoqueAI(0, [...initialCells], 6);
-                }
-
-                startGame({ ...gameData, side: 1 });
-              }
-            }}
-          >
+            onPress={joinLobby}>
             <View style={[styles.basePiece, styles.pieceWhite]}>
-              <Text style={[styles.buttonText, styles.margins]}>{i18n.t('white')}</Text>
+              <Text style={[styles.buttonText, styles.margins]}>{i18n.t('internet')}</Text>
             </View>
           </TouchableHighlight>
           <TouchableHighlight 
             style={[styles.buttonMargin]}
-            onPress={toggleChooseColor}>
+            onPress={toggleChooseMultiplayerMode}>
             <View style={[styles.buttonBase, ]}>
               <View style={[styles.button, styles.margins]}>
                 <Image
@@ -107,10 +74,6 @@ const styles = StyleSheet.create({
     borderWidth: 5,
     borderRadius: 10,
   },
-  pieceBlue: {
-    borderColor: playerOneTileBorder,
-    backgroundColor: playerOneTile,
-  },
   pieceWhite: {
     borderColor: playerTwoTileBorder,
     backgroundColor: playerTwoTile,
@@ -143,4 +106,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ChooseColor;
+export default ChooseMultiplayerMode;

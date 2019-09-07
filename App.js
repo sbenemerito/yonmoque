@@ -6,13 +6,14 @@ import * as Font from 'expo-font';
 import Board from './components/Board';
 import Game from './components/Game';
 import Lobby from './components/Lobby';
+import HowToPlay from './components/HowToPlay';
 import MainMenu from './components/MainMenu';
-
 
 class App extends React.Component {
   state = {
     screen: 'mainMenu',
     isChooseColorVisible: false,
+    isChooseMultiplayerModeVisible: false,
     fontLoaded: false,
     numPlayers: 2,
     playerSide: 0,
@@ -27,6 +28,7 @@ class App extends React.Component {
       turn: null,
     },
     socket: null,
+    showWinnerModal: false,
   };
 
   updateGameState = (gameRoom) => {
@@ -41,6 +43,7 @@ class App extends React.Component {
     this.setState({
       screen: 'mainMenu',
       isChooseColorVisible: false,
+      isChooseMultiplayerModeVisible: false,
     });
   };
 
@@ -67,6 +70,7 @@ class App extends React.Component {
     this.setState({
       isMainMenuVisible: false,
       isChooseColorVisible: false,
+      isChooseMultiplayerModeVisible: false,
     });
   };
 
@@ -76,9 +80,27 @@ class App extends React.Component {
     });
   };
 
+  howToPlay = () => {
+    this.setState({
+      screen: 'instruction'
+    });
+  };
+
   toggleChooseColor = () => {
     this.setState({ 
       isChooseColorVisible: !this.state.isChooseColorVisible 
+    });
+  };
+
+  toggleWinner = () => {
+    this.setState({ 
+      showWinnerModal: !this.state.showWinnerModal 
+    });
+  };
+  
+  toggleChooseMultiplayerMode = () => {
+    this.setState({ 
+      isChooseMultiplayerModeVisible: !this.state.isChooseMultiplayerModeVisible 
     });
   };
 
@@ -86,9 +108,11 @@ class App extends React.Component {
     const {
       gameRoom,
       isChooseColorVisible,
+      isChooseMultiplayerModeVisible,
       numPlayers,
       playerSide,
-      socket
+      socket,
+      showWinnerModal,
     } = this.state;
 
     const YonmoqueClient = Client({
@@ -101,8 +125,11 @@ class App extends React.Component {
       mainMenu: <MainMenu
                   startGame={this.startGame}
                   joinLobby={this.joinLobby}
+                  howToPlay={this.howToPlay}
                   toggleChooseColor={this.toggleChooseColor}
+                  toggleChooseMultiplayerMode={this.toggleChooseMultiplayerMode}
                   isChooseColorVisible={isChooseColorVisible}
+                  isChooseMultiplayerModeVisible={isChooseMultiplayerModeVisible}
                 />,
       lobby: <Lobby
                socket={socket}
@@ -117,9 +144,14 @@ class App extends React.Component {
               gameRoom={gameRoom}
               playerSide={playerSide}
               socket={socket}
+              showWinnerModal={showWinnerModal}
               setSocket={this.setSocket}
+              toggleWinner={this.toggleWinner}
               updateGameState={this.updateGameState}
               isChooseColorVisible={isChooseColorVisible}
+            />,
+      instruction: <HowToPlay
+              showMainMenu={this.showMainMenu}
             />
     };
 
