@@ -8,6 +8,7 @@ import Game from './components/Game';
 import Lobby from './components/Lobby';
 import HowToPlay from './components/HowToPlay';
 import MainMenu from './components/MainMenu';
+import Login from './components/Login';
 
 class App extends React.Component {
   state = {
@@ -86,6 +87,12 @@ class App extends React.Component {
     });
   };
 
+  login = () => {
+    this.setState({
+      screen: 'login'
+    });
+  };
+
   toggleChooseColor = () => {
     this.setState({ 
       isChooseColorVisible: !this.state.isChooseColorVisible 
@@ -128,6 +135,7 @@ class App extends React.Component {
                   howToPlay={this.howToPlay}
                   toggleChooseColor={this.toggleChooseColor}
                   toggleChooseMultiplayerMode={this.toggleChooseMultiplayerMode}
+                  login={this.login}
                   isChooseColorVisible={isChooseColorVisible}
                   isChooseMultiplayerModeVisible={isChooseMultiplayerModeVisible}
                 />,
@@ -152,6 +160,10 @@ class App extends React.Component {
             />,
       instruction: <HowToPlay
               showMainMenu={this.showMainMenu}
+            />,
+      login: <Login
+              showMainMenu={this.showMainMenu}
+              joinLobby={this.joinLobby}
             />
     };
 

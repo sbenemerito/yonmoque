@@ -18,6 +18,10 @@ const en = {
   samePhone: 'Offline',
   internet: 'Online',
   howToPlay: 'How to Play',
+  loginTitle: 'Login your Account',
+  login: 'Login',
+  username: 'Username',
+  password: 'Password',
 };
 
 const ja = {
@@ -36,6 +40,10 @@ const ja = {
   samePhone: '当携帯',
   internet: 'オンライン上',
   howToPlay: '遊び方',
+  loginTitle: 'アカウントにログイン',
+  login: 'ログイン',
+  username: 'ユーザー名',
+  password: 'パスワード',
 };
 
 i18n.fallbacks = true;

@@ -14,7 +14,7 @@ import i18n from '../../utils/i18n';
 class MainMenu extends React.Component {
 
   render() {
-    const { startGame, joinLobby, howToPlay, toggleChooseColor, toggleChooseMultiplayerMode } = this.props;
+    const { startGame, joinLobby, howToPlay, toggleChooseColor, toggleChooseMultiplayerMode, login } = this.props;
     const gameDataAI = {
       name: "Playing with AI",
       players: {
@@ -67,6 +67,7 @@ class MainMenu extends React.Component {
               toggleChooseMultiplayerMode={toggleChooseMultiplayerMode}
               startGame={startGame}
               joinLobby={joinLobby}
+              login={login}
             />
           </Modal>
           <TouchableHighlight
