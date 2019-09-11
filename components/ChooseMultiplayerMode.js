@@ -14,13 +14,33 @@ import i18n from '../utils/i18n';
 
 
 const ChooseMultiplayerMode = ({toggleChooseMultiplayerMode, startGame, gameData, isCreate, joinLobby, login}) => {
+  const gameDataLocal = {
+    name: "Local Game",
+    players: {
+      "0": {
+        name: 'Player 1',
+        skin: null
+      },
+      "1": {
+        name: 'Player 2',
+        skin: null
+      }
+    },
+    isMultiplayer: false,
+    isAI: false,
+    turn: 0
+  };
 
   return (
     <View style={{flex: 1}}>
       <View style={[styles.margins, styles.modal]}>
         <View style={[styles.margins]}>
           <Text style={[styles.text, { marginBottom: vh(2) }]}>{i18n.t('multiplayerMode')}</Text>
-          <TouchableHighlight>
+          <TouchableHighlight
+            onPress={() => {
+              startGame({ ...gameDataLocal, side: 0 });
+            }}
+          >
             <View style={[styles.basePiece, styles.pieceWhite]}>
               <Text style={[styles.buttonText, styles.margins]}>{i18n.t('samePhone')}</Text>
             </View>
