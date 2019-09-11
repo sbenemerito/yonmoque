@@ -405,6 +405,36 @@ function checkDiagLeft(id, currentPlayer, G) {
   
 }
 
+function checkAvailableMoves(currentPlayer, G) {
+  let counter = G.players[currentPlayer].pieces;
+  let oppositePlayer;
+
+  // get opposite player's id
+  if (currentPlayer == 0) {
+    oppositePlayer = 1;
+  } else {
+    oppositePlayer = 0;
+  }
+
+  //check entire board to count remaining piece of player
+  for(i = 0; i <= 24; i++){
+    if (G.cells[i].piece === currentPlayer) {
+      counter += 1;
+    } else if (G.cells[i].piece != null && 
+               G.cells[i].piece == oppositePlayer) {
+      CheckMoves(i, oppositePlayer, G);
+    }
+  }
+  if (counter == 12) {
+    return currentPlayer;
+  } else if (G.moveAbleCells.length == 0 && G.players[oppositePlayer].pieces == 0) {
+    return currentPlayer;
+  } else {
+    G.moveAbleCells = [];
+    return null;
+  }
+}
+
 function checkVictory(currentPlayer, G) {
   let lineNum = 0;
   let winner = null;
@@ -418,9 +448,12 @@ function checkVictory(currentPlayer, G) {
     checkDiagRight(checkCells[0], currentPlayer, G);
     checkDiagLeft(checkCells[0], currentPlayer, G);
   }
+
   lineNum = Math.max(...G.checkVictory);
+  let hasMovesWinner = checkAvailableMoves(currentPlayer, G);
 
   if (lineNum == 5) {
+    //player who lined up 5 pieces loses, return opposite player
     if (currentPlayer == 0) {
       winner = 1;
     } else {
@@ -429,8 +462,11 @@ function checkVictory(currentPlayer, G) {
     return winner;
   }
   else if (lineNum == 4) {
+    //player who lined up 4 pieces won, return current player
     winner = currentPlayer;
     return winner;
+  } else if (hasMovesWinner != null) {
+    return hasMovesWinner;
   } else {
     fourLine = 0;
     return winner;
