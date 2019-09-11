@@ -48,17 +48,17 @@ class Board extends React.Component {
 
     if(cell.piece === null) {
       if(moveAbles.length === 0 ) {
-        this.addPiece(cell.id, numPieces);
+        const successfulMove = this.addPiece(cell.id, numPieces);
 
-        if (gameRoom.isMultiplayer) {
+        if (gameRoom.isMultiplayer && successfulMove) {
           moveData.type = 'addPiece';
           moveData.dest = cell.id;
           socket.emit('make move', moveData);
         }
       } else {
-        this.movePiece(cell.id, moveAbles);
+        const successfulMove = this.movePiece(cell.id, moveAbles);
 
-        if (gameRoom.isMultiplayer) {
+        if (gameRoom.isMultiplayer && successfulMove) {
           moveData.type = 'movePiece';
           moveData.src = selectedCell;
           moveData.dest = cell.id;
@@ -75,6 +75,9 @@ class Board extends React.Component {
       this.props.moves.resetVars();
       this.props.moves.addPiece(id);
       this.props.events.endTurn();
+      return true;
+    } else {
+      return false;
     }
   }
 
@@ -89,11 +92,17 @@ class Board extends React.Component {
     if (src !== null) {
       this.props.moves.movePiece(id, src);
       this.props.events.endTurn();
+      this.props.moves.resetVars();
+      return true;
     } else if (moveAbles.includes(id)) {
       this.props.moves.movePiece(id);
       this.props.events.endTurn();
+      this.props.moves.resetVars();
+      return true;
+    } else {
+      this.props.moves.resetVars();
+      return false;
     }
-    this.props.moves.resetVars();
   }
 
   moveAI() {
