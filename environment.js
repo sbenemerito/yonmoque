@@ -3,7 +3,7 @@ import Constants from 'expo-constants'
 
 const ENV = {
  dev: {
-   apiUrl: 'http://192.168.0.132:5000',
+   apiUrl: 'http://192.168.0.139:5001',
    amplitudeApiKey: null,
  },
  staging: {

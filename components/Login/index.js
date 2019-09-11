@@ -27,7 +27,7 @@ class Login extends React.Component {
  }
 
   login() {
-    const {joinLobby, setUserData} = this.props;
+    const {setUserData} = this.props;
 
     let body = {
       username: this.state.username,
@@ -35,16 +35,15 @@ class Login extends React.Component {
     }
     api.post('/login', body)
       .then(response => {
-        setUserData(response);
-        joinLobby();
+        setUserData(response.data);
       })
-      .catch(error => 
-        console.log(error.response)
-      );
+      .catch(error => { 
+        console.log(error.response);
+      });
   }
 
   register() {
-    const {joinLobby, setUserData} = this.props;
+    const {setUserData} = this.props;
 
     let body = {
       username: this.state.username,
@@ -53,8 +52,7 @@ class Login extends React.Component {
     }
     api.post('/signup', body)
       .then(response => {
-        setUserData(response);
-        joinLobby();
+        setUserData(response.data);
       })
       .catch(error => 
         console.log(error.response)

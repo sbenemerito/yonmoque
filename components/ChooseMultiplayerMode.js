@@ -28,7 +28,6 @@ const ChooseMultiplayerMode = ({toggleChooseMultiplayerMode, startGame, gameData
           <Text style={[styles.text]}>{i18n.t('or')}</Text>
           <TouchableHighlight
             onPress={() => {
-              console.log(userData)
               if(userData !== null) {
                 joinLobby()
               } else {

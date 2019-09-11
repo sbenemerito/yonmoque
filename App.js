@@ -82,9 +82,10 @@ class App extends React.Component {
     });
   };
 
-  setUserData = (data) => {
+  setUserData = ({data}) => {
     this.setState({
-      userData: data
+      userData: data,
+      screen: 'lobby'
     });
   };
 
@@ -174,6 +175,7 @@ class App extends React.Component {
       login: <Login
               showMainMenu={this.showMainMenu}
               joinLobby={this.joinLobby}
+              setUserData={this.setUserData}
             />
     };
 
