@@ -23,6 +23,16 @@ const en = {
   register: 'Register',
   username: 'Username',
   password: 'Password',
+  userNotFound: 'User not found',
+  usernameMissing: 'Username is required',
+  passwordMissing: 'Password is required',
+  wrongUsername: 'No account with this username',
+  wrongPassword: 'Invalid password',
+  usernameTooLong: 'Username exceeds 16 characters',
+  passwordsNotMatching: 'Passwords do not match',
+  takenUsername: 'Username is already taken',
+  notAllowed: 'You are not allowed to perform this action',
+  authenticationFailed: 'Failed to authenticate token'
 };
 
 const ja = {
@@ -46,6 +56,16 @@ const ja = {
   register: '登録',
   username: 'ユーザー名',
   password: 'パスワード',
+  userNotFound: 'ユーザーが見つけられません。',
+  usernameMissing: 'ユーザー名が指定されていません。',
+  passwordMissing: 'パスワードが定義されていません。',
+  wrongUsername: '当ユーザー名が付けてあるアカウントがありません。',
+  wrongPassword: 'パスワードが正しくありません。',
+  usernameTooLong: 'ユーザー名が16文字を超えています。',
+  passwordsNotMatching: 'パスワードが一致しません。',
+  takenUsername: 'ユーザー名は既に使われています。',
+  notAllowed: 'あなたはこれを行うことはできません。',
+  authenticationFailed: 'トークンの認証に失敗しました。'
 };
 
 i18n.fallbacks = true;
