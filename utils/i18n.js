@@ -20,6 +20,7 @@ const en = {
   howToPlay: 'How to Play',
   loginTitle: 'Login your Account',
   login: 'Login',
+  register: 'Register',
   username: 'Username',
   password: 'Password',
 };
@@ -42,6 +43,7 @@ const ja = {
   howToPlay: '遊び方',
   loginTitle: 'アカウントにログイン',
   login: 'ログイン',
+  register: '登録',
   username: 'ユーザー名',
   password: 'パスワード',
 };
