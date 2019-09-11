@@ -30,6 +30,7 @@ class App extends React.Component {
     },
     socket: null,
     showWinnerModal: false,
+    userData: null,
   };
 
   updateGameState = (gameRoom) => {
@@ -81,6 +82,13 @@ class App extends React.Component {
     });
   };
 
+  setUserData = ({data}) => {
+    this.setState({
+      userData: data,
+      screen: 'lobby'
+    });
+  };
+
   howToPlay = () => {
     this.setState({
       screen: 'instruction'
@@ -111,6 +119,7 @@ class App extends React.Component {
     });
   };
 
+
   render() {
     const {
       gameRoom,
@@ -120,6 +129,7 @@ class App extends React.Component {
       playerSide,
       socket,
       showWinnerModal,
+      userData,
     } = this.state;
 
     const YonmoqueClient = Client({
@@ -138,6 +148,7 @@ class App extends React.Component {
                   login={this.login}
                   isChooseColorVisible={isChooseColorVisible}
                   isChooseMultiplayerModeVisible={isChooseMultiplayerModeVisible}
+                  userData={userData}
                 />,
       lobby: <Lobby
                socket={socket}
@@ -164,6 +175,7 @@ class App extends React.Component {
       login: <Login
               showMainMenu={this.showMainMenu}
               joinLobby={this.joinLobby}
+              setUserData={this.setUserData}
             />
     };
 

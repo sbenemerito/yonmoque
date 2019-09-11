@@ -68,6 +68,7 @@ class MainMenu extends React.Component {
               startGame={startGame}
               joinLobby={joinLobby}
               login={login}
+              userData={this.props.userData}
             />
           </Modal>
           <TouchableHighlight

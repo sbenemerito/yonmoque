@@ -12,8 +12,7 @@ import {
 } from "./constants/colors";
 import i18n from '../utils/i18n';
 
-
-const ChooseMultiplayerMode = ({toggleChooseMultiplayerMode, startGame, gameData, isCreate, joinLobby, login}) => {
+const ChooseMultiplayerMode = ({toggleChooseMultiplayerMode, startGame, gameData, isCreate, joinLobby, login, userData}) => {
   const gameDataLocal = {
     name: "Local Game",
     players: {
@@ -47,7 +46,13 @@ const ChooseMultiplayerMode = ({toggleChooseMultiplayerMode, startGame, gameData
           </TouchableHighlight>
           <Text style={[styles.text]}>{i18n.t('or')}</Text>
           <TouchableHighlight
-            onPress={login}>
+            onPress={() => {
+              if(userData !== null) {
+                joinLobby()
+              } else {
+                login()
+              }
+            }}>
             <View style={[styles.basePiece, styles.pieceWhite]}>
               <Text style={[styles.buttonText, styles.margins]}>{i18n.t('internet')}</Text>
             </View>
