@@ -19,11 +19,15 @@ class MainMenu extends React.Component {
       name: "Playing with AI",
       players: {
         "0": {
-          name: 'Player 1',
+          user: {
+            username: "Player 1"
+          },
           skin: null
         },
         "1": {
-          name: 'Player 2',
+          user: {
+            username: "Player 2"
+          },
           skin: null
         }
       },

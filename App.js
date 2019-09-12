@@ -157,6 +157,7 @@ class App extends React.Component {
                isChooseColorVisible={isChooseColorVisible}
                toggleChooseColor={this.toggleChooseColor}
                showMainMenu={this.showMainMenu}
+               userData={userData}
              />,
       game: <YonmoqueClient
               showMainMenu={this.showMainMenu}

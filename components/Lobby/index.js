@@ -29,10 +29,10 @@ class Lobby extends React.Component {
       let side;
 
       if (joinedRoom.players[0].socket === socketInstance.id) {
-        joinedRoom.players[0].name = `${joinedRoom.players[0].name} (You)`;
+        joinedRoom.players[0].user.username = `${joinedRoom.players[0].user.username} (You)`;
         side = 0;
       } else {
-        joinedRoom.players[1].name = `${joinedRoom.players[1].name} (You)`;
+        joinedRoom.players[1].user.username = `${joinedRoom.players[1].user.username} (You)`;
         side = 1;
       }
 
@@ -53,15 +53,13 @@ class Lobby extends React.Component {
   }
 
   createRoom = (side) => {
-    const { socket } = this.props;
-    // socket.id is a temporary name
-    socket.emit('create room', { roomData: { side }, playerName: socket.id });
+    const { socket, userData } = this.props;
+    socket.emit('create room', { roomData: { side }, token: userData.token });
   };
 
   joinRoom = (id) => {
-    const { socket } = this.props;
-    // socket.id is a temporary name
-    socket.emit('join room', { id, playerName: socket.id })
+    const { socket, userData } = this.props;
+    socket.emit('join room', { id, token: userData.token })
   };
 
   componentDidMount() {
@@ -139,8 +137,8 @@ class Lobby extends React.Component {
                   <TouchableHighlight key={index} onPress={() => this.joinRoom(room.id)}>
                     <View style={[styles.room, styles.waiting]}>
                       <Text>{room.name}</Text>
-                      <Text>Blue: {room.players[0].name}</Text>
-                      <Text>White: {room.players[1].name}</Text>
+                      <Text>Blue: {room.players[0].user.username}</Text>
+                      <Text>White: {room.players[1].user.username}</Text>
                     </View>
                   </TouchableHighlight>
                 )

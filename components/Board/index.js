@@ -31,11 +31,11 @@ class Board extends React.Component {
   };
 
   onClick(cell, moveAbles, numPieces, selectedCell) {
-    const { ctx, gameRoom, playerSide, socket } = this.props;
+    const { ctx, gameRoom, playerSide, socket, userData } = this.props;
 
     const notLocalVersus = gameRoom.isMultiplayer || gameRoom.isAI;
     const oppositePlayer = (playerSide - 1) * -1;
-    const noOpponent = gameRoom.players[oppositePlayer].name === null;
+    const noOpponent = gameRoom.players[oppositePlayer].user === null;
 
     if ((ctx.currentPlayer != playerSide || noOpponent) && notLocalVersus) return;
 
@@ -43,7 +43,8 @@ class Board extends React.Component {
       id: gameRoom.id,
       type: null,
       src: null,
-      dest: null
+      dest: null,
+      token: userData.token
     };
 
     if(cell.piece === null) {
@@ -158,10 +159,10 @@ class Board extends React.Component {
         let side;
 
         if (roomData.players[0].socket === socket.id) {
-          roomData.players[0].name = `${roomData.players[0].name} (You)`;
+          roomData.players[0].user.username = `${roomData.players[0].user.username} (You)`;
           side = 0;
         } else {
-          roomData.players[1].name = `${roomData.players[1].name} (You)`;
+          roomData.players[1].user.username = `${roomData.players[1].user.username} (You)`;
           side = 1;
         }
 
@@ -281,7 +282,7 @@ class Board extends React.Component {
           <Fragment>
             <PlayerOne
               pieces={G.players[0].pieces}
-              name={gameRoom.players[0].name ? gameRoom.players[0].name : i18n.t('waiting')}
+              name={gameRoom.players[0].user.username ? gameRoom.players[0].user.username : i18n.t('waiting')}
               current={this.props.ctx.currentPlayer}>
             </PlayerOne>
           </Fragment>
@@ -295,7 +296,7 @@ class Board extends React.Component {
           <Fragment>
             <PlayerTwo
               pieces={G.players[1].pieces}
-              name={gameRoom.players[1].name ? gameRoom.players[1].name : i18n.t('waiting')}
+              name={gameRoom.players[1].user.username ? gameRoom.players[1].user.username : i18n.t('waiting')}
               current={this.props.ctx.currentPlayer}>
             </PlayerTwo>
           </Fragment>
