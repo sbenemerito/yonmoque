@@ -59,11 +59,11 @@ class Lobby extends React.Component {
 
   joinRoom = (id) => {
     const { socket, userData } = this.props;
-    socket.emit('join room', { id, token: userData.token })
+    socket.emit('join room', { id, token: userData.token });
   };
 
   componentDidMount() {
-    const { socket, setSocket } = this.props;
+    const { socket, setSocket, userData } = this.props;
 
     if (socket === null) {
       const socket = socketIO(apiUrl, {
@@ -75,6 +75,7 @@ class Lobby extends React.Component {
 
       socket.on('connect', () => {
         setSocket(socket);
+        socket.emit('bind token', { token: userData.token })
         this.setSocketListeners(socket);
       });
     } else {

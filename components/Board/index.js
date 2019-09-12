@@ -182,7 +182,7 @@ class Board extends React.Component {
   componentDidUpdate() {
     // AI should respond when the game state updates.
     // It is placed in componentDidUpdate() so it gets the board state changes.
-    const { G, ctx, playerSide, gameRoom } = this.props;
+    const { G, ctx, playerSide, gameRoom, socket, userData } = this.props;
 
     if (gameRoom.isAI && gameRoom.AI !== null) {
       gameRoom.AI.handleMove([...G.cells]);
@@ -191,6 +191,10 @@ class Board extends React.Component {
 
     if (this.props.ctx.gameover && !this.state.showWinnerModal && !this.state.finalBoard) {
       this.toggleWinner();
+
+      if (gameRoom.isMultiplayer && socket) {
+        socket.emit('endgame', { id: gameRoom.id, winner: parseInt(G.victory), token: userData.token });
+      }
     }
   }
 
