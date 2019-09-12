@@ -169,6 +169,7 @@ class App extends React.Component {
               toggleWinner={this.toggleWinner}
               updateGameState={this.updateGameState}
               isChooseColorVisible={isChooseColorVisible}
+              userData={userData}
             />,
       instruction: <HowToPlay
               showMainMenu={this.showMainMenu}

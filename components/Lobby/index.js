@@ -137,8 +137,8 @@ class Lobby extends React.Component {
                   <TouchableHighlight key={index} onPress={() => this.joinRoom(room.id)}>
                     <View style={[styles.room, styles.waiting]}>
                       <Text>{room.name}</Text>
-                      <Text>Blue: {room.players[0].user.username}</Text>
-                      <Text>White: {room.players[1].user.username}</Text>
+                      <Text>Blue: {room.players[0].user ? room.players[0].user.username : '...' }</Text>
+                      <Text>White: {room.players[1].user ? room.players[1].user.username : '...' }</Text>
                     </View>
                   </TouchableHighlight>
                 )

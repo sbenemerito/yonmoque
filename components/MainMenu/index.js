@@ -20,13 +20,13 @@ class MainMenu extends React.Component {
       players: {
         "0": {
           user: {
-            username: "Player 1"
+            username: `${i18n.t('player')} 1`
           },
           skin: null
         },
         "1": {
           user: {
-            username: "Player 2"
+            username: `${i18n.t('player')} 2`
           },
           skin: null
         }

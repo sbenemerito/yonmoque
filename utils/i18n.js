@@ -32,7 +32,8 @@ const en = {
   passwordsNotMatching: 'Passwords do not match',
   takenUsername: 'Username is already taken',
   notAllowed: 'You are not allowed to perform this action',
-  authenticationFailed: 'Failed to authenticate token'
+  authenticationFailed: 'Failed to authenticate token',
+  player: 'Player'
 };
 
 const ja = {
@@ -65,7 +66,8 @@ const ja = {
   passwordsNotMatching: 'パスワードが一致しません。',
   takenUsername: 'ユーザー名は既に使われています。',
   notAllowed: 'あなたはこれを行うことはできません。',
-  authenticationFailed: 'トークンの認証に失敗しました。'
+  authenticationFailed: 'トークンの認証に失敗しました。',
+  player: 'プレイヤー'
 };
 
 i18n.fallbacks = true;

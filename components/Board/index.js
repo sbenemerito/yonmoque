@@ -44,7 +44,7 @@ class Board extends React.Component {
       type: null,
       src: null,
       dest: null,
-      token: userData.token
+      token: userData ? userData.token : ''
     };
 
     if(cell.piece === null) {
@@ -219,6 +219,12 @@ class Board extends React.Component {
       showWinnerModal
     } = this.state;
 
+    let winnerName = 'Player';
+    if (G.victory !== null && G.victory !== undefined) {
+      const winnerIndex = parseInt(G.victory);
+      winnerName = gameRoom.players[winnerIndex].user ? gameRoom.players[winnerIndex].user.username : 'Player';
+    }
+
     let cells = G.cells.map((cell) => {
       return (
         <TouchableHighlight
@@ -282,7 +288,7 @@ class Board extends React.Component {
           <Fragment>
             <PlayerOne
               pieces={G.players[0].pieces}
-              name={gameRoom.players[0].user.username ? gameRoom.players[0].user.username : i18n.t('waiting')}
+              name={gameRoom.players[0].user ? gameRoom.players[0].user.username : i18n.t('waiting')}
               current={this.props.ctx.currentPlayer}>
             </PlayerOne>
           </Fragment>
@@ -296,7 +302,7 @@ class Board extends React.Component {
           <Fragment>
             <PlayerTwo
               pieces={G.players[1].pieces}
-              name={gameRoom.players[1].user.username ? gameRoom.players[1].user.username : i18n.t('waiting')}
+              name={gameRoom.players[1].user ? gameRoom.players[1].user.username : i18n.t('waiting')}
               current={this.props.ctx.currentPlayer}>
             </PlayerTwo>
           </Fragment>
@@ -321,7 +327,7 @@ class Board extends React.Component {
                   <Image
                     style={[{width: vw(50), height: vh(31)}, styles.margins]}
                     source={require("../../assets/icons/winner.png")}/>
-                  <Text style={[styles.text, styles.margins, {marginBottom: vh(2)}]}> Player {parseInt(G.victory) + 1} </Text>
+                  <Text style={[styles.text, styles.margins, {marginBottom: vh(2)}]}> {winnerName} </Text>
                   <TouchableHighlight 
                     style={[styles.buttonMargin, styles.margins]}
                     onPress={() => {
