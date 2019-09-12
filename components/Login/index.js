@@ -35,7 +35,7 @@ class Login extends React.Component {
     }
     api.post('/login', body)
       .then(response => {
-        setUserData(response.data);
+        setUserData(response);
       })
       .catch(error => { 
         console.log(error.response);
@@ -52,7 +52,7 @@ class Login extends React.Component {
     }
     api.post('/signup', body)
       .then(response => {
-        setUserData(response.data);
+        setUserData(response);
       })
       .catch(error => 
         console.log(error.response)
