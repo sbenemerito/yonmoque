@@ -17,7 +17,7 @@ import {
   yellowLight,
 } from "../../constants/colors";
 
-const PlayerTwo = ({pieces, name, current}) => {  
+const PlayerTwo = ({pieces, name, current, gameRoom}) => {
   let pieceStyle = [styles.numPieces];
   pieceStyle.push(styles.margins);
   if (current === '1') {
@@ -31,7 +31,7 @@ const PlayerTwo = ({pieces, name, current}) => {
   }
 
   let adminStyle = [styles.name];
-  if(gameRoom.players[0].user ? gameRoom.players[0].user.is_admin === 1 : false) {
+  if(gameRoom.players[1].user ? gameRoom.players[1].user.is_admin === 1 : false) {
     adminStyle.push(styles.admin);
   }
 
