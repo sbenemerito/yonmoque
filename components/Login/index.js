@@ -16,7 +16,8 @@ import i18n from '../../utils/i18n';
 class Login extends React.Component {
   state = {
     username: '',
-    password: ''
+    password: '',
+    message: null
  }
  
  handleUsername = (text) => {
@@ -39,7 +40,7 @@ class Login extends React.Component {
         setUserData(response);
       })
       .catch(error => { 
-        console.log(error.response);
+        this.setState({ message: error.response.data.key })
       });
   }
 
@@ -56,7 +57,7 @@ class Login extends React.Component {
         setUserData(response);
       })
       .catch(error => 
-        console.log(error.response)
+        this.setState({ message: error.response.data.key })
       );
   }
 
@@ -80,7 +81,7 @@ class Login extends React.Component {
         </View>
         <View style={styles.loginComponent}>
           <View style={styles.margins}>
-            <Text style={{fontSize: vw(10), marginBottom: vh(3)}}>{i18n.t('loginTitle')}</Text>
+            <Text style={{fontSize: vw(8), marginBottom: vh(3)}}>{i18n.t('loginTitle')}</Text>
             <TextInput
               style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
               onChangeText = {this.handleUsername}
@@ -92,6 +93,15 @@ class Login extends React.Component {
               onChangeText = {this.handlePassword}
             />
             <Text style={{fontSize: vw(5), marginBottom: vh(3)}}>{i18n.t('password')}</Text>
+            {
+              this.state.message
+                ? (
+                  <View style={styles.margins}>
+                    <Text style={{ fontSize: vw(5), marginBottom: vh(1), color: 'red' }}>{i18n.t(this.state.message)}</Text>
+                  </View>
+                )
+                : null
+            }
             <View style={styles.buttonComponent}>
               <TouchableHighlight
                 onPress={() => {
