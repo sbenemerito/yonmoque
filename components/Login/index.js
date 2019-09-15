@@ -35,6 +35,7 @@ class Login extends React.Component {
     }
     api.post('/login', body)
       .then(response => {
+        console.log(response.body)
         setUserData(response);
       })
       .catch(error => { 
@@ -87,6 +88,7 @@ class Login extends React.Component {
             <Text style={{fontSize: vw(5), marginBottom: vh(3)}}>{i18n.t('username')}</Text>
             <TextInput
               style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
+              secureTextEntry = {true}
               onChangeText = {this.handlePassword}
             />
             <Text style={{fontSize: vw(5), marginBottom: vh(3)}}>{i18n.t('password')}</Text>

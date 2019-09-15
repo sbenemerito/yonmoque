@@ -276,7 +276,7 @@ class Board extends React.Component {
                 </View>
               </View>
             </TouchableHighlight>
-            <TouchableHighlight 
+            {/* <TouchableHighlight 
               style={styles.buttonMargin}>
               <View style={[styles.buttonBase]}>
                 <View style={[styles.button, styles.margins]}>
@@ -286,14 +286,15 @@ class Board extends React.Component {
                   />
                 </View>
               </View>
-            </TouchableHighlight>
+            </TouchableHighlight> */}
             <Text style={[styles.text]} type="PressStart">Yonmoque</Text>
           </View>
           <Fragment>
             <PlayerOne
               pieces={G.players[0].pieces}
               name={gameRoom.players[0].user ? gameRoom.players[0].user.username : i18n.t('waiting')}
-              current={this.props.ctx.currentPlayer}>
+              current={this.props.ctx.currentPlayer}
+              gameRoom={gameRoom}>
             </PlayerOne>
           </Fragment>
           <Fragment>
@@ -307,7 +308,8 @@ class Board extends React.Component {
             <PlayerTwo
               pieces={G.players[1].pieces}
               name={gameRoom.players[1].user ? gameRoom.players[1].user.username : i18n.t('waiting')}
-              current={this.props.ctx.currentPlayer}>
+              current={this.props.ctx.currentPlayer}
+              gameRoom={gameRoom}>
             </PlayerTwo>
           </Fragment>
           <Modal isVisible={showWinnerModal}>

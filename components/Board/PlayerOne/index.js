@@ -17,7 +17,7 @@ import {
   yellowLight,
 } from "../../constants/colors";
 
-const PlayerOne = ({pieces, name, current}) => { 
+const PlayerOne = ({pieces, name, current, gameRoom}) => { 
   let pieceStyle = [styles.numPieces];
   pieceStyle.push(styles.margins);
   if (current === '0') {
@@ -28,6 +28,11 @@ const PlayerOne = ({pieces, name, current}) => {
   playerInnerTileStyle.push(styles.margins);
   if (current === '0') {
     playerInnerTileStyle.push(styles.baseGlow);
+  }
+
+  let adminStyle = [styles.name];
+  if(gameRoom.players[0].user ? gameRoom.players[0].user.is_admin === 1 : false) {
+    adminStyle.push(styles.admin);
   }
 
   return (
@@ -42,7 +47,7 @@ const PlayerOne = ({pieces, name, current}) => {
           </View>
           <View style={styles.nameComponent}> 
             <View style={styles.basePiece}></View>
-            <Text style={styles.name}>{name}</Text> 
+            <Text style={adminStyle}>{name}</Text> 
           </View>
           <View style={{flex: 1}}> 
             <Text style={pieceStyle}> {pieces} </Text> 
@@ -116,6 +121,10 @@ const styles = StyleSheet.create({
     marginTop: 'auto',
     marginBottom: 'auto',
   },
+  admin: {
+    color: '#FF0000',
+    fontWeight: 'bold',
+  }
 });
 
 export default PlayerOne;

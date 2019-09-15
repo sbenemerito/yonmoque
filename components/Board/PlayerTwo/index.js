@@ -30,6 +30,11 @@ const PlayerTwo = ({pieces, name, current}) => {
     playerInnerTileStyle.push(styles.baseGlow);
   }
 
+  let adminStyle = [styles.name];
+  if(gameRoom.players[0].user ? gameRoom.players[0].user.is_admin === 1 : false) {
+    adminStyle.push(styles.admin);
+  }
+
   return (
     <View >
       <ImageBackground style={styles.root}>
@@ -38,7 +43,7 @@ const PlayerTwo = ({pieces, name, current}) => {
             <Text style={pieceStyle}> {pieces} </Text> 
           </View>
           <View style={styles.nameComponent}> 
-            <Text style={styles.name}>{name}</Text> 
+            <Text style={adminStyle}>{name}</Text> 
             <View style={styles.basePiece}></View>           
           </View>
           <View style={{flex: 1}}> 
@@ -118,6 +123,10 @@ const styles = StyleSheet.create({
     marginTop: 'auto',
     marginBottom: 'auto',
   },
+  admin: {
+    color: '#FF0000',
+    fontWeight: 'bold',
+  }
 });
 
 export default PlayerTwo;
