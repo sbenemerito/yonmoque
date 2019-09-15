@@ -169,8 +169,8 @@ class Board extends React.Component {
         updateGameState({ ...roomData, side });
       });
 
-      socket.on('opponent left', ({ player }) => {
-        if (!this.props.ctx.gameover) moves.surrender(player);
+      socket.on('opponent left', (disconnectMeta) => {
+        if (!this.props.ctx.gameover && disconnectMeta) moves.surrender(disconnectMeta.player);
       });
 
       socket.on('disconnect', (reason) => {
@@ -226,7 +226,7 @@ class Board extends React.Component {
     let winnerName = 'Player';
     if (G.victory !== null && G.victory !== undefined) {
       const winnerIndex = parseInt(G.victory);
-      winnerName = gameRoom.players[winnerIndex].user ? gameRoom.players[winnerIndex].user.username : 'Player';
+      winnerName = gameRoom.players[winnerIndex] ? (gameRoom.players[winnerIndex].user ? gameRoom.players[winnerIndex].user.username : 'Player') : 'Player';
     }
 
     let cells = G.cells.map((cell) => {
@@ -292,7 +292,7 @@ class Board extends React.Component {
           <Fragment>
             <PlayerOne
               pieces={G.players[0].pieces}
-              name={gameRoom.players[0].user ? gameRoom.players[0].user.username : i18n.t('waiting')}
+              name={gameRoom.players[0] ? (gameRoom.players[0].user ? gameRoom.players[0].user.username : i18n.t('waiting')) : i18n.t('waiting')}
               current={this.props.ctx.currentPlayer}
               gameRoom={gameRoom}>
             </PlayerOne>
@@ -307,7 +307,7 @@ class Board extends React.Component {
           <Fragment>
             <PlayerTwo
               pieces={G.players[1].pieces}
-              name={gameRoom.players[1].user ? gameRoom.players[1].user.username : i18n.t('waiting')}
+              name={gameRoom.players[1] ? (gameRoom.players[1].user ? gameRoom.players[1].user.username : i18n.t('waiting')) : i18n.t('waiting')}
               current={this.props.ctx.currentPlayer}
               gameRoom={gameRoom}>
             </PlayerTwo>
