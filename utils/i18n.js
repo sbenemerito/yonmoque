@@ -33,7 +33,8 @@ const en = {
   takenUsername: 'Username is already taken',
   notAllowed: 'You are not allowed to perform this action',
   authenticationFailed: 'Failed to authenticate token',
-  player: 'Player'
+  player: 'Player',
+  playerCount: 'players online'
 };
 
 const ja = {
@@ -67,7 +68,8 @@ const ja = {
   takenUsername: 'ユーザー名は既に使われています。',
   notAllowed: 'あなたはこれを行うことはできません。',
   authenticationFailed: 'トークンの認証に失敗しました。',
-  player: 'プレイヤー'
+  player: 'プレイヤー',
+  playerCount: 'プレイヤーがいる'
 };
 
 i18n.fallbacks = true;

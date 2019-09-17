@@ -12,6 +12,7 @@ import {
 import api from '../../utils/YonmoqueApi';
 import getEnvVars from '../../environment';
 import ChooseColor from "../ChooseColorModal";
+import i18n from "../../utils/i18n";
 
 
 const { apiUrl } = getEnvVars();
@@ -19,7 +20,8 @@ const { apiUrl } = getEnvVars();
 
 class Lobby extends React.Component {
   state = {
-    rooms: []
+    rooms: [],
+    playerCount: 1,
   };
 
   setSocketListeners = (socketInstance) => {
@@ -49,6 +51,10 @@ class Lobby extends React.Component {
 
     socketInstance.on('room ended', (rooms) => {
       this.setState({ rooms });
+    });
+
+    socketInstance.on('players updated', ({ playerCount }) => {
+      this.setState({ playerCount });
     });
   }
 
@@ -114,14 +120,19 @@ class Lobby extends React.Component {
           </View>
           <View style={{flexDirection: 'row', marginTop: vh(2)}}>
             <View style={{marginRight: 'auto', marginTop: 'auto', marginBottom: 'auto',}}>
-              <Text style={{fontSize: vw(10)}}>Lobbies:</Text>
+              <Text style={{fontSize: vw(10)}}>{i18n.t('lobby')}:</Text>
             </View>
             <View style={{alignItems: 'flex-end'}}>
               <TouchableHighlight 
                 style={[styles.button, {justifyContent: 'center'}]} 
                 onPress={this.props.toggleChooseColor}>
-                <Text style={[{fontSize: vw(5), color: white}, styles.margins]}>Create Room</Text>
+                <Text style={[{fontSize: vw(5), color: white}, styles.margins]}>{i18n.t('createRoom')}</Text>
               </TouchableHighlight>
+            </View>
+          </View>
+          <View style={{ flexDirection: 'row', marginTop: vh(1) }}>
+            <View style={{ marginRight: 'auto', marginTop: 'auto', marginBottom: 'auto', }}>
+              <Text style={{ fontSize: vw(5) }}>{`${this.state.playerCount} ${i18n.t('playerCount')}`}:</Text>
             </View>
           </View>
           <Modal isVisible={this.props.isChooseColorVisible}>
