@@ -17,14 +17,19 @@ const ChooseMultiplayerMode = ({toggleChooseMultiplayerMode, startGame, gameData
     name: "Local Game",
     players: {
       "0": {
-        username: 'Player 1',
+        user: {
+          username: `${i18n.t('player')} 1`
+        },
         skin: null
       },
       "1": {
-        username: 'Player 2',
+        user: {
+          username: `${i18n.t('player')} 2`
+        },
         skin: null
       }
     },
+    secret: null,
     isMultiplayer: false,
     isAI: false,
     turn: 0
