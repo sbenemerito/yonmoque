@@ -139,6 +139,7 @@ class YonmoqueAI {
     let diagonalBL = cell + 4;
     while (cell % 5 > 0 && diagonalBL < 24 && this.board[diagonalBL].piece === null) {
       if (this.board[diagonalBL].color === passableTile) movableCells.push(diagonalBL);
+      if (diagonalBL % 5 === 0) break;
       diagonalBL += 4;
     }
 
@@ -146,6 +147,7 @@ class YonmoqueAI {
     let diagonalBR = cell + 6;
     while ((cell-4) % 5 > 0 && diagonalBR <= 24 && this.board[diagonalBR].piece === null) {
       if (this.board[diagonalBR].color === passableTile) movableCells.push(diagonalBR);
+      if ((diagonalBR - 4) % 5 === 0) break;
       diagonalBR += 6;
     }
 
