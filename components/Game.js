@@ -257,7 +257,7 @@ function flipDiagRight(id, currentPlayer, G) {
     do {
       i -= 4;
       try {
-        if (G.cells[i].piece === null || G.cells[id + 1].piece == currentPlayer) {
+        if (G.cells[i].piece === null || G.cells[id - 4].piece == currentPlayer) {
           break;
         }
         else if (currentPlayer != G.cells[i].piece) {
@@ -281,7 +281,7 @@ function flipDiagRight(id, currentPlayer, G) {
     do {
       i += 4;
       try {
-        if (G.cells[i].piece === null || G.cells[id + 1].piece === currentPlayer) {
+        if (G.cells[i].piece === null || G.cells[id + 4].piece === currentPlayer) {
           break;
         }
         else if (currentPlayer != G.cells[i].piece) {
@@ -316,7 +316,8 @@ function flippableCells(id, currentPlayer, G) {
 
 function checkHorizontal(id, currentPlayer, G) {
   var lineNum = 0;
-  var j = id;
+  var j = parseInt(id);
+
   //get last index in the right side
   do {
     j++;
@@ -337,7 +338,8 @@ function checkHorizontal(id, currentPlayer, G) {
 
 function checkVertical(id, currentPlayer, G) {
   var lineNum = 0;
-  var j = id;
+  var j = parseInt(id);
+  
   //get last index in the right side
   while (j >= 0) {
     j -= 5;
@@ -358,7 +360,8 @@ function checkVertical(id, currentPlayer, G) {
 
 function checkDiagRight(id, currentPlayer, G) {
   var lineNum = 0;
-  var j = id;
+  var j = parseInt(id);
+
   //get last index in the right side
   while (j % 5 != 0) {
     if (j >= 20 && j <= 24) {
@@ -383,7 +386,8 @@ function checkDiagRight(id, currentPlayer, G) {
 
 function checkDiagLeft(id, currentPlayer, G) {
   var lineNum = 0;
-  var j = id;
+  var j = parseInt(id);
+
   //get last index in the right side
   while ((j + 1) % 5 != 0) {
     if (j >= 20 && j <= 24) {
@@ -443,10 +447,10 @@ function checkVictory(currentPlayer, G) {
   //check all directions for flipped and moved
   for (i = 0; i < checkCells.length; i++){
     //get left side last id to check horizontal
-    checkHorizontal(checkCells[0], currentPlayer, G);
-    checkVertical(checkCells[0], currentPlayer, G);
-    checkDiagRight(checkCells[0], currentPlayer, G);
-    checkDiagLeft(checkCells[0], currentPlayer, G);
+    checkHorizontal(checkCells[i], currentPlayer, G);
+    checkVertical(checkCells[i], currentPlayer, G);
+    checkDiagRight(checkCells[i], currentPlayer, G);
+    checkDiagLeft(checkCells[i], currentPlayer, G);
   }
 
   lineNum = Math.max(...G.checkVictory);
