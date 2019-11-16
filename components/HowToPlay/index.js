@@ -12,8 +12,66 @@ import {
 } from "../constants/colors";
 
 class HowToPlay extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      swiperIndex: 0,
+    }
+    this.onIndexChanged.bind(this);
+  }
+
+  componentDidMount() {
+    setTimeout(() => {
+      this.setState({
+        visible: (this.props.lastHowToUseModalTimestamp) ? false : true,
+      })
+    }, 100);
+  }
+
+  onIndexChanged = (index) => {
+    this.setState({
+      swiperIndex: index
+    });
+  }
+
   render() {
     const {showMainMenu} = this.props;
+    
+    let button;
+    let swiperIndex = this.state.swiperIndex;
+    if (swiperIndex !== 9) {
+      button = (
+        <View style={{flexDirection: 'row', justifyContent: 'center', marginBottom: 5}}>
+          <TouchableHighlight 
+            style={styles.button}
+            onPress={() => {this.refs.swiper.scrollBy(-1)}}>
+            <Image
+              style={[{width: vw(7), height: vw(4)}, styles.margins]}
+              source={require("../../assets/icons/settings.png")}/>
+          </TouchableHighlight>
+          <TouchableHighlight 
+            style={styles.button}
+            onPress={() => {this.refs.swiper.scrollBy(1)}}>
+            <Image
+              style={[{width: vw(7), height: vw(4)}, styles.margins]}
+              source={require("../../assets/icons/settings.png")}/>
+          </TouchableHighlight>
+        </View>
+      )
+    } else {
+      button = (
+        <View style={{flexDirection: 'row', justifyContent: 'center', marginBottom: 5}}>
+          <TouchableHighlight 
+            style={styles.button}
+            onPress={() => {showMainMenu();}}>
+            <Image
+              style={[{width: vw(7), height: vw(4)}, styles.margins]}
+              source={require("../../assets/icons/settings.png")}/>
+          </TouchableHighlight>
+        </View>
+      )
+    }
+
     let lang = 'en';
     if (i18n.locale === 'ja-JP') {
       lang = 'ja';
@@ -49,7 +107,7 @@ class HowToPlay extends React.Component {
         style={styles.background}>
           
         <View style={styles.container}>
-          <View style={{alignItems: 'flex-end'}}>
+          <View style={{alignItems: 'flex-start'}}>
             <TouchableHighlight 
               style={styles.button}
               onPress={() => {
@@ -62,11 +120,26 @@ class HowToPlay extends React.Component {
           </View>
         </View>
         
-        <Text style={[styles.text]} type="PressStart">{i18n.t('howToPlay')}</Text>
         <Swiper 
             containerStyle={Platform.OS === 'ios' ? styles.slide : undefined}
             style={Platform.OS !== 'ios' ? styles.slide : undefined}
+            onIndexChanged={this.onIndexChanged}
             showsButtons={true}
+            showsButtons={false}
+            loop={false}
+            ref='swiper'
+            activeDot={
+              <View style={[{ 
+                  backgroundColor: '#2B7FAE',
+                  width: 24, 
+                  height: 8, 
+                  borderRadius: 4, 
+                  marginLeft: 3, 
+                  marginRight: 3, 
+                  marginTop: 3, 
+                  marginBottom: 3,
+              }, styles.shadowDefault]} 
+          />}
           >
           <View style={styles.slide}>
             <Image
@@ -119,6 +192,7 @@ class HowToPlay extends React.Component {
               source={imagesMap[lang][8]}/>
           </View>
         </Swiper>
+        {button}
       </ImageBackground>
     );
   }
