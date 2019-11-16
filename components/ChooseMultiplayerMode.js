@@ -11,6 +11,7 @@ import {
   playerTwoTile,
 } from "./constants/colors";
 import i18n from '../utils/i18n';
+import Icon from 'react-native-vector-icons/FontAwesome5';
 
 const ChooseMultiplayerMode = ({toggleChooseMultiplayerMode, startGame, gameData, isCreate, joinLobby, login, userData}) => {
   const gameDataLocal = {
@@ -67,10 +68,7 @@ const ChooseMultiplayerMode = ({toggleChooseMultiplayerMode, startGame, gameData
             onPress={toggleChooseMultiplayerMode}>
             <View style={[styles.buttonBase, ]}>
               <View style={[styles.button, styles.margins]}>
-                <Image
-                  style={[{width: vw(5), height: vw(5)}, styles.margins]}
-                  source={require("../assets/icons/close.png")}
-                />
+                <Icon name="times" style={[{color: white, fontSize: 30}, styles.margins]} />
               </View>
             </View>
           </TouchableHighlight>

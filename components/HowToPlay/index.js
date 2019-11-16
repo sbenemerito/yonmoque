@@ -11,6 +11,9 @@ import {
   black
 } from "../constants/colors";
 
+import Icon from 'react-native-vector-icons/FontAwesome5';
+import { LinearGradient } from 'expo-linear-gradient';
+
 class HowToPlay extends React.Component {
   constructor(props) {
     super(props);
@@ -29,9 +32,9 @@ class HowToPlay extends React.Component {
   }
 
   onIndexChanged = (index) => {
-    this.setState({
-      swiperIndex: index
-    });
+      this.setState({
+        swiperIndex: index
+      });
   }
 
   render() {
@@ -41,32 +44,42 @@ class HowToPlay extends React.Component {
     let swiperIndex = this.state.swiperIndex;
     if (swiperIndex !== 9) {
       button = (
-        <View style={{flexDirection: 'row', justifyContent: 'center', marginBottom: 5}}>
+        <View style={styles.buttonContainer}>
           <TouchableHighlight 
-            style={styles.button}
-            onPress={() => {this.refs.swiper.scrollBy(-1)}}>
-            <Image
-              style={[{width: vw(7), height: vw(4)}, styles.margins]}
-              source={require("../../assets/icons/settings.png")}/>
+            style={{borderRadius: vh(2), }}
+            onPress={() => {
+              if(this.state.swiperIndex > 0) {
+                this.refs.swiper.scrollBy(-1)}
+              }
+            }>
+            <LinearGradient
+              colors={['white', white]}
+              style={[ styles.backButton, styles.margins]}>
+            <Icon name="angle-double-left" style={[{color: '#2B7FAE', fontSize: 30}, styles.margins]} />
+            </LinearGradient>
           </TouchableHighlight>
           <TouchableHighlight 
-            style={styles.button}
+            style={{borderRadius: vh(2), }}
             onPress={() => {this.refs.swiper.scrollBy(1)}}>
-            <Image
-              style={[{width: vw(7), height: vw(4)}, styles.margins]}
-              source={require("../../assets/icons/settings.png")}/>
+            <LinearGradient
+              colors={['#2B7FAE', '#1A5886']}
+              style={[ styles.nextButton, styles.margins]}>
+            <Icon name="angle-double-right" style={[{color: white, fontSize: 30}, styles.margins]} />
+            </LinearGradient>
           </TouchableHighlight>
         </View>
       )
     } else {
       button = (
-        <View style={{flexDirection: 'row', justifyContent: 'center', marginBottom: 5}}>
+        <View style={styles.buttonContainer}>
           <TouchableHighlight 
-            style={styles.button}
+            style={{borderRadius: vh(2), }}
             onPress={() => {showMainMenu();}}>
-            <Image
-              style={[{width: vw(7), height: vw(4)}, styles.margins]}
-              source={require("../../assets/icons/settings.png")}/>
+            <LinearGradient
+              colors={['#2B7FAE', '#1A5886']}
+              style={[ styles.startButton, styles.margins]}>
+            <Text style={[{color: white, fontSize: 20}, styles.margins]}>{i18n.t('finishHowToPlay')}</Text>
+            </LinearGradient>
           </TouchableHighlight>
         </View>
       )
@@ -113,9 +126,7 @@ class HowToPlay extends React.Component {
               onPress={() => {
                 showMainMenu();
               }}>
-              <Image
-                style={[{width: vw(4), height: vw(4)}, styles.margins]}
-                source={require("../../assets/icons/settings.png")}/>
+              <Icon name="home" style={[{color: white, fontSize: 20}, styles.margins]} />
             </TouchableHighlight>
           </View>
         </View>
@@ -216,9 +227,37 @@ const styles = StyleSheet.create({
     margin: vh(1),    
     borderRadius: 12,
   },
+  buttonContainer: {
+    flexDirection: 'row', 
+    justifyContent: 'center', 
+    marginBottom: 20, 
+    backgroundColor: 'white', 
+    alignSelf: 'baseline', 
+    borderRadius: vh(2), 
+    marginRight: 'auto',
+    marginLeft: 'auto',
+  },
   button: {
     backgroundColor: '#2B7FAE',
+    width: vh(6),
+    height: vh(6),
+    borderRadius: vh(6),
+  },
+  nextButton: {
+    backgroundColor: '#2B7FAE',
+    width: vw(35),
+    height: vh(7),
+    borderRadius: vh(2),
+  },
+  backButton: {
+    backgroundColor: white,
     width: vw(20),
+    height: vh(7),
+    borderRadius: vh(2),
+  },
+  startButton: {
+    backgroundColor: '#2B7FAE',
+    width: vw(50),
     height: vh(7),
     borderRadius: vh(2),
   },

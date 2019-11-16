@@ -10,6 +10,8 @@ import ChooseColor from "../ChooseColorModal";
 import ChooseMultiplayerMode from "../ChooseMultiplayerMode";
 import i18n from '../../utils/i18n';
 
+import Icon from 'react-native-vector-icons/FontAwesome5';
+import { LinearGradient } from 'expo-linear-gradient';
 
 class MainMenu extends React.Component {
 
@@ -58,6 +60,7 @@ class MainMenu extends React.Component {
             source={require("../../assets/yonmoque.png")}
           />
         </View>
+        
         <View style={styles.menuComponent}>
           <Modal isVisible={this.props.isChooseColorVisible}>
             <ChooseColor 
@@ -76,28 +79,31 @@ class MainMenu extends React.Component {
             />
           </Modal>
           <TouchableHighlight
-            onPress={toggleChooseColor}>
-            <View style={[styles.buttonBase, styles.menuButtonBase]}>
-              <View style={[styles.button, styles.menuButton, styles.margins]}>
-                <Text style={[styles.text, styles.margins]}>{i18n.t('withAi')}</Text>
-              </View>
-            </View>
+            onPress={toggleChooseColor}
+            style={{marginTop: 20, borderRadius: 12}}>
+            <LinearGradient
+              colors={['#2B7FAE', '#1A5886']}
+              style={[ styles.menuButtonBase, styles.margins]}>
+              <Text style={[styles.text, styles.margins]}><Icon name="gamepad" style={styles.icon} /> {i18n.t('withAi')}</Text>
+            </LinearGradient>
           </TouchableHighlight>
           <TouchableHighlight
-            onPress={toggleChooseMultiplayerMode}>
-            <View style={[styles.buttonBase, styles.menuButtonBase]}>
-              <View style={[styles.button, styles.menuButton, styles.margins]}>
-                <Text style={[styles.text, styles.margins]}>{i18n.t('multiplayer')}</Text>
-              </View>
-            </View>
+            onPress={toggleChooseMultiplayerMode}
+            style={{marginTop: 20, borderRadius: 12}}>
+              <LinearGradient
+                colors={['#2B7FAE', '#1A5886']}
+                style={[ styles.menuButtonBase, styles.margins]}>
+                <Text style={[styles.text, styles.margins]}><Icon name="user-friends" style={styles.icon} /> {i18n.t('multiplayer')}</Text>
+              </LinearGradient>
           </TouchableHighlight>
           <TouchableHighlight
-            onPress={howToPlay}>
-            <View style={[styles.buttonBase, styles.menuButtonBase]}>
-              <View style={[styles.button, styles.menuButton, styles.margins]}>
-                <Text style={[styles.text, styles.margins]}>{i18n.t('howto')}</Text>
-              </View>
-            </View>
+            onPress={howToPlay}
+            style={{marginTop: 20, borderRadius: 12}}>
+              <LinearGradient
+                colors={['#2B7FAE', '#1A5886']}
+                style={[ styles.menuButtonBase, styles.margins]}>
+                <Text style={[styles.text, styles.margins]}><Icon name="chalkboard-teacher" style={styles.icon} /> {i18n.t('howto')}</Text>
+              </LinearGradient>
           </TouchableHighlight>
         </View>
       </View>
@@ -132,7 +138,6 @@ const styles = StyleSheet.create({
     width: vw(60),
     height: vh(7),
     borderRadius: 12,
-    marginTop: 20,
   },
   menuButton: {
     width: '95%',
@@ -152,6 +157,11 @@ const styles = StyleSheet.create({
   text: {
     color: white,
     fontSize: vw(5),
+  },
+  icon: {
+    marginTop: 5,
+    marginRight: 5,
+    fontSize: 25
   },
   margins: {
     marginRight: 'auto',

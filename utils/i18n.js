@@ -34,7 +34,8 @@ const en = {
   notAllowed: 'You are not allowed to perform this action',
   authenticationFailed: 'Failed to authenticate token',
   player: 'Player',
-  playerCount: 'players online'
+  playerCount: 'players online',
+  finishHowToPlay: 'Start Playing!'
 };
 
 const ja = {
@@ -69,7 +70,8 @@ const ja = {
   notAllowed: 'あなたはこれを行うことはできません。',
   authenticationFailed: 'トークンの認証に失敗しました。',
   player: 'プレイヤー',
-  playerCount: 'プレイヤーがいる'
+  playerCount: 'プレイヤーがいる',
+  finishHowToPlay: 'ゲームをやってみよう！'
 };
 
 i18n.fallbacks = true;

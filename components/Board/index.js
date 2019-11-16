@@ -5,6 +5,7 @@ import Tile from "../Tile";
 import PlayerOne from "./PlayerOne";
 import PlayerTwo from "./PlayerTwo";
 import Modal from "react-native-modal";
+import Icon from 'react-native-vector-icons/FontAwesome5';
 
 import { vw, vh } from 'react-native-expo-viewport-units';
 import {
@@ -268,11 +269,8 @@ class Board extends React.Component {
                 showMainMenu();
               }} >
               <View style={[styles.buttonBase]}>
-                <View style={[styles.button, styles.margins]}>
-                  <Image
-                    style={[{width: vw(7), height: vw(7)}, styles.margins]}
-                    source={require("../../assets/icons/settings.png")}
-                  />
+                <View style={[styles.button, styles.margins]}>  
+                  <Icon name="door-open" style={[{color: white, fontSize: 20}, styles.margins]} />
                 </View>
               </View>
             </TouchableHighlight>
@@ -322,10 +320,7 @@ class Board extends React.Component {
                   }}>
                   <View style={[styles.buttonBase]}>
                     <View style={[styles.button, styles.margins]}>
-                      <Image
-                        style={[{width: vw(6), height: vw(6)}, styles.margins]}
-                        source={require("../../assets/icons/close.png")}
-                      />
+                      <Icon name="times" style={[{color: white, fontSize: 20}, styles.margins]} />
                     </View>
                   </View>
                 </TouchableHighlight>
@@ -341,10 +336,7 @@ class Board extends React.Component {
                     }}>
                     <View style={[styles.buttonBase]}>
                       <View style={[styles.button, styles.margins]}>
-                        <Image
-                          style={[{width: vw(6), height: vw(6)}, styles.margins]}
-                          source={require("../../assets/icons/settings.png")}
-                        />
+                        <Icon name="home" style={[{color: white, fontSize: 20}, styles.margins]} />
                       </View>
                     </View>
                   </TouchableHighlight>

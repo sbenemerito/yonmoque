@@ -1,6 +1,7 @@
 import React from "react";
 import { StyleSheet, View, Text } from "react-native";
 import { vw } from 'react-native-expo-viewport-units';
+import { LinearGradient } from 'expo-linear-gradient';
 
 import {
   tileHeight,
@@ -15,17 +16,25 @@ import {
 
 const Piece = ({ pieceID }) => {
   let styleList = [styles.basePiece];
+  let colorOne;
+  let colorTwo;
   switch(pieceID) {
     case '0':
-      styleList.push(styles.whitePiece);
+      colorOne = playerOneTile;
+      colorTwo = playerOneTileBorder;
       break;
     case '1':
-      styleList.push(styles.bluePiece);
+      colorOne = playerTwoTile;
+      colorTwo = playerTwoTileBorder;
       break;
   }
 
   return (
-    <View style={styleList}></View>
+    <LinearGradient
+      colors={[colorOne, colorTwo]}
+      style={styles.basePiece}>
+    </LinearGradient>
+    
   );
 };
 
@@ -33,7 +42,6 @@ const styles = StyleSheet.create({
   basePiece: {
     width: vw(tileWidth-2),
     height: vw(tileHeight-2),
-    borderWidth: 2,
     borderRadius: vw(tileWidth-2)/2,
     marginTop: 'auto',
     marginRight: 'auto',

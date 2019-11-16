@@ -15,6 +15,7 @@ import {
 import { initialCells } from "./constants/board";
 import YonmoqueAI from '../utils/YonmoqueAI';
 import i18n from '../utils/i18n';
+import Icon from 'react-native-vector-icons/FontAwesome5';
 
 
 const ChooseColor = ({toggleChooseColor, startGame, gameData, createRoom, isCreate}) => {
@@ -70,10 +71,7 @@ const ChooseColor = ({toggleChooseColor, startGame, gameData, createRoom, isCrea
             onPress={toggleChooseColor}>
             <View style={[styles.buttonBase, ]}>
               <View style={[styles.button, styles.margins]}>
-                <Image
-                  style={[{width: vw(5), height: vw(5)}, styles.margins]}
-                  source={require("../assets/icons/close.png")}
-                />
+                <Icon name="times" style={[{color: white, fontSize: 30}, styles.margins]} />
               </View>
             </View>
           </TouchableHighlight>
