@@ -42,10 +42,10 @@ class YonmoqueAI {
     
     // check horizontal
     for(let i = 0; i <= 20; i+5) {
-      for(let j = i; (j+1) % 5 !== 0; j++) {
+      for(let j = i; j % 5 !== 0; j++) {
         alert(j)
-        //if (this.board[j].piece !== null) store.push(this.board[j].piece)
-        //if (store.length !== 0) store = this.checkFrequency(store);
+        if (this.board[j].piece !== null) store.push(this.board[j].piece)
+        if (store.length !== 0) store = this.checkFrequency(store);
       }
       if (store.length !== 0) {
         for(let k = 0; k <= store.length - 1; k++)
@@ -57,18 +57,18 @@ class YonmoqueAI {
     store = [];
 
     //check vertical
-  //   for(let i = 0; i <= 4; i+5) {
-  //     for(let j = i; (j+1) % 5 !== 0; j+5) {
-  //       alert(j)
-  //       if (this.board[j].piece !== null) store.push(this.board[j])
-  //       if (store.length !== 0) store = this.checkFrequency(store);
-  //     }
-  //     if (store.length !== 0) {
-  //       for(let k = 0; k <= store.length - 1; k++)
-  //         if(store[k].id - store[k-1].id != 1) 
-  //           createNextMove = this.findPiece(store[k+1].id, store[store.length - 1])
-  //     }
-  //   }
+    for(let i = 0; i <= 4; i+5) {
+      for(let j = i; j % 5 !== 0; j+5) {
+        alert(j)
+        if (this.board[j].piece !== null) store.push(this.board[j])
+        if (store.length !== 0) store = this.checkFrequency(store);
+      }
+      if (store.length !== 0) {
+        for(let k = 0; k <= store.length - 1; k++)
+          if(store[k].id - store[k-1].id != 1) 
+            createNextMove = this.findPiece(store[k+1].id, store[store.length - 1])
+      }
+    }
     
   //  return createNextMove;
   }
