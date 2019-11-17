@@ -1,0 +1,50 @@
+POINTS TO IDENTIFY:
+
+A) chance to win (AI & opponent)
+B) chance to flip (AI & opponent)
+C) random move
+
+
+A: high priority - check if there's a chance to win
+* By move
+
+☐ check if there are 3 pieces lined up
+  -> all direction
+  -> own color
+
+    1) Get ID of the tile where you must place a piece to win
+    2) check surrounding tiles of the ID if there's a piece you can move going to that direction
+        A) it must also identify diagonal movement
+    3) if there's a movable piece, move the piece to win
+    4) if there's none, move/add a piece that can go to that direction
+
+B) Flip - check if there's a chance to flip
+ 1) check all pieces that are next to each other
+ for 2 lined up pieces:
+    - If A1 is color1 and A2 is color2 check if there's a color1 that can go to A3
+ for 3 lined up pieces:
+    - If A1 & A2 is color1 and A3 is color1 check if there's a color1 that can go to A4
+
+C) random move - last resort of movement
+
+FUNCTIONS:
+    > Check surroundings if you can move to a certain ID
+        - send ID and color & function will determine if you can move a piece going to that direction with the same color
+    > Check for lined up pieces
+        A (Win):
+            > check if there are 3 lined up pieces with the same color
+                - get starting ID to ending ID
+        B (Flip):
+            > check if there are 2 or 3 pieces (color matters: check line 20)
+
+☐ check if there are 3 pieces lined up
+ color: blue
+ -> BLUE BLUE WHITE X
+    * call function to check if you can move a blue piece going to X
+ -> BLUE BLUE BLUE X
+    * call function to check if you can move a blue piece going to x
+ -> BLUE WHITE X
+    * call function to check if you can move a blue piece going to X
+
+same: counter with color detector
+      function to check which piece can go there
