@@ -15,6 +15,7 @@ class App extends React.Component {
     screen: 'mainMenu',
     isChooseColorVisible: false,
     isChooseMultiplayerModeVisible: false,
+    isSettingsVisible: false,
     fontLoaded: false,
     numPlayers: 2,
     playerSide: 0,
@@ -107,6 +108,12 @@ class App extends React.Component {
     });
   };
 
+  toggleSettings = () => {
+    this.setState({ 
+      isSettingsVisible: !this.state.isSettingsVisible 
+    });
+  };
+
   toggleWinner = () => {
     this.setState({ 
       showWinnerModal: !this.state.showWinnerModal 
@@ -125,6 +132,7 @@ class App extends React.Component {
       gameRoom,
       isChooseColorVisible,
       isChooseMultiplayerModeVisible,
+      isSettingsVisible,
       numPlayers,
       playerSide,
       socket,
@@ -148,7 +156,9 @@ class App extends React.Component {
                   login={this.login}
                   isChooseColorVisible={isChooseColorVisible}
                   isChooseMultiplayerModeVisible={isChooseMultiplayerModeVisible}
+                  isSettingsVisible={isSettingsVisible}
                   userData={userData}
+                  toggleSettings={this.toggleSettings}
                 />,
       lobby: <Lobby
                socket={socket}

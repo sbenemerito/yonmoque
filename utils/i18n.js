@@ -35,7 +35,10 @@ const en = {
   authenticationFailed: 'Failed to authenticate token',
   player: 'Player',
   playerCount: 'players online',
-  finishHowToPlay: 'Start Playing!'
+  finishHowToPlay: 'Start Playing!',
+  settings: 'Settings',
+  logout: 'Logout',
+  selectLanguage: 'Select Language'
 };
 
 const ja = {
@@ -71,7 +74,10 @@ const ja = {
   authenticationFailed: 'トークンの認証に失敗しました。',
   player: 'プレイヤー',
   playerCount: 'プレイヤーがいる',
-  finishHowToPlay: 'ゲームをやってみよう！'
+  finishHowToPlay: 'ゲームをやってみよう！',
+  settings: '設定',
+  logout: 'ログアウト',
+  selectLanguage: '言語を選択'
 };
 
 i18n.fallbacks = true;

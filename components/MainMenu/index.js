@@ -8,6 +8,7 @@ import { vw, vh } from "react-native-expo-viewport-units";
 import Modal from "react-native-modal";
 import ChooseColor from "../ChooseColorModal";
 import ChooseMultiplayerMode from "../ChooseMultiplayerMode";
+import Settings from "../SettingsModal";
 import i18n from '../../utils/i18n';
 
 import Icon from 'react-native-vector-icons/FontAwesome5';
@@ -16,7 +17,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 class MainMenu extends React.Component {
 
   render() {
-    const { startGame, joinLobby, howToPlay, toggleChooseColor, toggleChooseMultiplayerMode, login } = this.props;
+    const { startGame, joinLobby, howToPlay, toggleChooseColor, toggleChooseMultiplayerMode, login, toggleSettings } = this.props;
     const gameDataAI = {
       name: "Playing with AI",
       players: {
@@ -41,19 +42,17 @@ class MainMenu extends React.Component {
 
     return (
       <View style={styles.root}>
-        {/* <View style={styles.settingComponent}>
+        <View style={styles.settingComponent}>
           <TouchableHighlight
-            onPress={() => startGame(gameDataAI)}>
-            <View style={[styles.buttonBase, styles.roundButtonBase]}>
-              <View style={[styles.button, styles.roundButton, styles.margins]}>
-                <Image
-                  style={[{width: vw(8), height: vw(8)}, styles.margins]}
-                  source={require("../../assets/icons/settings.png")}
-                />
-              </View>
-            </View>
+            onPress={toggleSettings}
+            style={{borderRadius: vw(12) / 2,}}>
+              <LinearGradient
+                colors={['#2B7FAE', '#1A5886']}
+                style={[ styles.roundButtonBase, styles.margins]}>
+                <Icon name="cogs" style={[styles.icon, styles.margins]} />
+              </LinearGradient>
           </TouchableHighlight>
-        </View> */}
+        </View>
         <View style={styles.imageComponent}>
           <Image
             style={{width: vw(80), height: vw(60),}}
@@ -72,6 +71,15 @@ class MainMenu extends React.Component {
           <Modal isVisible={this.props.isChooseMultiplayerModeVisible}>
             <ChooseMultiplayerMode 
               toggleChooseMultiplayerMode={toggleChooseMultiplayerMode}
+              startGame={startGame}
+              joinLobby={joinLobby}
+              login={login}
+              userData={this.props.userData}
+            />
+          </Modal>
+          <Modal isVisible={this.props.isSettingsVisible}>
+            <Settings 
+              toggleSettings={toggleSettings}
               startGame={startGame}
               joinLobby={joinLobby}
               login={login}
@@ -124,9 +132,10 @@ const styles = StyleSheet.create({
     marginTop: vh(15),
   },
   settingComponent: {
-    alignItems: "flex-end",
-    marginTop: vh(5),
-    marginRight: vw(3),
+    right: 0,
+    marginTop: vh(7),
+    marginRight: vw(5),
+    position: 'absolute'
   },
   buttonBase: {
     backgroundColor: '#1A5886',
@@ -159,9 +168,8 @@ const styles = StyleSheet.create({
     fontSize: vw(5),
   },
   icon: {
-    marginTop: 5,
-    marginRight: 5,
-    fontSize: 25
+    color: white,
+    fontSize: 20
   },
   margins: {
     marginRight: 'auto',
