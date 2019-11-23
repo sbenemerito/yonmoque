@@ -43,7 +43,8 @@ const Settings = ({toggleSettings, setSocket, socket, setUserData}) => {
           <TouchableHighlight
             style={{ marginTop: vh(2), }}
             onPress={() => {
-              i18n.locale === 'ja-JP' ? i18n.locale = 'en-JP' : i18n.locale = 'ja-JP'
+              {i18n.locale === 'ja-JP' ? i18n.locale = 'en-JP' : i18n.locale = 'ja-JP'}
+              toggleSettings();
             }}>
             <LinearGradient
               colors={[white, playerTwoTileBorder]}
