@@ -56,8 +56,9 @@ class Login extends React.Component {
       .then(response => {
         setUserData(response);
       })
-      .catch(error => 
+      .catch((error) => {
         this.setState({ message: error.response.data.key })
+      }
       );
   }
 

@@ -19,7 +19,7 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 import { LinearGradient } from 'expo-linear-gradient';
 
 
-const Settings = ({toggleSettings}) => {
+const Settings = ({toggleSettings, setSocket, socket, setUserData}) => {
 
   return (
     <View style={{flex: 1}}>
@@ -55,8 +55,12 @@ const Settings = ({toggleSettings}) => {
         <TouchableHighlight 
           style={[{borderRadius: vw(12) / 2, marginBottom: 15, marginHorizontal: 10}]}
           onPress={() => {
-            this.props.socket.disconnect();
-            this.props.setSocket(null);
+            if(socket) {
+              socket.disconnect();
+              setSocket(null);
+              setUserData(null);
+              toggleSettings();
+            }
           }}>
           <LinearGradient
             colors={['#2B7FAE', '#1A5886']}

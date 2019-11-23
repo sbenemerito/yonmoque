@@ -83,10 +83,13 @@ class App extends React.Component {
     });
   };
 
-  setUserData = ({data}) => {
+  setUserData = (data) => {
     this.setState({
       userData: data,
-      screen: 'lobby'
+    }, () => {
+      if(data !== null) {
+        this.joinLobby();
+      }
     });
   };
 
@@ -150,6 +153,7 @@ class App extends React.Component {
       mainMenu: <MainMenu
                   socket={socket}
                   setSocket={this.setSocket}
+                  setUserData={this.setUserData}
                   startGame={this.startGame}
                   joinLobby={this.joinLobby}
                   howToPlay={this.howToPlay}

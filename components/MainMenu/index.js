@@ -17,7 +17,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 class MainMenu extends React.Component {
 
   render() {
-    const { setSocket, startGame, joinLobby, howToPlay, toggleChooseColor, toggleChooseMultiplayerMode, login, toggleSettings } = this.props;
+    const { setSocket, startGame, joinLobby, howToPlay, toggleChooseColor, toggleChooseMultiplayerMode, login, toggleSettings, setUserData } = this.props;
     const gameDataAI = {
       name: "Playing with AI",
       players: {
@@ -82,6 +82,7 @@ class MainMenu extends React.Component {
               toggleSettings={toggleSettings}
               socket={this.props.socket}
               setSocket={setSocket}
+              setUserData={setUserData}
             />
           </Modal>
           <TouchableHighlight
