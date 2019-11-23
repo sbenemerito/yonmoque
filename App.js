@@ -148,6 +148,8 @@ class App extends React.Component {
     });
     const screenMap = {
       mainMenu: <MainMenu
+                  socket={socket}
+                  setSocket={this.setSocket}
                   startGame={this.startGame}
                   joinLobby={this.joinLobby}
                   howToPlay={this.howToPlay}

@@ -2,6 +2,7 @@ import React from "react";
 import { StyleSheet, View, TouchableHighlight, Button, Image} from "react-native";
 import Text from './CustomText';
 import { vw, vh } from 'react-native-expo-viewport-units';
+import socketIO from 'socket.io-client';
 
 import {
   blue,
@@ -52,7 +53,11 @@ const Settings = ({toggleSettings}) => {
           </TouchableHighlight>
         </View>
         <TouchableHighlight 
-          style={[{borderRadius: vw(12) / 2, marginBottom: 15, marginHorizontal: 10}]}>
+          style={[{borderRadius: vw(12) / 2, marginBottom: 15, marginHorizontal: 10}]}
+          onPress={() => {
+            this.props.socket.disconnect();
+            this.props.setSocket(null);
+          }}>
           <LinearGradient
             colors={['#2B7FAE', '#1A5886']}
             style={[{height: vw(12), borderRadius: vw(12) / 2,}]}>

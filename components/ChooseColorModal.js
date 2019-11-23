@@ -91,7 +91,7 @@ const styles = StyleSheet.create({
     borderColor: blueDark,
   },
   text: {
-    fontSize: vw(8),
+    fontSize: vw(7),
     color: blueDark,
     marginRight: 'auto',
     marginLeft: 'auto',
