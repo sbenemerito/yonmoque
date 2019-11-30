@@ -31,8 +31,8 @@ const ChooseColor = ({toggleChooseColor, startGame, gameData, createRoom, isCrea
               if (isCreate) {
                 createRoom(0);
               } else {
+                gameData.players[0].user.isChooseByPlayer = true;
                 gameData.players[0].user.username = `${gameData.players[0].user.username} (You)`;
-
                 if (gameData.isAI) {
                   gameData.players[1].user.username = `${gameData.players[1].user.username} (AI)`;
                   gameData.AI = new YonmoqueAI(1, [...initialCells], 6);
@@ -54,6 +54,7 @@ const ChooseColor = ({toggleChooseColor, startGame, gameData, createRoom, isCrea
               if (isCreate) {
                 createRoom(1);
               } else {
+                gameData.players[1].user.isChooseByPlayer = true;
                 gameData.players[1].user.username = `${gameData.players[1].user.username} (You)`;
 
                 if (gameData.isAI) {

@@ -1,11 +1,12 @@
 import React, { Fragment } from "react";
-import { ImageBackground, StyleSheet, View, TouchableHighlight, Image } from "react-native";
+import { Animated, ImageBackground, StyleSheet, View, TouchableHighlight, Image } from "react-native";
 import Text from '../CustomText';
 import Tile from "../Tile";
 import PlayerOne from "./PlayerOne";
 import PlayerTwo from "./PlayerTwo";
 import Modal from "react-native-modal";
 import Icon from 'react-native-vector-icons/FontAwesome5';
+import { LinearGradient } from 'expo-linear-gradient';
 
 import { vw, vh } from 'react-native-expo-viewport-units';
 import {
@@ -128,10 +129,17 @@ class Board extends React.Component {
   }
 
   toggleWinner = () => {
-    this.setState({ 
-      showWinnerModal: !this.state.showWinnerModal,
-      finalBoard: true
-    });
+    let closeModalTimer = 3000;
+
+    if (this.state.showWinnerModal) {
+      closeModalTimer = 300;
+    }
+    setTimeout(() => {
+      this.setState({ 
+        showWinnerModal: !this.state.showWinnerModal,
+        finalBoard: true
+      })
+    }, closeModalTimer)
   };
 
   componentDidMount() {
@@ -189,7 +197,7 @@ class Board extends React.Component {
       gameRoom.AI.handleMove([...G.cells]);
       this.moveAI();
     }
-
+    // this one is triggered when the game is over and puts validation condition for modal winner so it will not always show
     if (this.props.ctx.gameover && !this.state.showWinnerModal && !this.state.finalBoard) {
       this.toggleWinner();
 
@@ -218,16 +226,76 @@ class Board extends React.Component {
     }
   }
 
-  render() {
-    const { G, gameRoom, showMainMenu, socket, setSocket } = this.props;
+  // this is function for rendering the modal
+  // @params: string, playerName comes from render() of winnerName
+  renderEndGameModal(playerName) {
+    const { G, gameRoom } = this.props;
     const {
       showWinnerModal
     } = this.state;
+    
+    // @TODO refactor this condition
+    let srcImg = require("../../assets/icons/loser.png"); // default is loser.png
+    if (G.victory !== null && G.victory !== undefined) { // this checks if there's already a winner in G
+      const winnerIndex = parseInt(G.victory);
+      // (1, AI) if gameRoom.players of winnerIndex user obj have isChooseByPlayer then current player wins and will get winner.png
+      // (2, MULTIPLAYER) if roomData.players of winner index socket is same with socket.id then will get winner.png
+      if (gameRoom.players[winnerIndex].user.isChooseByPlayer || roomData.players[winnerIndex].socket === socket.id) {
+        srcImg = require("../../assets/icons/winner.png");
+      }
+    }
+    
+    return (
+      <Modal isVisible={showWinnerModal}>
+        <View style={{flex: 1}}>
+          <View style={[styles.margins, styles.modal]}>
+            <TouchableHighlight 
+              style={[styles.buttonMargin, styles.marginsRight]}
+              onPress={() => {
+                this.toggleWinner();
+              }}>
+              <View style={[styles.buttonBase]}>
+                <LinearGradient
+                  colors={['#2B7FAE', '#1A5886']}
+                  style={[ styles.buttonBase]}>
+                  <Icon name="times" style={[{color: white, fontSize: 30}, styles.margins]} />
+                </LinearGradient>
+              </View>
+            </TouchableHighlight>
+            <View style={[styles.marginsTop]}>  
+              <Image
+                style={[{width: vw(50), height: vh(31)}, styles.margins]}
+                source={srcImg}/>
+              <Text style={[styles.text, styles.margins, {marginBottom: vh(2)}]}> Winner: {playerName} </Text>
+              <TouchableHighlight 
+                style={[styles.buttonMargin, styles.margins]}
+                onPress={() => {
+                  showMainMenu();
+                }}>
+                <View style={[styles.buttonBase]}>
+                  <LinearGradient
+                    colors={['#2B7FAE', '#1A5886']}
+                    style={[ styles.buttonBase]}>
+                    <Icon name="home" style={[{color: white, fontSize: 30}, styles.margins]} />
+                  </LinearGradient>
+                </View>
+              </TouchableHighlight>
+            </View>
+          </View>
+        </View>
+      </Modal>
+    );
+  }
+
+  render() {
+    const { G, gameRoom, showMainMenu, socket, setSocket } = this.props;
 
     let winnerName = 'Player';
     if (G.victory !== null && G.victory !== undefined) {
       const winnerIndex = parseInt(G.victory);
       winnerName = gameRoom.players[winnerIndex] ? (gameRoom.players[winnerIndex].user ? gameRoom.players[winnerIndex].user.username : 'Player') : 'Player';
+      // winnerIndex gives the value of the winner.
+      // console.log(gameRoom.players[winnerIndex].user.username) specifies the entire name of winner
     }
 
     let cells = G.cells.map((cell) => {
@@ -265,14 +333,13 @@ class Board extends React.Component {
                   socket.disconnect();
                   setSocket(null);
                 }
-
                 showMainMenu();
               }} >
-              <View style={[styles.buttonBase]}>
-                <View style={[styles.button, styles.margins]}>  
-                  <Icon name="door-open" style={[{color: white, fontSize: 20}, styles.margins]} />
-                </View>
-              </View>
+              <LinearGradient
+                colors={['#2B7FAE', '#1A5886']}
+                style={[ styles.buttonBase]}>
+                <Icon name="door-open" style={[{color: white, fontSize: 20}, styles.margins]} />
+              </LinearGradient>
             </TouchableHighlight>
             {/* <TouchableHighlight 
               style={styles.buttonMargin}>
@@ -310,40 +377,7 @@ class Board extends React.Component {
               gameRoom={gameRoom}>
             </PlayerTwo>
           </Fragment>
-          <Modal isVisible={showWinnerModal}>
-            <View style={{flex: 1}}>
-              <View style={[styles.margins, styles.modal]}>
-                <TouchableHighlight 
-                  style={[styles.buttonMargin, styles.marginsRight]}
-                  onPress={() => {
-                    this.toggleWinner();
-                  }}>
-                  <View style={[styles.buttonBase]}>
-                    <View style={[styles.button, styles.margins]}>
-                      <Icon name="times" style={[{color: white, fontSize: 20}, styles.margins]} />
-                    </View>
-                  </View>
-                </TouchableHighlight>
-                <View style={[styles.marginsTop]}>  
-                  <Image
-                    style={[{width: vw(50), height: vh(31)}, styles.margins]}
-                    source={require("../../assets/icons/winner.png")}/>
-                  <Text style={[styles.text, styles.margins, {marginBottom: vh(2)}]}> {winnerName} </Text>
-                  <TouchableHighlight 
-                    style={[styles.buttonMargin, styles.margins]}
-                    onPress={() => {
-                      showMainMenu();
-                    }}>
-                    <View style={[styles.buttonBase]}>
-                      <View style={[styles.button, styles.margins]}>
-                        <Icon name="home" style={[{color: white, fontSize: 20}, styles.margins]} />
-                      </View>
-                    </View>
-                  </TouchableHighlight>
-                </View>
-              </View>
-            </View>
-          </Modal>
+          {this.renderEndGameModal(winnerName)}
         </ImageBackground>
       </View>
     );
@@ -427,7 +461,7 @@ const styles = StyleSheet.create({
     backgroundColor: white,
     borderWidth: 5,
     borderRadius: 10,
-    borderColor: blueDark,
+    borderColor: white,
   },
 });
 
