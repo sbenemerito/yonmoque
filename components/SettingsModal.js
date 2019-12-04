@@ -40,8 +40,9 @@ const Settings = ({toggleSettings, setSocket, socket, setUserData}) => {
           </View>
         <View style={[styles.margins]}>
           <Text style={[{fontSize: vw(6), color: blueDark, marginHorizontal: 'auto'}]}>{i18n.t('selectLanguage')}</Text>
-          <TouchableHighlight 
-              style={[{borderRadius: vw(12) / 2}]}
+            <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
+            <TouchableHighlight 
+              style={[{borderRadius: vw(12) / 2, marginHorizontal: 10}]}
               onPress={() => {
                 i18n.locale = 'en-JP'
                 toggleSettings();
@@ -53,7 +54,7 @@ const Settings = ({toggleSettings, setSocket, socket, setUserData}) => {
               </View>
             </TouchableHighlight>
             <TouchableHighlight 
-              style={[{borderRadius: vw(12) / 2}]}
+              style={[{borderRadius: vw(12) / 2, marginHorizontal: 10}]}
               onPress={() => {
                 i18n.locale = 'ja-JP'
                 toggleSettings();
@@ -64,6 +65,7 @@ const Settings = ({toggleSettings, setSocket, socket, setUserData}) => {
                 />
               </View>
             </TouchableHighlight>
+          </View>
         </View>
         <TouchableHighlight 
           style={[{borderRadius: vw(12) / 2, marginBottom: 15, marginHorizontal: 10}]}
