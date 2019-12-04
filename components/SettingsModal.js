@@ -40,18 +40,30 @@ const Settings = ({toggleSettings, setSocket, socket, setUserData}) => {
           </View>
         <View style={[styles.margins]}>
           <Text style={[{fontSize: vw(6), color: blueDark, marginHorizontal: 'auto'}]}>{i18n.t('selectLanguage')}</Text>
-          <TouchableHighlight
-            style={{ marginTop: vh(2), }}
-            onPress={() => {
-              {i18n.locale === 'ja-JP' ? i18n.locale = 'en-JP' : i18n.locale = 'ja-JP'}
-              toggleSettings();
-            }}>
-            <LinearGradient
-              colors={[white, playerTwoTileBorder]}
-              style={[styles.basePiece]}>
-              <Text style={[styles.buttonText, styles.margins]}>{i18n.locale === 'ja-JP' ? 'English' : '日本語'}</Text>
-            </LinearGradient>  
-          </TouchableHighlight>
+          <TouchableHighlight 
+              style={[{borderRadius: vw(12) / 2}]}
+              onPress={() => {
+                i18n.locale = 'en-JP'
+                toggleSettings();
+              }}>
+              <View style={styles.imageComponent}>
+                <Image style={{width: vw(10), height: vw(10),}}
+                  source={require("../assets/en-JP.png")}
+                />
+              </View>
+            </TouchableHighlight>
+            <TouchableHighlight 
+              style={[{borderRadius: vw(12) / 2}]}
+              onPress={() => {
+                i18n.locale = 'ja-JP'
+                toggleSettings();
+              }}>
+              <View style={styles.imageComponent}>
+                <Image style={{width: vw(10), height: vw(10),}}
+                  source={require("../assets/ja-JP.png")}
+                />
+              </View>
+            </TouchableHighlight>
         </View>
         <TouchableHighlight 
           style={[{borderRadius: vw(12) / 2, marginBottom: 15, marginHorizontal: 10}]}
