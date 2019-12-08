@@ -16,6 +16,7 @@ import { initialCells } from "./constants/board";
 import YonmoqueAI from '../utils/YonmoqueAI';
 import i18n from '../utils/i18n';
 import Icon from 'react-native-vector-icons/FontAwesome5';
+import { LinearGradient } from 'expo-linear-gradient';
 
 
 const ChooseColor = ({toggleChooseColor, startGame, gameData, createRoom, isCreate}) => {
@@ -30,8 +31,8 @@ const ChooseColor = ({toggleChooseColor, startGame, gameData, createRoom, isCrea
               if (isCreate) {
                 createRoom(0);
               } else {
+                gameData.players[0].user.isChooseByPlayer = true;
                 gameData.players[0].user.username = `${gameData.players[0].user.username} (You)`;
-
                 if (gameData.isAI) {
                   gameData.players[1].user.username = `${gameData.players[1].user.username} (AI)`;
                   gameData.AI = new YonmoqueAI(1, [...initialCells], 6);
@@ -41,9 +42,11 @@ const ChooseColor = ({toggleChooseColor, startGame, gameData, createRoom, isCrea
               }
             }}
           >
-            <View style={[styles.basePiece, styles.pieceBlue]}>
+            <LinearGradient
+              colors={['#2B7FAE', '#1A5886']}
+              style={[styles.basePiece]}>
               <Text style={[styles.buttonText, styles.margins]}>{i18n.t('blue')}</Text>
-            </View>
+            </LinearGradient>
           </TouchableHighlight>
           <Text style={[styles.text]}>{i18n.t('or')}</Text>
           <TouchableHighlight
@@ -51,6 +54,7 @@ const ChooseColor = ({toggleChooseColor, startGame, gameData, createRoom, isCrea
               if (isCreate) {
                 createRoom(1);
               } else {
+                gameData.players[1].user.isChooseByPlayer = true;
                 gameData.players[1].user.username = `${gameData.players[1].user.username} (You)`;
 
                 if (gameData.isAI) {
@@ -62,17 +66,21 @@ const ChooseColor = ({toggleChooseColor, startGame, gameData, createRoom, isCrea
               }
             }}
           >
-            <View style={[styles.basePiece, styles.pieceWhite]}>
+            <LinearGradient
+              colors={[white, playerTwoTileBorder]}
+              style={[styles.basePiece]}>
               <Text style={[styles.buttonText, styles.margins]}>{i18n.t('white')}</Text>
-            </View>
+            </LinearGradient> 
           </TouchableHighlight>
           <TouchableHighlight 
             style={[styles.buttonMargin]}
             onPress={toggleChooseColor}>
             <View style={[styles.buttonBase, ]}>
-              <View style={[styles.button, styles.margins]}>
+              <LinearGradient
+                colors={['#2B7FAE', '#1A5886']}
+                style={[ styles.buttonBase]}>
                 <Icon name="times" style={[{color: white, fontSize: 30}, styles.margins]} />
-              </View>
+              </LinearGradient>
             </View>
           </TouchableHighlight>
         </View>
@@ -88,10 +96,10 @@ const styles = StyleSheet.create({
     backgroundColor: white,
     borderWidth: 5,
     borderRadius: 10,
-    borderColor: blueDark,
+    borderColor: white,
   },
   text: {
-    fontSize: vw(7),
+    fontSize: vw(8),
     color: blueDark,
     marginRight: 'auto',
     marginLeft: 'auto',
@@ -99,10 +107,8 @@ const styles = StyleSheet.create({
   basePiece: {
     width: vw(40),
     height: vh(7),
-    marginTop: vh(2), 
     marginRight: 'auto',
     marginLeft: 'auto',
-    borderWidth: 5,
     borderRadius: 10,
   },
   pieceBlue: {
