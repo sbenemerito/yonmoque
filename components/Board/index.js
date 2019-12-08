@@ -47,7 +47,7 @@ class Board extends React.Component {
       type: null,
       src: null,
       dest: null,
-      token: userData ? userData.token : ''
+      token: userData ? userData.data.token : ''
     };
 
     if(cell.piece === null) {
@@ -209,7 +209,7 @@ class Board extends React.Component {
       this.toggleWinner();
 
       if (gameRoom.isMultiplayer && socket) {
-        socket.emit('endgame', { id: gameRoom.id, winner: parseInt(G.victory), token: userData.token });
+        socket.emit('endgame', { id: gameRoom.id, winner: parseInt(G.victory), token: userData.data.token });
       }
     }
   }

@@ -29,7 +29,6 @@ class Lobby extends React.Component {
 
     socketInstance.on('room joined', (joinedRoom) => {
       let side;
-
       if (joinedRoom.players[0].socket === socketInstance.id) {
         joinedRoom.players[0].user.username = `${joinedRoom.players[0].user.username} (You)`;
         side = 0;
@@ -60,12 +59,12 @@ class Lobby extends React.Component {
 
   createRoom = (side) => {
     const { socket, userData } = this.props;
-    socket.emit('create room', { roomData: { side }, token: userData.token });
+    socket.emit('create room', { roomData: { side }, token: userData.data.token });
   };
 
   joinRoom = (id) => {
     const { socket, userData } = this.props;
-    socket.emit('join room', { id, token: userData.token });
+    socket.emit('join room', { id, token: userData.data.token });
   };
 
   componentDidMount() {
@@ -81,7 +80,7 @@ class Lobby extends React.Component {
 
       socket.on('connect', () => {
         setSocket(socket);
-        socket.emit('bind token', { token: userData.token })
+        socket.emit('bind token', { token: userData.data.token })
         this.setSocketListeners(socket);
       });
     } else {
