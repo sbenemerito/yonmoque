@@ -36,7 +36,6 @@ class Login extends React.Component {
     }
     api.post('/login', body)
       .then(response => {
-        console.log(response.body)
         setUserData(response);
       })
       .catch(error => { 

@@ -4,16 +4,16 @@ import Constants from 'expo-constants'
 const ENV = {
  dev: {
     apiUrl: 'http://yonmoque.sbenemerito.xyz',
-   amplitudeApiKey: null,
+    amplitudeApiKey: null,
  },
  staging: {
-   apiUrl: "[your.staging.api.here]",
-   amplitudeApiKey: "[Enter your key here]",
+    apiUrl: "[your.staging.api.here]",
+    amplitudeApiKey: "[Enter your key here]",
    // Other keys
  },
  prod: {
-   apiUrl: "http://yonmoque.sbenemerito.xyz",
-   amplitudeApiKey: "[Enter your key here]",
+    apiUrl: "http://yonmoque.sbenemerito.xyz",
+    amplitudeApiKey: "[Enter your key here]",
    // Other keys
  }
 };
