@@ -30,7 +30,6 @@ class Board extends React.Component {
   state = {
     showWinnerModal: false,
     finalBoard: false,
-    playerNames: [],
   };
 
   onClick(cell, moveAbles, numPieces, selectedCell) {
@@ -145,9 +144,11 @@ class Board extends React.Component {
 
   componentDidMount() {
     const { G, ctx, socket, updateGameState, moves } = this.props;
-    const { playernames } = this.state;
+    const { playerNames } = this.state;
 
     this.moveAI();
+
+    console.log("did mount");
 
     if (socket !== null) {
       socket.on('opponent moved', (moveData) => {
@@ -166,19 +167,20 @@ class Board extends React.Component {
         }
       });
 
+      console.log("before join");
+
       socket.on('player joined', (roomData) => {
         let side;
+
+        console.log({ roomData });
+        console.log({ socket });
 
         if (roomData.players[0].socket === socket.id) {
           roomData.players[0].user.username = `${roomData.players[0].user.username} (You)`;
           side = 0;
-          playerNames[0].name = `${roomData.players[0].user.username} (You)`;
-          playernames[0].socket = socket.id;
         } else {
           roomData.players[1].user.username = `${roomData.players[1].user.username} (You)`;
           side = 1;
-          playerNames[1] = `${roomData.players[0].user.username} (You)`;
-          playernames[1].socket = socket.id;
         }
 
         updateGameState({ ...roomData, side });
@@ -236,7 +238,7 @@ class Board extends React.Component {
   // this is function for rendering the modal
   // @params: string, playerName comes from render() of winnerName
   renderEndGameModal(playerName) {
-    const { G, gameRoom } = this.props;
+    const { G, gameRoom, socket } = this.props;
     const {
       showWinnerModal,
       playerNames,
@@ -250,19 +252,17 @@ class Board extends React.Component {
       if (gameRoom.players[winnerIndex].user.isChooseByPlayer) {
         srcImg = require("../../assets/icons/winner.png");
       }
+
+      // (MULTIPLAYER, online) if playerNames of winner index socket is same with socket.id then will get winner.png
+      if (playerName.includes('(You)')) {
+        srcImg = require("../../assets/icons/winner.png");
+      }
     }
 
     // (MULTIPLAYER, local) 
     if (gameRoom.name === 'Local Game') {
       srcImg = require("../../assets/icons/winner.png");
     };
-
-    // (MULTIPLAYER, online) if playerNames of winner index socket is same with socket.id then will get winner.png
-    if (playerNames.length > 0) {
-      if (playerNames[winnerIndex].socket === socket.id) {
-        srcImg = require("../../assets/icons/winner.png");
-      }
-    }
     
     return (
       <Modal isVisible={showWinnerModal}>
