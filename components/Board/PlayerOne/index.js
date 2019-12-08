@@ -2,6 +2,7 @@ import React from "react";
 import { StyleSheet, View, ImageBackground, Image } from "react-native";
 import Text from '../../CustomText';
 import { vw } from 'react-native-expo-viewport-units';
+import { LinearGradient } from 'expo-linear-gradient';
 
 import {
   boardHeight,
@@ -36,8 +37,10 @@ const PlayerOne = ({pieces, name, current, gameRoom}) => {
   }
 
   return (
-    <View >
-      <ImageBackground style={styles.root}>
+    <View>
+      <LinearGradient
+        colors={['#1A5886', '#2B7FAE']}
+        style={styles.root}>
         <View style={playerInnerTileStyle}>
           <View style={{flex: 1}}> 
             <Image
@@ -53,7 +56,7 @@ const PlayerOne = ({pieces, name, current, gameRoom}) => {
             <Text style={pieceStyle}> {pieces} </Text> 
           </View>
         </View>
-      </ImageBackground>
+      </LinearGradient>
     </View>
   );
 };
@@ -71,8 +74,8 @@ const styles = StyleSheet.create({
     height: vw(playerTile),
     borderWidth: 3,
     borderRadius: 10,
-    borderColor: blue,
-    backgroundColor: blue,
+    borderColor: 'transparent',
+    backgroundColor: 'transparent',
     flexDirection: 'row',
     flexWrap: "wrap",
   },
