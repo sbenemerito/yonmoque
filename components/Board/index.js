@@ -112,6 +112,7 @@ class Board extends React.Component {
 
     if (gameRoom.isAI && gameRoom.AI !== null && ctx.currentPlayer != playerSide) {
       const aiMove = gameRoom.AI.makeMove();
+      console.log(aiMove.type);
       switch (aiMove.type) {
         case 'addPiece':
           this.addPiece(aiMove.dest, aiMove.pieces);
