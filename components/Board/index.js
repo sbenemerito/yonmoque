@@ -30,6 +30,7 @@ class Board extends React.Component {
   state = {
     showWinnerModal: false,
     finalBoard: false,
+    playerNames: [],
   };
 
   onClick(cell, moveAbles, numPieces, selectedCell) {
@@ -144,6 +145,7 @@ class Board extends React.Component {
 
   componentDidMount() {
     const { G, ctx, socket, updateGameState, moves } = this.props;
+    const { playernames } = this.state;
 
     this.moveAI();
 
@@ -170,12 +172,17 @@ class Board extends React.Component {
         if (roomData.players[0].socket === socket.id) {
           roomData.players[0].user.username = `${roomData.players[0].user.username} (You)`;
           side = 0;
+          playerNames[0].name = `${roomData.players[0].user.username} (You)`;
+          playernames[0].socket = socket.id;
         } else {
           roomData.players[1].user.username = `${roomData.players[1].user.username} (You)`;
           side = 1;
+          playerNames[1] = `${roomData.players[0].user.username} (You)`;
+          playernames[1].socket = socket.id;
         }
 
         updateGameState({ ...roomData, side });
+        this.setState({ playerNames });
       });
 
       socket.on('opponent left', (disconnectMeta) => {
@@ -231,16 +238,28 @@ class Board extends React.Component {
   renderEndGameModal(playerName) {
     const { G, gameRoom } = this.props;
     const {
-      showWinnerModal
+      showWinnerModal,
+      playerNames,
     } = this.state;
     
     // @TODO refactor this condition
     let srcImg = require("../../assets/icons/loser.png"); // default is loser.png
     if (G.victory !== null && G.victory !== undefined) { // this checks if there's already a winner in G
       const winnerIndex = parseInt(G.victory);
-      // (1, AI) if gameRoom.players of winnerIndex user obj have isChooseByPlayer then current player wins and will get winner.png
-      // (2, MULTIPLAYER) if roomData.players of winner index socket is same with socket.id then will get winner.png
-      if (gameRoom.players[winnerIndex].user.isChooseByPlayer || roomData.players[winnerIndex].socket === socket.id) {
+      // (AI) if gameRoom.players of winnerIndex user obj have isChooseByPlayer then current player wins and will get winner.png
+      if (gameRoom.players[winnerIndex].user.isChooseByPlayer) {
+        srcImg = require("../../assets/icons/winner.png");
+      }
+    }
+
+    // (MULTIPLAYER, local) 
+    if (gameRoom.name === 'Local Game') {
+      srcImg = require("../../assets/icons/winner.png");
+    };
+
+    // (MULTIPLAYER, online) if playerNames of winner index socket is same with socket.id then will get winner.png
+    if (playerNames.length > 0) {
+      if (playerNames[winnerIndex].socket === socket.id) {
         srcImg = require("../../assets/icons/winner.png");
       }
     }
