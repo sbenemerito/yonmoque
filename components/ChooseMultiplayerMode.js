@@ -12,6 +12,7 @@ import {
 } from "./constants/colors";
 import i18n from '../utils/i18n';
 import Icon from 'react-native-vector-icons/FontAwesome5';
+import { LinearGradient } from 'expo-linear-gradient';
 
 const ChooseMultiplayerMode = ({toggleChooseMultiplayerMode, startGame, gameData, isCreate, joinLobby, login, userData}) => {
   const gameDataLocal = {
@@ -46,9 +47,11 @@ const ChooseMultiplayerMode = ({toggleChooseMultiplayerMode, startGame, gameData
               startGame({ ...gameDataLocal, side: 0 });
             }}
           >
-            <View style={[styles.basePiece, styles.pieceWhite]}>
+            <LinearGradient
+              colors={[white, playerTwoTileBorder]}
+              style={[styles.basePiece]}>
               <Text style={[styles.buttonText, styles.margins]}>{i18n.t('samePhone')}</Text>
-            </View>
+            </LinearGradient>
           </TouchableHighlight>
           <Text style={[styles.text]}>{i18n.t('or')}</Text>
           <TouchableHighlight
@@ -59,17 +62,21 @@ const ChooseMultiplayerMode = ({toggleChooseMultiplayerMode, startGame, gameData
                 login()
               }
             }}>
-            <View style={[styles.basePiece, styles.pieceWhite]}>
+            <LinearGradient
+              colors={[white, playerTwoTileBorder]}
+              style={[styles.basePiece]}>
               <Text style={[styles.buttonText, styles.margins]}>{i18n.t('internet')}</Text>
-            </View>
+            </LinearGradient>
           </TouchableHighlight>
           <TouchableHighlight 
             style={[styles.buttonMargin]}
             onPress={toggleChooseMultiplayerMode}>
             <View style={[styles.buttonBase, ]}>
-              <View style={[styles.button, styles.margins]}>
+              <LinearGradient
+                colors={['#2B7FAE', '#1A5886']}
+                style={[ styles.buttonBase]}>
                 <Icon name="times" style={[{color: white, fontSize: 30}, styles.margins]} />
-              </View>
+              </LinearGradient>
             </View>
           </TouchableHighlight>
         </View>
@@ -85,7 +92,7 @@ const styles = StyleSheet.create({
     backgroundColor: white,
     borderWidth: 5,
     borderRadius: 10,
-    borderColor: blueDark,
+    borderColor: white,
   },
   text: {
     fontSize: vw(8),
@@ -96,10 +103,8 @@ const styles = StyleSheet.create({
   basePiece: {
     width: vw(40),
     height: vh(7),
-    marginTop: vh(2), 
     marginRight: 'auto',
     marginLeft: 'auto',
-    borderWidth: 5,
     borderRadius: 10,
   },
   pieceWhite: {
