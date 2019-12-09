@@ -56,7 +56,7 @@ class YonmoqueAI {
       }
     } else {
       if (nextMove && nextMove.length >= 2) {
-        moveData.scr = nextMove[0];
+        moveData.src = nextMove[0];
         moveData.dest = nextMove[1];
         //return true;
 
