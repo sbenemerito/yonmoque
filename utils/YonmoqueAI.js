@@ -55,7 +55,7 @@ class YonmoqueAI {
         this.addPiece(opponentPieces, moveData);
       }
     } else {
-      if (nextMove && nextMove.length == 2) {
+      if (nextMove && nextMove.length >= 2) {
         moveData.scr = nextMove[0];
         moveData.dest = nextMove[1];
         //return true;
@@ -74,7 +74,7 @@ class YonmoqueAI {
         });
       }
     }
-
+    console.log(moveData);
     return moveData;
   }
 
@@ -83,11 +83,17 @@ class YonmoqueAI {
 
       let horizontalId = this.checkHorizontal(i, opponentPieces);
       let verticalId = this.checkVertical(i, opponentPieces);
+      let diagLeftId = this.checkDiagLeft(i, opponentPieces);
+      let diagRightId = this.checkDiagRight(i, opponentPieces);
 
       if(horizontalId != 0 && movablePiece.includes(horizontalId) != true) {
         return this.findMovableId(movablePiece, horizontalId);
-      } else if (verticalId != 0 && movablePiece.includes(horizontalId) != true){
+      } else if (verticalId != 0 && movablePiece.includes(verticalId) != true){
         return this.findMovableId(movablePiece, verticalId);
+      } else if (diagLeftId != 0 && movablePiece.includes(diagLeftId) != true){
+        return this.findMovableId(movablePiece, diagLeftId);
+      } else if (diagRightId != 0 && movablePiece.includes(diagRightId) != true){
+        return this.findMovableId(movablePiece, diagRightId);
       } else {
         return [];
       }
@@ -106,7 +112,6 @@ class YonmoqueAI {
         nextMove.push(id);
       }
     }
-
     return nextMove;
   }
 
@@ -131,6 +136,32 @@ class YonmoqueAI {
     } else if (opponentPieces.includes(opponentPieces[i] + 5) 
       && opponentPieces.includes(opponentPieces[i] + 10)) {
       id = opponentPieces[i] + 15;
+    }
+    return id;
+  }
+
+  checkDiagLeft (i, opponentPieces) {
+    let id = 0;
+    if(opponentPieces.includes(opponentPieces[i] + 4) 
+      && opponentPieces.includes(opponentPieces[i] + 8)
+      && opponentPieces[i] >= 8){
+      id = opponentPieces[i] - 4;
+    } else if (opponentPieces.includes(opponentPieces[i] + 4) 
+      && opponentPieces.includes(opponentPieces[i] + 8)) {
+      id = opponentPieces[i] + 12;
+    }
+    return id;
+  }
+
+  checkDiagRight (i, opponentPieces) {
+    let id = 0;
+    if(opponentPieces.includes(opponentPieces[i] + 6) 
+      && opponentPieces.includes(opponentPieces[i] + 12)
+      && opponentPieces[i] >= 6){
+      id = opponentPieces[i] - 6;
+    } else if (opponentPieces.includes(opponentPieces[i] + 6) 
+      && opponentPieces.includes(opponentPieces[i] + 12)) {
+      id = opponentPieces[i] + 18;
     }
     return id;
   }
