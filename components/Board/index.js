@@ -148,8 +148,6 @@ class Board extends React.Component {
 
     this.moveAI();
 
-    console.log("did mount");
-
     if (socket !== null) {
       socket.on('opponent moved', (moveData) => {
         if (moveData.type) {
@@ -167,13 +165,8 @@ class Board extends React.Component {
         }
       });
 
-      console.log("before join");
-
       socket.on('player joined', (roomData) => {
         let side;
-
-        console.log({ roomData });
-        console.log({ socket });
 
         if (roomData.players[0].socket === socket.id) {
           roomData.players[0].user.username = `${roomData.players[0].user.username} (You)`;
@@ -238,7 +231,7 @@ class Board extends React.Component {
   // this is function for rendering the modal
   // @params: string, playerName comes from render() of winnerName
   renderEndGameModal(playerName) {
-    const { G, gameRoom, socket } = this.props;
+    const { G, gameRoom, showMainMenu, socket } = this.props;
     const {
       showWinnerModal,
       playerNames,
