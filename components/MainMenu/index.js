@@ -85,7 +85,7 @@ class MainMenu extends React.Component {
               setUserData={setUserData}
             />
           </Modal>
-          <TouchableHighlight
+          {/* <TouchableHighlight
             onPress={toggleChooseColor}
             style={{marginTop: 20, borderRadius: 12}}>
             <LinearGradient
@@ -93,7 +93,7 @@ class MainMenu extends React.Component {
               style={[ styles.menuButtonBase, styles.margins]}>
               <Text style={[styles.text, styles.margins]}><Icon name="gamepad" style={styles.icon} /> {i18n.t('withAi')}</Text>
             </LinearGradient>
-          </TouchableHighlight>
+          </TouchableHighlight> */}
           <TouchableHighlight
             onPress={toggleChooseMultiplayerMode}
             style={{marginTop: 20, borderRadius: 12}}>
