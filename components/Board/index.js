@@ -144,6 +144,7 @@ class Board extends React.Component {
 
   componentDidMount() {
     const { G, ctx, socket, updateGameState, moves } = this.props;
+    const { playerNames } = this.state;
 
     this.moveAI();
 
@@ -176,6 +177,7 @@ class Board extends React.Component {
         }
 
         updateGameState({ ...roomData, side });
+        this.setState({ playerNames });
       });
 
       socket.on('opponent left', (disconnectMeta) => {
@@ -229,21 +231,31 @@ class Board extends React.Component {
   // this is function for rendering the modal
   // @params: string, playerName comes from render() of winnerName
   renderEndGameModal(playerName) {
-    const { G, gameRoom } = this.props;
+    const { G, gameRoom, showMainMenu, socket } = this.props;
     const {
-      showWinnerModal
+      showWinnerModal,
+      playerNames,
     } = this.state;
     
     // @TODO refactor this condition
     let srcImg = require("../../assets/icons/loser.png"); // default is loser.png
     if (G.victory !== null && G.victory !== undefined) { // this checks if there's already a winner in G
       const winnerIndex = parseInt(G.victory);
-      // (1, AI) if gameRoom.players of winnerIndex user obj have isChooseByPlayer then current player wins and will get winner.png
-      // (2, MULTIPLAYER) if roomData.players of winner index socket is same with socket.id then will get winner.png
-      if (gameRoom.players[winnerIndex].user.isChooseByPlayer || roomData.players[winnerIndex].socket === socket.id) {
+      // (AI) if gameRoom.players of winnerIndex user obj have isChooseByPlayer then current player wins and will get winner.png
+      if (gameRoom.players[winnerIndex].user.isChooseByPlayer) {
+        srcImg = require("../../assets/icons/winner.png");
+      }
+
+      // (MULTIPLAYER, online) if playerNames of winner index socket is same with socket.id then will get winner.png
+      if (playerName.includes('(You)')) {
         srcImg = require("../../assets/icons/winner.png");
       }
     }
+
+    // (MULTIPLAYER, local) 
+    if (gameRoom.name === 'Local Game') {
+      srcImg = require("../../assets/icons/winner.png");
+    };
     
     return (
       <Modal isVisible={showWinnerModal}>

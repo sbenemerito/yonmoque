@@ -1,5 +1,5 @@
-import React from "react";
-import { StyleSheet, View, Text } from "react-native";
+import React, { Component } from "react";
+import { Animated, StyleSheet, View, Text } from "react-native";
 import { vw } from 'react-native-expo-viewport-units';
 import { LinearGradient } from 'expo-linear-gradient';
 
@@ -14,29 +14,111 @@ import {
   playerTwoTileBorder,
 } from "../constants/colors";
 
-const Piece = ({ pieceID }) => {
-  let styleList = [styles.basePiece];
-  let colorOne;
-  let colorTwo;
-  switch(pieceID) {
-    case '0':
-      colorOne = playerOneTile;
-      colorTwo = playerOneTileBorder;
-      break;
-    case '1':
-      colorOne = playerTwoTile;
-      colorTwo = playerTwoTileBorder;
-      break;
+export default class Piece extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isDoneFlip: false,
+      animatedPieceSyle: null,
+      colorOne: null,
+      colorTwo: null,
+    };
   }
 
-  return (
-    <LinearGradient
-      colors={[colorOne, colorTwo]}
-      style={styles.basePiece}>
-    </LinearGradient>
+  componentWillMount() {
+    const { pieceID } = this.props;
+
+    this.animatedValue = new Animated.Value(0);
+    this.value = 0;
+    this.animatedValue.addListener(({ value }) => {
+      this.value = value;
+    })
+
+    this.front = this.animatedValue.interpolate({
+      inputRange: [0, 180],
+      outputRange: ['0deg', '180deg']
+    });
+    this.back = this.animatedValue.interpolate({
+      inputRange: [0, 180],
+      outputRange: ['180deg', '360deg']
+    });
+
+    this.changePieceColor(pieceID);
     
-  );
-};
+  }
+
+  changePieceColor(pieceID) {
+    const frontAnimatedStyle = {
+      transform: [
+        { rotateY: this.front }
+      ]
+    }
+    const backAnimatedStyle = {
+      transform: [
+        { rotateY: this.back }
+      ]
+    }
+
+    switch(pieceID) {
+      case '0':
+        this.setState({
+          colorOne: playerOneTile,
+          colorTwo: playerOneTileBorder,
+          pieceStyle: frontAnimatedStyle,
+        });
+        break;
+      case '1':
+        this.setState({
+          colorOne: playerTwoTile,
+          colorTwo: playerTwoTileBorder,
+          pieceStyle: backAnimatedStyle,
+        });
+        break;
+    }
+  }
+
+  async flipping(pieceID) {
+    if(this.value >= 90){
+      Animated.timing(this.animatedValue, {
+        toValue: 0,
+        duration: 500
+      }).start();
+      setTimeout(() => {
+        this.changePieceColor(pieceID);
+      }, 200);
+    } else {
+      Animated.timing(this.animatedValue, {
+        toValue: 180,
+        duration: 500
+      }).start();
+      setTimeout(() => {
+        this.changePieceColor(pieceID);
+      }, 200);
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.pieceID !== prevProps.pieceID) {
+      this.flipping(this.props.pieceID);
+    }
+  }
+
+  render() {
+    const { isDoneFlip, colorOne, colorTwo, pieceStyle } = this.state;
+    let styleList = [styles.basePiece];
+
+    return (
+      <View>
+        <Animated.View style={[pieceStyle]}>
+          <LinearGradient
+            colors={[colorOne, colorTwo]}
+            style={styles.basePiece}>
+          </LinearGradient>
+        </Animated.View>
+      </View>
+    );
+  }
+}
 
 const styles = StyleSheet.create({
   basePiece: {
@@ -57,5 +139,3 @@ const styles = StyleSheet.create({
     borderColor: playerTwoTileBorder,
   },
 });
-
-export default Piece;
