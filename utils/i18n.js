@@ -5,7 +5,7 @@ import i18n from 'i18n-js';
 const en = {
   yonmoque: 'Yonmoque',
   withAi: 'Play with AI',
-  multiplayer: 'Multiplayer',
+  multiplayer: 'Play',
   howto: 'How to Play',
   chooseColor: 'Choose your color!',
   blue: 'Blue',
