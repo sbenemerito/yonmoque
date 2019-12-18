@@ -129,7 +129,7 @@ class Board extends React.Component {
   }
 
   toggleWinner = () => {
-    let closeModalTimer = 3000;
+    let closeModalTimer = 2000;
 
     if (this.state.showWinnerModal) {
       closeModalTimer = 300;
